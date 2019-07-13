@@ -1,14 +1,13 @@
+# frozen_string_literal: true
+
 require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
   def setup
-    name  = Faker::Name.name
-    email = Faker::Internet.email
-    password = 'Foobar'
-    @user = User.new(name: name, email: email, password: password)
+    @user = build(:user)
   end
 
-  test "should not save User without name" do
+  test 'should not save User without name' do
     @user.name = nil
     assert @user.invalid?
   end
@@ -18,7 +17,7 @@ class UserTest < ActiveSupport::TestCase
     assert @user.invalid?
   end
 
-  test "should not save User without email" do
+  test 'should not save User without email' do
     @user.email = nil
     assert @user.invalid?
   end
@@ -41,8 +40,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test 'email addresses should be unique' do
-    duplicate_user = @user.dup
-    duplicate_user.email = @user.email.upcase
+    duplicate_user = build(:user, email: @user.email)
     @user.save
     assert_not duplicate_user.valid?
   end
@@ -54,7 +52,7 @@ class UserTest < ActiveSupport::TestCase
     assert_equal mixed_case_email.downcase, @user.reload.email
   end
 
-  test "should not save User without password" do
+  test 'should not save User without password' do
     @user.password = nil
     assert @user.invalid?
   end

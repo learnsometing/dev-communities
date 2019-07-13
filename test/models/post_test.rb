@@ -4,7 +4,7 @@ require 'test_helper'
 
 class PostTest < ActiveSupport::TestCase
   def setup
-    @post = users(:foo).posts.build(content: 'This is my first post.')
+    @post = build(:post)
   end
 
   test 'post should belong to an author' do
@@ -28,6 +28,9 @@ class PostTest < ActiveSupport::TestCase
   end
 
   test 'order should be most recent first' do
-    assert_equal posts(:post_49), Post.first
+    posts = [create(:post, created_at: 5.minutes.ago),
+             create(:post, created_at: 10.minutes.ago),
+             create(:post, created_at: 15.minutes.ago) ]
+    assert_equal posts[0], Post.first
   end
 end
