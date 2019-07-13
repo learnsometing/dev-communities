@@ -1,0 +1,11 @@
+foo:
+  name: Foo Bar
+  email: foo@bar.com
+  encrypted_password: foobar
+
+<% 49.times do |n| %>
+user_<%= n %>:
+  name: <%= Faker::Name.name %>
+  email: <%= Faker::Internet.email %>
+  encrypted_password: foobar
+<% end %>
