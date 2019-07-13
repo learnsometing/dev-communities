@@ -1,15 +1,21 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>DevCommunities</title>
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
-
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <title>Railsbook | <%= yield(:title)%></title>
+    <%= render 'layouts/rails_default' %>
   </head>
 
   <body>
-    <%= yield %>
+    <%= render 'layouts/header' %>
+    <div class='container d-flex flex-column align-items-center'>
+      <div class='container d-flex flex-column align-items-center mt-5' id='flash'>
+          <% flash.each do |message_type, message| %>
+            <%= content_tag(:div, message, class: "alert alert-#{message_type}") %>
+          <% end %>
+      </div>
+
+      <%= yield %>
+    </div>
+    <%= debug(params) if Rails.env.development? %>
   </body>
 </html>

@@ -31,12 +31,16 @@ Rails.application.configure do
   # Store uploaded files on the local file system in a temporary directory
   config.active_storage.service = :test
 
-  config.action_mailer.perform_caching = false
+  # Store uploaded files on the local file system (see config/storage.yml for options)
+  config.active_storage.service = :local
 
-  # Tell Action Mailer not to deliver emails to the real world.
-  # The :test delivery method accumulates sent emails in the
-  # ActionMailer::Base.deliveries array.
+  # Need a default URL for the mailer to send from.
+  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+
+  # Use letter opener in development to prevent accidental mail delivery
   config.action_mailer.delivery_method = :test
+
+  config.action_mailer.perform_caching = false
 
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr

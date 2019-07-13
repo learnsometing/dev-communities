@@ -1,0 +1,32 @@
+<%= provide(:title, current_user.name) %>
+
+<div class='container container-fluid'>
+  <nav class='navbar navbar-expand-sm navbar-light bg-light'>
+    <div class='navbar-brand mr-auto'>
+      <div class='prof_pic'>
+      
+      </div>
+      <div class='user_name'>
+        <%= @user.name %>
+      </div>
+    </div>
+    <ul class='navbar-nav'>
+      <li>
+        <%= link_to 'Photos', photos_path, class: 'btn btn-profile' %>
+      </li>
+      <% unless current_user == @user %>
+        <li>
+          <%= link_to 'Send Friend Request', '#', class: 'btn btn-profilerails' %>
+        </li>
+      <% end %>
+    </ul>
+  
+  </nav>
+  <div class='container posts-container'>
+    <% if @user.posts.any? %>
+      <ol class='row d-flex flex-column align-items-center posts-list'>
+        <%= render @posts %>
+      </ol>
+    <% end %>
+  </div>
+</div>

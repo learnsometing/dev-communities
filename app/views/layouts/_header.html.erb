@@ -1,0 +1,49 @@
+<nav class='navbar navbar-expand-md navbar-dark bg-red'>
+  <div class='container'>
+  <div class='navbar-brand'>
+    <%= link_to 'Railsbook', '#', class: 'clickable-logo' %>
+  </div>
+  <ul class='navbar-nav'>
+      <% unless user_signed_in? %>
+          <li>
+              <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: {class: 'form-inline'}) do |f| %>
+                  
+                  <%= f.label :email, class: 'navlabel' %><br />
+                  <%= f.email_field :email, autofocus: true, autocomplete: "email", class: 'form-control mr-4 ml-3' %>
+              
+                  <%= f.label :password, class: 'navlabel' %><br />
+                  <%= f.password_field :password, autocomplete: "current-password", class: 'form-control mr-4 ml-3' %>
+                  
+                  <% if devise_mapping.rememberable? %>
+                      <%= f.check_box :remember_me, class: 'form-check-input mr-2 ' %>
+                      <%= f.label :remember_me, class: 'navlabel' %>
+                  <% end %>
+              
+                  <%= f.submit "Log in", class: 'btn btn-light ml-3' %>
+                  
+              <% end %>
+          </li>
+      <% else %>
+          <li>
+              <%= link_to current_user.name, '#', class: 'btn btn-nav' %>
+          </li>
+          <li>
+              <%= link_to 'Home', '#', class: 'btn btn-nav' %>
+          </li>
+          <li>
+              <%= link_to 'Create a Post', '#', class: 'btn btn-nav'%>
+          </li>
+          <li>
+              <div class='dropdown'>
+                  <button class="btn btn-nav dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <%= link_to 'Settings', edit_user_registration_path(current_user), class: 'dropdown-item'%>
+                      <hr>
+                      <%= link_to 'Sign Out', destroy_user_session_path, method: :delete, class: 'dropdown-item'%>
+                  </div>
+              </div>
+          </li>
+      <% end %>
+  </ul>
+  </div>
+</nav>
