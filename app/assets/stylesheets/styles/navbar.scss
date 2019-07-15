@@ -1,0 +1,31 @@
+/* 
+*  This file contains all of the styles that effect the application navigation bar.
+*/
+
+$red-base: #c52f24;
+$white: #ffffff;
+.navbar-dark {
+    color: $white;
+}
+
+.bg-red {
+    background-color: $red-base;
+}
+
+.btn-nav {
+    background-color: $red-base;
+    color: $white;
+    &:hover {
+        background-color: darken($red-base, 10%);
+        color: darken($white, 10);
+    }
+}
+
+.clickable-logo {
+    color: $white;
+
+    &:hover {
+        color: darken($white, 10);
+        text-decoration: none;
+    }
+}
