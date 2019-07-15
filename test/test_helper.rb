@@ -5,4 +5,7 @@ require 'rails/test_help'
 class ActiveSupport::TestCase
   include FactoryBot::Syntax::Methods
   # Add more helper methods to be used by all tests here...
+  def user_logged_in?
+    !cookies['_dev_communities_session'].nil?
+  end
 end

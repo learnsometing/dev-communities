@@ -9,5 +9,6 @@ class UserRegistrationTest < ActionDispatch::IntegrationTest
     assert_difference 'User.count', 1 do
       post user_registration_path, params: { user: attributes_for(:user) }
     end
+    assert_not flash.empty?
   end
 end
