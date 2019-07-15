@@ -26,6 +26,7 @@ gem 'bootstrap', '~> 4.3', '>= 4.3.1'
 gem 'carrierwave', '~> 1.3', '>= 1.3.1'
 gem 'devise', '~> 4.6', '>= 4.6.2'
 gem 'faker', '~> 1.9', '>= 1.9.6'
+gem 'figaro'
 gem 'omniauth-github'
 
 group :development, :test do
