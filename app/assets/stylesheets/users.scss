@@ -1,0 +1,15 @@
+$backgroundColor: #f8f9fa;
+
+.btn-profile{
+    &:hover {
+        background-color: darken($backgroundColor, 10%);
+    }
+}
+
+.posts-container{
+    background-color: $backgroundColor;
+}
+
+.posts-list {
+    list-style: none;
+}

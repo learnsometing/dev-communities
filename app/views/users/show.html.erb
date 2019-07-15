@@ -11,12 +11,9 @@
       </div>
     </div>
     <ul class='navbar-nav'>
-      <li>
-        <%= link_to 'Photos', photos_path, class: 'btn btn-profile' %>
-      </li>
       <% unless current_user == @user %>
         <li>
-          <%= link_to 'Send Friend Request', '#', class: 'btn btn-profilerails' %>
+          <%= link_to 'Send Friend Request', '#', class: 'btn btn-profile' %>
         </li>
       <% end %>
     </ul>
