@@ -4,7 +4,7 @@
   <nav class='navbar navbar-expand-sm navbar-light bg-light'>
     <div class='navbar-brand mr-auto'>
       <div class='prof_pic'>
-      
+        <%= image_tag (@user.profile_picture.profile.url) %>
       </div>
       <div class='user_name'>
         <%= @user.name %>
