@@ -5,3 +5,15 @@
 body {
     background-color: #e9ebee;
 }
+
+.alert-notice {
+    $notice-bg-color: #d1ecf1;
+    background-color: $notice-bg-color;
+    border: 1px solid !important;
+    color: darken($notice-bg-color, 50%);
+    margin-bottom: 0 !important;
+}
+
+.left-border {
+    border-left: 1px solid black;
+}
