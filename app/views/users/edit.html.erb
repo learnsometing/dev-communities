@@ -3,10 +3,20 @@
 <div class='row mt-3 mb-3'>
   <%= form_for @user, { url: user_path, method: :patch, html: { multipart: true } } do |f| %>
     <%= render 'shared/error_messages', object: f.object %>
-    <%= f.file_field :profile_picture, required: true %>
+    <%= f.file_field :profile_picture, required: true, accept: 'image/jpeg,image/gif,image/png' %>
     <%= f.submit :Upload, class: 'btn btn-dark' %>
   <% end %>
 </div>
+
+<script type="text/javascript">
+  $('#micropost_picture').bind('change', function() {
+    var size_in_megabytes = this.files[0].size/1024/1024;
+    if (size_in_megabytes > 5) {
+      alert('Maximum file size is 5MB. Please choose a smaller file.');
+    }
+  });
+</script>
+
 
 <div class='row'>
   <%= link_to 'Cancel', user_path(@user), class: 'btn btn-dark' %>

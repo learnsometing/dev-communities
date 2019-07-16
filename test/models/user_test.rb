@@ -61,4 +61,8 @@ class UserTest < ActiveSupport::TestCase
     @user.password = 'a' * 129
     assert @user.invalid?
   end
+
+  test 'user should have a default profile picture' do
+    assert_not @user.profile_picture.url.nil?
+  end
 end
