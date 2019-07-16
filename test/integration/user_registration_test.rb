@@ -10,6 +10,5 @@ class UserRegistrationTest < ActionDispatch::IntegrationTest
       post user_registration_path, params: { user: attributes_for(:user) }
     end
     assert_not flash.empty?
-    assert_not assigns(:user).profile_picture.nil?
   end
 end
