@@ -2,7 +2,7 @@
 
 <div class='container container-fluid profile'>
   <div class='prof_pic'>
-    <% if profile_belongs_to_current_user(@user) %>
+    <% if current_user?(@user) %>
       <%= link_to image_tag(@user.profile_picture.profile.url), edit_user_path(@user) %>
     <% else %>
       <%= image_tag(@user.profile_picture.profile.url) %>
@@ -15,7 +15,7 @@
       </div>
     </div>
     <ul class='navbar-nav'>
-      <% unless profile_belongs_to_current_user(@user) %>
+      <% unless current_user?(@user) %>
         <li>
           <%= link_to 'Send Friend Request', '#', class: 'btn btn-profile' %>
         </li>

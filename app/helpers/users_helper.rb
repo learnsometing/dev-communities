@@ -12,8 +12,4 @@ module UsersHelper
   def devise_mapping
     @devise_mapping ||= Devise.mappings[:user]
   end
-
-  def profile_belongs_to_current_user(user)
-    current_user == user
-  end
 end

@@ -9,10 +9,17 @@ class UserProfPicUploadTest < ActionDispatch::IntegrationTest
     @carrierwave_root = Rails.root.join('test', 'support', 'carrierwave')
     @user = create(:user)
     @user.confirm
-    sign_in @user
   end
 
-  test 'user is able to upload files with valid content/extensions' do
+  test 'successful profile picture upload with friendly forwarding' do
+    get edit_user_url(@user)
+    assert_redirected_to new_user_session_path
+    follow_redirect!
+    post new_user_session_path, params: { user: { email: @user.email,
+                                                  password: @user.password } }
+    assert_redirected_to edit_user_url(@user)
+    follow_redirect!
+    assert_template 'users/edit'
     valid_path = File.join(@carrierwave_root, 'uploads', 'valid')
 
     Dir.foreach(valid_path) do |f|
@@ -35,7 +42,8 @@ class UserProfPicUploadTest < ActionDispatch::IntegrationTest
     assert_select 'div.alert-success'
   end
 
-  test "user isn't able to upload files with invalid content/extension" do
+  test "unsuccessful profile picture uploads" do
+    sign_in @user
     invalid_path = File.join(@carrierwave_root, 'uploads', 'invalid')
 
     default_ext = ext(@user.profile_picture.profile.url)
