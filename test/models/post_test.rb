@@ -4,14 +4,12 @@ require 'test_helper'
 
 class PostTest < ActiveSupport::TestCase
   def setup
-    @post = build(:post)
+    # Create a post factory, which is already associated with a user factory
+    # and contains content.
+    @post = create(:post)
   end
 
-  test 'post should belong to an author' do
-    assert Post.new.invalid?
-  end
-
-  test 'post with content should be valid' do
+  test 'post with content belonging to an author should be valid' do
     assert @post.valid?
   end
 
@@ -31,6 +29,6 @@ class PostTest < ActiveSupport::TestCase
     posts = [create(:post, created_at: 5.minutes.ago),
              create(:post, created_at: 10.minutes.ago),
              create(:post, created_at: 15.minutes.ago) ]
-    assert_equal posts[0], Post.first
+    assert_equal @post, Post.first
   end
 end

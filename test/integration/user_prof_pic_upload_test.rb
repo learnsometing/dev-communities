@@ -1,23 +1,15 @@
 # frozen_string_literal: true
 
 require 'test_helper'
+require 'carrier_wave_test_helper'
 require 'fileutils'
 
 class UserProfPicUploadTest < ActionDispatch::IntegrationTest
-  include Devise::Test::IntegrationHelpers
   def setup
     @carrierwave_root = Rails.root.join('test', 'support', 'carrierwave')
     @user = create(:user)
     @user.confirm
     sign_in @user
-  end
-
-  test 'new user should have a default profile picture' do
-    get user_path(@user)
-    assert_template 'users/show'
-    assert_select 'div.prof_pic'
-    assert_select 'a[href=?]', edit_user_path(@user)
-    assert_select 'img[src=?]', @user.profile_picture.profile.url
   end
 
   test 'user is able to upload files with valid content/extensions' do

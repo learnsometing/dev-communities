@@ -1,15 +1,15 @@
-<%= provide(:title, current_user.name) %>
+<%= provide(:title, @user.name) %>
 
-<div class='container container-fluid'>
+<div class='container container-fluid profile'>
+  <div class='prof_pic'>
+    <% if profile_belongs_to_current_user(@user) %>
+      <%= link_to image_tag(@user.profile_picture.profile.url), edit_user_path(@user) %>
+    <% else %>
+      <%= image_tag(@user.profile_picture.profile.url) %>
+    <% end %>
+  </div>
   <nav class='navbar navbar-expand-sm navbar-light bg-light'>
     <div class='navbar-brand mr-auto'>
-      <div class='prof_pic'>
-        <% if profile_belongs_to_current_user(@user) %>
-          <%= link_to image_tag(@user.profile_picture.profile.url), edit_user_path(@user) %>
-        <% else %>
-          <%= image_tag(@user.profile_picture.profile.url) %>
-        <% end %>
-      </div>
       <div class='user_name'>
         <%= @user.name %>
       </div>
@@ -20,10 +20,9 @@
           <%= link_to 'Send Friend Request', '#', class: 'btn btn-profile' %>
         </li>
       <% end %>
-    </ul>
-  
+    </ul> 
   </nav>
-  <div class='container posts-container'>
+  <div class='container posts-container d-flex flex-column justify-content-center'>
     <% if @user.posts.any? %>
       <ol class='row d-flex flex-column align-items-center posts-list'>
         <%= render @posts %>

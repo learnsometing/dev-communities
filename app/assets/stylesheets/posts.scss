@@ -1,0 +1,28 @@
+// Place all the styles related to the Posts controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: https://sass-lang.com/
+$backgroundColor: #f8f9fa;
+
+.author_timestamp {
+    margin-left: 0.5rem;
+}
+
+.content {
+    padding-top : 1rem;
+}
+
+.posts-container{
+    background-color: $backgroundColor;
+}
+
+.posts-list {
+    list-style: none;
+
+    padding: inherit;
+    
+    li {
+        border: solid 1px darken($backgroundColor, 50%);
+        padding: 2rem;
+        margin-bottom: 0.5rem;
+    }
+}

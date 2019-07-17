@@ -6,10 +6,12 @@ $backgroundColor: #f8f9fa;
     }
 }
 
-.posts-container{
-    background-color: $backgroundColor;
+.profile {
+    background-color: $backgroundColor
 }
 
-.posts-list {
-    list-style: none;
+.prof_pic {
+    padding: 1em;
+    padding-top: 2em;
+    padding-bottom: 0;
 }

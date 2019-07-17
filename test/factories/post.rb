@@ -3,7 +3,7 @@
 FactoryBot.define do
   factory :post do
     author
-    content { Faker::Lorem.paragraphs(5) }
+    content { Faker::Lorem.paragraph(5) }
     created_at { Time.zone.now }
   end
 end

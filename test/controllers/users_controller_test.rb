@@ -15,7 +15,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'should get show while logged in' do
-
     sign_in(@user)
     get user_url(@user)
     assert_response :success

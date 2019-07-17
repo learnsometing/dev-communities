@@ -1,0 +1,12 @@
+<li id="post-<%= post.id %>" class='container' >
+  <div class='post_info d-flex flex-row'>
+    <%= image_tag post.author.profile_picture.thumb.url %>
+    <div class='author_timestamp d-flex flex-column'>
+      <%= link_to post.author.name, post.author %>
+      <%= post.timestamp_formatted %>
+    </div>
+  </div>
+  <div class='content'>
+    <%= post.content %>
+  </div>
+</li>
