@@ -56,6 +56,7 @@ end
 group :production do
   # Use SendGrid heroku addon to send emails in production
   gem 'sendgrid-ruby', '~> 6.0'
+  gem 'fog', '~> 2.2'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
