@@ -41,6 +41,10 @@ class User < ApplicationRecord
     end
   end
 
+  def authored_posts
+    Post.where(author_id: id)
+  end
+
   private
 
   def picture_size

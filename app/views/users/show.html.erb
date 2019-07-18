@@ -22,6 +22,11 @@
       <% end %>
     </ul> 
   </nav>
+  <div class='container post_form'>
+    <% if @new_post %>
+      <%= render 'shared/post_form' %>
+    <% end %>
+  </div>
   <div class='container posts-container d-flex flex-column justify-content-center'>
     <% if @user.posts.any? %>
       <ol class='row d-flex flex-column align-items-center posts-list'>

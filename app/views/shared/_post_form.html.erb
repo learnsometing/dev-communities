@@ -1,0 +1,13 @@
+<div class='container post'>
+  <%= form_for @new_post do |f| %>
+    <%= render 'shared/error_messages', object: f.object %>
+
+    <div class='post_field'>
+        <%= f.text_area :content, placeholder: 'What would you like to share?', class: 'form-control', required: true %>
+    </div>
+
+    <div class='d-flex flex-row-reverse'>
+      <%= f.submit 'Post', class: 'btn btn-dark' %>
+    </div>
+  <% end %>
+</div>

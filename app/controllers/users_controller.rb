@@ -6,7 +6,8 @@ class UsersController < ApplicationController
   before_action :correct_user, only: %i[edit update]
   def show
     @user = User.find(params[:id])
-    @posts = @user.posts
+    @posts = @user.authored_posts
+    @new_post = @user.posts.build if current_user?(@user)
   end
 
   def edit

@@ -18,11 +18,15 @@ $backgroundColor: #f8f9fa;
 .posts-list {
     list-style: none;
 
-    padding: inherit;
-    
-    li {
-        border: solid 1px darken($backgroundColor, 50%);
-        padding: 2rem;
-        margin-bottom: 0.5rem;
-    }
+    padding: inherit;    
+}
+
+.post {
+    border: solid 1px darken($backgroundColor, 50%);
+    padding: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.post_field {
+    margin-bottom: 0.5rem;
 }

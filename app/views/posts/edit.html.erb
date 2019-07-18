@@ -1,0 +1,15 @@
+<%= provide(:title, 'Edit Post') %>
+
+<div class='container post d-flex flex-column align-items-center'>
+  <h2>Edit Post</h2>
+  <%= form_for @post, html: { class: 'container' } do |f| %>
+    <%= render 'shared/error_messages', object: f.object %>
+    <div class='container mb-2'>
+      <%= f.text_area :content, class: 'form-control' %>
+    </div>
+    <div class='row d-flex justify-content-center'>
+      <%= f.submit 'Edit post', class: 'mr-1 btn btn-dark' %>
+      <%= link_to 'Cancel', user_path(@post.author), class: ' btn btn-dark' %>
+    </div>
+  <% end %>
+</div>

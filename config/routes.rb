@@ -6,5 +6,5 @@ Rails.application.routes.draw do
                                     registrations: 'users/registrations',
                                     sessions: 'users/sessions' }
   resources :users, only: %i[show edit update]
-  resources :posts, only: %i[create destroy]
+  resources :posts, only: %i[create edit update destroy]
 end
