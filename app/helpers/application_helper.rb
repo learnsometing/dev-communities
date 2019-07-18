@@ -2,4 +2,5 @@
 
 module ApplicationHelper
   include SessionsHelper
+  include FriendRequestsHelper
 end

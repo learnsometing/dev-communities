@@ -7,4 +7,5 @@ Rails.application.routes.draw do
                                     sessions: 'users/sessions' }
   resources :users, only: %i[show edit update]
   resources :posts, only: %i[create edit update destroy]
+  resources :friend_requests, only: %i[create]
 end

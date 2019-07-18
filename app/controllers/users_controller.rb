@@ -8,6 +8,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @posts = @user.authored_posts
     @new_post = @user.posts.build if current_user?(@user)
+    @friend_request = @user.sent_friend_requests.build
   end
 
   def edit

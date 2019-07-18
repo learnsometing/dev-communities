@@ -15,9 +15,12 @@
       </div>
     </div>
     <ul class='navbar-nav'>
-      <% unless current_user?(@user) %>
-        <li>
-          <%= link_to 'Send Friend Request', '#', class: 'btn btn-profile' %>
+      <% unless current_user?(@user) or already_requested?(@user) %>
+        <li class='friend_request_btn'>
+          <%= form_for @friend_request, method: :post, url: friend_requests_url do |f| %>
+            <%= f.hidden_field :friend_id, value: @user.id %>
+            <%= f.submit 'Send Friend Request', class: 'btn btn-profile' %>
+          <% end %>
         </li>
       <% end %>
     </ul> 
