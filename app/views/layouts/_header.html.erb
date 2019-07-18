@@ -25,7 +25,7 @@
           </li>
       <% else %>
           <li>
-              <%= link_to current_user.name, '#', class: 'btn btn-nav' %>
+              <%= link_to current_user.name, current_user, class: 'btn btn-nav' %>
           </li>
           <li>
               <%= link_to 'Home', '#', class: 'btn btn-nav' %>

@@ -9,7 +9,13 @@ class User < ApplicationRecord
 
   # Associations
 
-  has_many :posts, foreign_key: 'author_id'
+  has_many :posts, foreign_key: 'author_id', dependent: :destroy
+  has_many :sent_friend_requests, class_name: 'FriendRequest',
+                                  foreign_key: 'requestor_id',
+                                  dependent: :destroy
+  has_many :received_friend_requests, class_name: 'FriendRequest',
+                                      foreign_key: 'friend_id',
+                                      dependent: :destroy
 
   # Validations
 
