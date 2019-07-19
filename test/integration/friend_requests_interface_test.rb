@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'test_helper'
 
 class FriendRequestsInterfaceTest < ActionDispatch::IntegrationTest
@@ -7,11 +9,11 @@ class FriendRequestsInterfaceTest < ActionDispatch::IntegrationTest
     sign_in @requestor
   end
 
-  test 'successful friend request and friend requests interface with notifications' do
+  test 'friend request interface with successfully sent friend request' do
     get user_path(@friend)
     assert_select 'li.friend_request_btn'
     assert_difference 'FriendRequest.count', 1 do
-      post friend_requests_path, params: { friend_request: 
+      post friend_requests_path, params: { friend_request:
                                            { requestor_id: @requestor.id,
                                              friend_id: @friend.id } }
     end
@@ -20,21 +22,18 @@ class FriendRequestsInterfaceTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_select 'div.alert-success'
     assert_select 'li.friend_request_btn', false
-    assert_equal @friend.notifications.count, 1
   end
 
-  test 'cannot send a friend request while a pending request exists' do
-    assert_difference 'FriendRequest.count', 1 do
-      2.times do
-        post friend_requests_path, params: { friend_request: 
-                                             { requestor_id: @requestor.id,
-                                               friend_id: @friend.id } }
-      end
+  test 'friend request interface with unsuccessful friend request' do
+    2.times do
+      post friend_requests_path, params: { friend_request:
+                                            { requestor_id: @requestor.id,
+                                              friend_id: @friend.id } }
     end
+
     assert_not flash.empty?
     assert_redirected_to @friend
     follow_redirect!
-    assert_select 'div.alert-danger', text: "You already friended this person."
+    assert_select 'div.alert-danger', text: 'You already friended this person.'
   end
 end
-

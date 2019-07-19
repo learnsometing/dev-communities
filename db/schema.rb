@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_19_144822) do
+ActiveRecord::Schema.define(version: 2019_07_19_182700) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,30 +26,31 @@ ActiveRecord::Schema.define(version: 2019_07_19_144822) do
   end
 
   create_table "notification_changes", force: :cascade do |t|
-    t.bigint "notification_obj_ref_id"
+    t.bigint "notification_object_id"
     t.bigint "actor_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "description"
     t.index ["actor_id"], name: "index_notification_changes_on_actor_id"
-    t.index ["notification_obj_ref_id", "actor_id"], name: "notification_change_data"
-    t.index ["notification_obj_ref_id"], name: "index_notification_changes_on_notification_obj_ref_id"
+    t.index ["notification_object_id", "actor_id"], name: "notification_change_data"
+    t.index ["notification_object_id"], name: "index_notification_changes_on_notification_object_id"
   end
 
-  create_table "notification_obj_refs", force: :cascade do |t|
-    t.string "notification_referable_type"
-    t.bigint "notification_referable_id"
+  create_table "notification_objects", force: :cascade do |t|
+    t.string "notification_triggerable_type"
+    t.bigint "notification_triggerable_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["notification_referable_type", "notification_referable_id"], name: "notification_obj_reference_type", unique: true
+    t.index ["notification_triggerable_type", "notification_triggerable_id"], name: "notification_trigger_data", unique: true
   end
 
   create_table "notifications", force: :cascade do |t|
     t.bigint "user_id"
-    t.bigint "notification_obj_ref_id"
+    t.bigint "notification_object_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["notification_obj_ref_id"], name: "index_notifications_on_notification_obj_ref_id"
-    t.index ["user_id", "notification_obj_ref_id"], name: "notification_data"
+    t.index ["notification_object_id"], name: "index_notifications_on_notification_object_id"
+    t.index ["user_id", "notification_object_id"], name: "notification_data"
     t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
@@ -82,8 +83,8 @@ ActiveRecord::Schema.define(version: 2019_07_19_144822) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "notification_changes", "notification_obj_refs"
+  add_foreign_key "notification_changes", "notification_objects"
   add_foreign_key "notification_changes", "users", column: "actor_id"
-  add_foreign_key "notifications", "notification_obj_refs"
+  add_foreign_key "notifications", "notification_objects"
   add_foreign_key "notifications", "users"
 end

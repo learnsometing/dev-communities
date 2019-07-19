@@ -1,5 +1,6 @@
-class FriendRequestsController < ApplicationController
+# frozen_string_literal: true
 
+class FriendRequestsController < ApplicationController
   before_action :logged_in_user
 
   def create
@@ -11,11 +12,7 @@ class FriendRequestsController < ApplicationController
       flash[:success] = 'Friend request sent successfully.'
     else
       @sent_request.errors.full_messages.each do |msg|
-        if flash[:danger].nil?
-          flash[:danger] = msg
-        else
-          flash[:danger] += msg
-        end
+        flash[:danger] = msg
       end
     end
 

@@ -4,9 +4,11 @@ class FriendRequest < ApplicationRecord
   # Associations
   belongs_to :friend, class_name: 'User'
   belongs_to :requestor, class_name: 'User'
-  has_many :notification_obj_refs, as: :notification_referable
+  has_many :notification_objects, as: :notification_triggerable
 
   # Validations
+  validates :friend, presence: true
+  validates :requestor, presence: true
   validate :already_exists?, on: :create
 
   # After filters
@@ -21,8 +23,8 @@ class FriendRequest < ApplicationRecord
   private
 
   def send_request_notification
-    @object_reference = notification_obj_refs.create
-    @object_reference.notification_changes.create(actor_id: requestor_id)
-    @object_reference.notifications.create(user_id: friend_id)
+    @object = notification_objects.create
+    @object.notification_changes.create(actor_id: requestor_id)
+    @object.notifications.create(user_id: friend_id)
   end
 end
