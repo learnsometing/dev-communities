@@ -4,9 +4,8 @@ require 'test_helper'
 
 class UserSignInTest < ActionDispatch::IntegrationTest
   def setup
-    @user = create(:user)
+    @user = create(:confirmed_user)
     @user.uid = '12345'
-    @user.confirm
   end
 
   test 'existing user should be able to sign in' do

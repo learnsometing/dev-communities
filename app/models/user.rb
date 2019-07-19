@@ -16,6 +16,9 @@ class User < ApplicationRecord
   has_many :received_friend_requests, class_name: 'FriendRequest',
                                       foreign_key: 'friend_id',
                                       dependent: :destroy
+  has_many :notification_changes, foreign_key: 'actor_id',
+                                  dependent: :destroy
+  has_many :notifications, dependent: :destroy
 
   # Validations
 

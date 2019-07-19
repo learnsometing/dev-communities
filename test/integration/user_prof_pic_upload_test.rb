@@ -7,8 +7,7 @@ require 'fileutils'
 class UserProfPicUploadTest < ActionDispatch::IntegrationTest
   def setup
     @carrierwave_root = Rails.root.join('test', 'support', 'carrierwave')
-    @user = create(:user)
-    @user.confirm
+    @user = create(:confirmed_user)
   end
 
   test 'successful profile picture upload with friendly forwarding' do

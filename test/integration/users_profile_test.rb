@@ -4,8 +4,7 @@ require 'test_helper'
 
 class UsersProfileTest < ActionDispatch::IntegrationTest
   def setup
-    @user = create(:user)
-    @user.confirm
+    @user = create(:confirmed_user)
     posts = create_list(:post, 5)
     @user.posts = posts
   end

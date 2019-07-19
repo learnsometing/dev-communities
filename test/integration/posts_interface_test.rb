@@ -4,8 +4,7 @@ require 'test_helper'
 
 class PostsInterfaceTest < ActionDispatch::IntegrationTest
   def setup
-    @user = create(:user)
-    @user.confirm
+    @user = create(:confirmed_user)
     @post = @user.posts.create(content: 'This is my post.')
     sign_in(@user)
   end
@@ -60,7 +59,6 @@ class PostsInterfaceTest < ActionDispatch::IntegrationTest
     get edit_post_path(@post)
     assert_template 'posts/edit'
     patch post_path(@post), params: { post: { content: '' } }
-    new_content = assigns(:post).content
     assert_equal assigns(:post).errors.count, 1
     assert_template 'posts/edit'
     assert_select 'div#error_explanation'
