@@ -19,7 +19,7 @@ class User < ApplicationRecord
   has_many :notification_changes, foreign_key: 'actor_id',
                                   dependent: :destroy
   has_many :notifications, dependent: :destroy
-
+  has_many :notification_objects, through: :notifications
   # Validations
 
   validates :name, presence: true, length: { maximum: 50 }

@@ -10,8 +10,12 @@ class NotificationObject < ApplicationRecord
   # Validations
   validate :already_exists?, on: :create
 
+  # Scopes
+
+  scope :friend_request_type, -> { where(notification_triggerable_type: 'FriendRequest') }
+
   def object
-    notification_triggerable_type.constantize.find()
+    notification_triggerable_type.constantize.find(notification_triggerable_id)
   end
 
   private

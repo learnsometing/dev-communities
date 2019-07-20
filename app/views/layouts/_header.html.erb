@@ -34,6 +34,10 @@
               <%= link_to 'Create a Post', '#', class: 'btn btn-nav'%>
           </li>
           <li>
+              <%= link_to 'Friend Requests', friend_requests_path, class: 'btn btn-nav' %>
+              <div class='btn btn-nav'><%= current_user.received_friend_requests.count %></div>
+          </li>
+          <li>
               <div class='dropdown'>
                   <button class="btn btn-nav dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
                   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
