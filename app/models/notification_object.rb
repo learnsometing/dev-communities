@@ -4,8 +4,8 @@ class NotificationObject < ApplicationRecord
   # Associations
   
   belongs_to :notification_triggerable, polymorphic: true
-  has_many :notification_changes
-  has_many :notifications
+  has_many :notification_changes, dependent: :destroy
+  has_many :notifications, dependent: :destroy
   
   # Validations
   validate :already_exists?, on: :create

@@ -27,3 +27,6 @@ users_with_posts.each do | u |
     u.posts.create(content: Faker::Lorem.paragraph(10, true, 10))
   end
 end
+
+user2 = User.find(2)
+user2.sent_friend_requests.create(friend: User.first)

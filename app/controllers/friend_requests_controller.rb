@@ -18,4 +18,11 @@ class FriendRequestsController < ApplicationController
 
     redirect_to user_path(friend_id)
   end
+
+  def destroy
+    friend_request = FriendRequest.find(params[:id])
+    friend_request.delete
+    flash[:notice] = "Friend request successfully declined."
+    redirect_to friend_requests_path
+  end
 end

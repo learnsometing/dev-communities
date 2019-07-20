@@ -4,7 +4,7 @@ class FriendRequest < ApplicationRecord
   # Associations
   belongs_to :friend, class_name: 'User'
   belongs_to :requestor, class_name: 'User'
-  has_many :notification_objects, as: :notification_triggerable
+  has_many :notification_objects, as: :notification_triggerable, dependent: :destroy
 
   # Validations
   validates :friend, presence: true
@@ -18,6 +18,10 @@ class FriendRequest < ApplicationRecord
     if FriendRequest.exists?(friend_id: friend_id, requestor_id: requestor_id)
       errors.add(:base, 'You already friended this person.')
     end
+  end
+
+  def accept
+    update(accepted: true)
   end
 
   private
