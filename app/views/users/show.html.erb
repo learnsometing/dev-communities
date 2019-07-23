@@ -15,7 +15,7 @@
       </div>
     </div>
     <ul class='navbar-nav'>
-      <% unless current_user?(@user) or already_requested?(@user) %>
+      <% unless current_user?(@user) or already_requested?(@user) or already_friends?(@user) %>
         <li class='friend_request_btn'>
           <%= form_for @friend_request, method: :post, url: friend_requests_url do |f| %>
             <%= f.hidden_field :friend_id, value: @user.id %>

@@ -9,6 +9,11 @@ class FriendRequestsInterfaceTest < ActionDispatch::IntegrationTest
     sign_in @requestor
   end
 
+  test 'friend request button should not be present if viewing current user' do
+    get user_path(@requestor)
+    assert_select 'li.friend_request_btn', count: 0
+  end
+
   test 'friend request interface with successfully sent friend request' do
     get user_path(@friend)
     assert_select 'li.friend_request_btn'
@@ -30,10 +35,15 @@ class FriendRequestsInterfaceTest < ActionDispatch::IntegrationTest
                                             { requestor_id: @requestor.id,
                                               friend_id: @friend.id } }
     end
-
     assert_not flash.empty?
     assert_redirected_to @friend
     follow_redirect!
     assert_select 'div.alert-danger', text: 'You already friended this person.'
+  end
+
+  test 'friend request button should not be present if already friends' do
+    @requestor.friendships.create(friend: @friend)
+    get user_path(@friend)
+    assert_select 'li.friend_request_btn', count: 0
   end
 end

@@ -2,14 +2,13 @@
 # The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
 
 admin = User.new( name: 'Brian Monaccio',
-          email: 'brian@foo.com',
+          email: 'brianmonaccio@gmail.com',
           password: 'foobar'
 )
 
 admin.skip_confirmation!
 admin.save
 admin.confirm
-
 
 50.times do 
   user = User.new( name: Faker::Name.name,
