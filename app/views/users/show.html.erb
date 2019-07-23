@@ -15,6 +15,12 @@
       </div>
     </div>
     <ul class='navbar-nav'>
+      <% if current_user?(@user) %>
+      <li>
+          <%= link_to pluralize(@user.friends.count, 'Friend'), friendships_path, class: 'btn btn-profile' %>
+      </li>
+      <% end %>
+
       <% if already_friends?(@user) %>
         <li class='friend_removal_btn'>
           <%= form_for(current_user.friendships.find_by(friend_id: @user.id), method: :delete) do |f| %>

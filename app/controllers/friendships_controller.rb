@@ -20,17 +20,15 @@ class FriendshipsController < ApplicationController
     redirect_to friend_request_notifications_path
   end
 
+  def index
+    @friends = current_user.friends
+  end
+
   def destroy
     if Friendship.exists?(params[:id])
       friendship = Friendship.find(params[:id])
       user = friendship.friend
       friendship.destroy
-      # friend_request = FriendRequest.where(requestor_id: current_user,
-      #                                      friend_id: user.id).or(
-      #                                        FriendRequest.where(requestor_id: user.id,
-      #                                                            friend_id: current_user.id)
-      #                                      )
-      # friend_request.
       flash[:success] = 'Friendship successfully ended.'
     else
       flash[:danger] = 'That friendship does not exist.'

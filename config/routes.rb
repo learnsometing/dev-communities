@@ -9,5 +9,5 @@ Rails.application.routes.draw do
   resources :posts, only: %i[create edit update destroy]
   resources :friend_requests, only: %i[create destroy]
   get '/friend_request_notifications', to: 'notifications#friend_request_notifications'
-  resources :friendships, only: %i[create destroy]
+  resources :friendships, only: %i[create index destroy]
 end

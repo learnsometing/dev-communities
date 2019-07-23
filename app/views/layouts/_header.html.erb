@@ -40,6 +40,7 @@
               <div class='dropdown'>
                   <button class="btn btn-nav dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
                   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <%= link_to 'Friends', friendships_path, class: 'dropdown-item' %>
                       <%= link_to 'Settings', edit_user_registration_path(current_user), class: 'dropdown-item'%>
                       <hr>
                       <%= link_to 'Sign Out', destroy_user_session_path, method: :delete, class: 'dropdown-item'%>

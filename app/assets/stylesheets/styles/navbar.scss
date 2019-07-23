@@ -15,6 +15,7 @@ $white: #ffffff;
 .btn-nav {
     background-color: $red-base;
     color: $white;
+    margin-left: 0.25rem;
     &:hover {
         background-color: darken($red-base, 10%);
         color: darken($white, 10);
