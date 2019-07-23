@@ -1,7 +1,7 @@
 <nav class='navbar navbar-expand-md navbar-dark bg-red'>
   <div class='container'>
   <div class='navbar-brand'>
-    <%= link_to 'Dev Communities', '#', class: 'clickable-logo' %>
+    <%= link_to 'Dev Communities', root_path, class: 'clickable-logo' %>
   </div>
   <ul class='navbar-nav'>
       <% unless user_signed_in? %>
@@ -28,7 +28,7 @@
               <%= link_to current_user.name, current_user, class: 'btn btn-nav' %>
           </li>
           <li>
-              <%= link_to 'Home', '#', class: 'btn btn-nav' %>
+              <%= link_to 'Home', root_path, class: 'btn btn-nav' %>
           </li>
           <li>
               <%= link_to 'Create a Post', '#', class: 'btn btn-nav'%>

@@ -52,6 +52,10 @@ class User < ApplicationRecord
     end
   end
 
+  def feed
+    Post.where(author_id: id).or(Post.where(author_id: friend_ids))
+  end
+
   def authored_posts
     # Return the posts that belong to this user. Used in the users#show action
     # to avoid a template error pertaining to the new post that is built and sent

@@ -12,6 +12,10 @@ class UsersController < ApplicationController
     @friend_request = @user.sent_friend_requests.build
   end
 
+  def feed
+    @feed_items = current_user.feed
+  end
+
   def edit
     @user = User.find(params[:id])
   end

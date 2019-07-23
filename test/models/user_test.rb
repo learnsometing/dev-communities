@@ -123,4 +123,35 @@ class UserTest < ActiveSupport::TestCase
       @user.destroy
     end
   end
+
+  test 'feed should have the right posts' do
+    users = [create(:confirmed_user),
+             create(:confirmed_user),
+             create(:confirmed_user)]
+
+    users.each do |user|
+      5.times do
+        user.posts.create(attributes_for(:post))
+      end
+    end
+
+    requestor = users[0]
+    friend1 = users[1]
+    friend2 = users[2]
+
+    requestor.friendships.create(friend: friend1)
+    requestor.friendships.create(friend: friend2)
+
+    # current user's posts
+    requestor.posts.each do |post|
+      assert requestor.feed.include?(post)
+    end
+
+    # friend1's posts
+    friend1.posts.each do |post|
+      assert friend1.feed.include?(post)
+    end
+
+    # unfriended friend2's posts
+  end
 end
