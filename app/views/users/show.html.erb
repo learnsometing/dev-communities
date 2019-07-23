@@ -15,6 +15,14 @@
       </div>
     </div>
     <ul class='navbar-nav'>
+      <% if already_friends?(@user) %>
+        <li class='friend_removal_btn'>
+          <%= form_for(current_user.friendships.find_by(friend_id: @user.id), method: :delete) do |f| %>
+            <%= f.submit 'Remove from friends', class: 'btn btn-profile' %>
+          <% end %>
+        </li>
+      <% end %>
+
       <% unless current_user?(@user) or already_requested?(@user) or already_friends?(@user) %>
         <li class='friend_request_btn'>
           <%= form_for @friend_request, method: :post, url: friend_requests_url do |f| %>
@@ -23,6 +31,7 @@
           <% end %>
         </li>
       <% end %>
+
     </ul> 
   </nav>
   <div class='container post_form'>

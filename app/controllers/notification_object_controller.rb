@@ -1,2 +1,0 @@
-class NotificationObjectController < ApplicationController
-end

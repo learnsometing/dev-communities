@@ -17,11 +17,12 @@ class Friendship < ApplicationRecord
 
   # After filters
   after_create :create_reciprocal_friendship
+  after_destroy :destroy_reciprocal_friendship
 
   private
 
   def unique_friendship?
-    # Can't enforce uniqueness on user_id or friend_id alone, since a user can 
+    # Can't enforce uniqueness on user_id or friend_id alone, since a user can
     # have many friends. Thus, a custom validator is needed to check for unique
     # user_id and friend_id pairs.
     if Friendship.exists?(user_id: user_id, friend_id: friend_id)
@@ -30,10 +31,16 @@ class Friendship < ApplicationRecord
   end
 
   def create_reciprocal_friendship
-    # Called after create to create a reciprocal friendship on behalf of the 
+    # Called after create to create a reciprocal friendship on behalf of the
     # 'friend' that was sent the friend request.
     unless Friendship.exists?(friend_id: user_id)
       Friendship.create(user_id: friend_id, friend_id: user_id)
     end
+  end
+
+  def destroy_reciprocal_friendship
+    # Called after destroy to destroy a reciprocal friendship on behalf of the
+    # friend that the current user was in a friendsip with.
+    Friendship.find_by(user_id: friend_id).destroy if Friendship.exists?(user_id: friend_id)
   end
 end
