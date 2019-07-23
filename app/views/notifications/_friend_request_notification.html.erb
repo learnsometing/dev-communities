@@ -5,13 +5,13 @@
 
   <div class='accept_request_button'>
     <%= form_for :friend_request, url: friendships_path, method: :post do |f| %>
-      <%= f.hidden_field :id, value: friend_request_notification.notification_object.object.id %>
+      <%= f.hidden_field :id, value: friend_request_notification.notification_object.notification_triggerable_id %>
       <%= f.submit 'Accept' %>
     <% end %>
   </div>
   
   <div class='decline_request_button'>
-    <%= form_for :friend_request, url: friend_request_path(friend_request_notification.notification_object.object.id), method: :delete do |f| %>
+    <%= form_for :friend_request, url: friend_request_path(friend_request_notification.notification_object.notification_triggerable_id), method: :delete do |f| %>
       <%= f.submit 'Decline' %>
     <% end %>
   </div>

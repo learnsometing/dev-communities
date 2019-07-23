@@ -23,6 +23,10 @@ class FriendRequest < ApplicationRecord
   # After filters
   after_create :send_request_notification
 
+  # Scopes
+  default_scope -> { where(accepted: false) }
+  scope :accepted, -> { where(accepted: true) }
+
   def unique_friend_request?
     # Since uniqueness of friend_id or requestor_id alone cannot be enforced,
     # a custom validator that checks for the uniqueness of the pair was needed.
@@ -40,8 +44,9 @@ class FriendRequest < ApplicationRecord
 
   def send_request_notification
     # Trigger the notification system after the creation of a friend request.
-    @object = notification_objects.create
-    @object.notification_changes.create(actor_id: requestor_id)
-    @object.notifications.create(user_id: friend_id)
+    notification_object = notification_objects.create
+    notification_change = notification_object.notification_changes.create(actor_id: requestor_id)
+    notification_object.notifications.create(user_id: friend_id,
+                                            description: notification_change.full_description)
   end
 end

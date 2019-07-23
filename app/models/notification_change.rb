@@ -9,8 +9,12 @@ class NotificationChange < ApplicationRecord
   validates :notification_object, presence: true
   validates :actor, presence: true
 
-  # before filters
-  before_create :full_description
+  # Return the description text of the notification change by combining the action
+  # description and the actor name.
+
+  def full_description
+    actor.name + describe_action
+  end
 
   private
 
@@ -24,12 +28,5 @@ class NotificationChange < ApplicationRecord
     when 'Post'
       ' posted something new.'
     end
-  end
-
-  # Set the description text of the notification change by combining the action
-  # description and the actor name.
-
-  def full_description
-    self.description = actor.name + describe_action
   end
 end

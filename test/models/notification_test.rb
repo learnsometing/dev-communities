@@ -3,7 +3,11 @@
 require 'test_helper'
 
 class NotificationTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  def setup
+    @notification = Notification.new(user: create(:confirmed_user))
+  end
+
+  test 'notification should require a description' do
+    assert @notification.invalid?
+  end
 end

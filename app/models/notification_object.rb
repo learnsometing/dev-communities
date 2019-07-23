@@ -13,7 +13,8 @@ class NotificationObject < ApplicationRecord
   # Scopes
 
   scope :friend_request_type, -> { where(notification_triggerable_type: 'FriendRequest') }
-
+  scope :triggerable_id_in_set, ->(ids) { where(notification_triggerable_id: ids) }
+  
   def object
     # Retrieve the object that the notification object references.
     # Example: if the notification_triggerable_type is "Post" and

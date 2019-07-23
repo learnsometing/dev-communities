@@ -10,6 +10,6 @@ Rails.application.routes.draw do
   resources :users, only: %i[show edit update]
   resources :posts, only: %i[create edit update destroy]
   resources :friend_requests, only: %i[create destroy]
-  get '/friend_request_notifications', to: 'notification_changes#friend_request_notifications'
+  get '/friend_request_notifications', to: 'notifications#friend_request_notifications'
   resources :friendships, only: %i[create destroy]
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_20_170551) do
+ActiveRecord::Schema.define(version: 2019_07_23_155120) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,7 +41,6 @@ ActiveRecord::Schema.define(version: 2019_07_20_170551) do
     t.bigint "actor_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "description"
     t.index ["actor_id"], name: "index_notification_changes_on_actor_id"
     t.index ["notification_object_id", "actor_id"], name: "notification_change_data"
     t.index ["notification_object_id"], name: "index_notification_changes_on_notification_object_id"
@@ -60,6 +59,7 @@ ActiveRecord::Schema.define(version: 2019_07_20_170551) do
     t.bigint "notification_object_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "description"
     t.index ["notification_object_id"], name: "index_notifications_on_notification_object_id"
     t.index ["user_id", "notification_object_id"], name: "notification_data"
     t.index ["user_id"], name: "index_notifications_on_user_id"

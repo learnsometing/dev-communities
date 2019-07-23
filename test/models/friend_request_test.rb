@@ -23,15 +23,15 @@ class FriendRequestTest < ActiveSupport::TestCase
     assert @request.invalid?
   end
 
-  # test 'a friend should only be able to recieve one request per requestor' do
-  #   assert_difference 'FriendRequest.count', 1 do
-  #     @request.save
-  #     @dup_request = @request.dup
-  #     @dup_request.save
-  #   end
+  test 'a friend should only be able to recieve one request per requestor' do
+    assert_difference 'FriendRequest.count', 1 do
+      @request.save
+      @dup_request = @request.dup
+      @dup_request.save
+    end
 
-  #   assert_equal @dup_request.errors.count, 1
-  # end
+    assert_equal @dup_request.errors.count, 1
+  end
 
   test 'a notification should be created upon creation of the request' do
     assert_difference '@friend.notifications.count', 1 do
@@ -51,11 +51,11 @@ class FriendRequestTest < ActiveSupport::TestCase
     end
   end
 
-  test 'notification change should have an appropriate description' do
+  test 'notification should have an appropriate description' do
     @request.save
 
     expected_description = "#{@requestor.name} sent you a friend request."
-    actual_description = @requestor.notification_changes.first.description
+    actual_description = @friend.notifications.first.description
 
     assert_equal expected_description, actual_description
   end
