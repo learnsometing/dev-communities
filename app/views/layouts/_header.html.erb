@@ -34,7 +34,7 @@
               <%= link_to 'Create a Post', '#', class: 'btn btn-nav'%>
           </li>
           <li>
-              <%= link_to 'Friend Requests', friend_requests_path, class: 'btn btn-nav' %>
+              <%= link_to 'Friend Requests', friend_request_notifications_path, class: 'btn btn-nav' %>
               <div class='btn btn-nav'><%= current_user.received_friend_requests.count %></div>
           </li>
           <li>
