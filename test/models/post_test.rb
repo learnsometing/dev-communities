@@ -26,9 +26,9 @@ class PostTest < ActiveSupport::TestCase
   end
 
   test 'order should be most recent first' do
-    posts = [create(:post, created_at: 5.minutes.ago),
-             create(:post, created_at: 10.minutes.ago),
-             create(:post, created_at: 15.minutes.ago) ]
+    create(:post, created_at: 5.minutes.ago)
+    create(:post, created_at: 10.minutes.ago)
+    create(:post, created_at: 15.minutes.ago)
     assert_equal @post, Post.first
   end
 end

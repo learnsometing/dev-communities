@@ -2,7 +2,7 @@
 
 class PostsController < ApplicationController
   before_action :logged_in_user
-  before_action :correct_user, only: %i[edit update destroy]
+  before_action :correct_post, only: %i[edit update destroy]
 
   def create
     @post = current_user.posts.build(post_params)
@@ -11,7 +11,8 @@ class PostsController < ApplicationController
         if @post.save
           flash[:success] = 'Post created.'
         else
-          @post.errors.full_messages.each do | msg |
+          # Is this the conventional way to handle this with HTML only?
+          @post.errors.full_messages.each do |msg|
             flash[:danger] = msg + '.'
           end
         end
@@ -44,7 +45,9 @@ class PostsController < ApplicationController
     params.require(:post).permit(:content)
   end
 
-  def correct_user
+  def correct_post
+    # Checks that the post belongs to the currently logged in user to prevent
+    # a malicious user from manipulating posts that are not theirs.
     @post = current_user.posts.find_by(id: params[:id])
     redirect_to root_url if @post.nil?
   end

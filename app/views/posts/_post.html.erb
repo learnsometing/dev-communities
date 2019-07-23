@@ -3,7 +3,7 @@
     <%= image_tag post.author.profile_picture.thumb.url %>
     <div class='author_timestamp d-flex flex-column mr-auto'>
       <%= link_to post.author.name, post.author %>
-      <%= post.timestamp_formatted %>
+      <%= post.formatted_timestamp %>
     </div>
     <div class='dropdown'>
         <button class="btn btn-profile dropdown-toggle"id="post-<%= post.id %>-dropdown" type='button' data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>

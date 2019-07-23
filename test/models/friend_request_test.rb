@@ -23,18 +23,24 @@ class FriendRequestTest < ActiveSupport::TestCase
     assert @request.invalid?
   end
 
-  test 'a friend should only be able to recieve one request per requestor' do
-    assert_difference 'FriendRequest.count', 1 do
-      @request.save
-      @dup_request = @request.dup
-      @dup_request.save
-    end
+  # test 'a friend should only be able to recieve one request per requestor' do
+  #   assert_difference 'FriendRequest.count', 1 do
+  #     @request.save
+  #     @dup_request = @request.dup
+  #     @dup_request.save
+  #   end
 
-    assert_equal @dup_request.errors.count, 1
-  end
+  #   assert_equal @dup_request.errors.count, 1
+  # end
 
   test 'a notification should be created upon creation of the request' do
     assert_difference '@friend.notifications.count', 1 do
+      @request.save
+    end
+  end
+
+  test 'a notification object should be created upon creation of the request' do
+    assert_difference '@request.notification_objects.count', 1 do
       @request.save
     end
   end
@@ -46,11 +52,26 @@ class FriendRequestTest < ActiveSupport::TestCase
   end
 
   test 'notification change should have an appropriate description' do
-    expected_description = "#{@requestor.name} sent you a friend request."
     @request.save
-    object = @request.notification_objects.first
-    actual_description = object.notification_changes.first.description
+
+    expected_description = "#{@requestor.name} sent you a friend request."
+    actual_description = @requestor.notification_changes.first.description
 
     assert_equal expected_description, actual_description
-  end 
+  end
+
+  test 'associated notification objects should be destroyed' do
+    @request.save
+
+    assert_difference 'NotificationObject.count', -1 do
+      @request.destroy
+    end
+  end
+
+  test 'accept should updated the accepted attribute' do
+    @request.save
+    assert_not @request.accepted
+    @request.accept
+    assert @request.accepted
+  end
 end

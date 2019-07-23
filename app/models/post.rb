@@ -3,7 +3,7 @@
 class Post < ApplicationRecord
   # Associations
   belongs_to :author, class_name: 'User'
-  has_many :notification_objects, as: :notification_triggerable
+  has_many :notification_objects, as: :notification_triggerable, dependent: :destroy
   
   # Validations
   validates :author_id, presence: true

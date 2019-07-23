@@ -4,6 +4,7 @@ class UsersController < ApplicationController
   helper UsersHelper
   before_action :logged_in_user
   before_action :correct_user, only: %i[edit update]
+
   def show
     @user = User.find(params[:id])
     @posts = @user.authored_posts

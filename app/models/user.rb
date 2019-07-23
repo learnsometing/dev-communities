@@ -20,8 +20,8 @@ class User < ApplicationRecord
                                   dependent: :destroy
   has_many :notifications, dependent: :destroy
   has_many :notification_objects, through: :notifications
-  has_many :friendships
-  has_many :friends, through: :friendships, source: :friend, dependent: :destroy
+  has_many :friendships, dependent: :destroy
+  has_many :friends, through: :friendships, source: :friend
   # Validations
 
   validates :name, presence: true, length: { maximum: 50 }
@@ -53,6 +53,10 @@ class User < ApplicationRecord
   end
 
   def authored_posts
+    # Return the posts that belong to this user. Used in the users#show action
+    # to avoid a template error pertaining to the new post that is built and sent
+    # to the view. Since a newly built post does not have a created_at timestamp
+    # stftime will be undefined since created_at is nil.
     Post.where(author_id: id)
   end
 

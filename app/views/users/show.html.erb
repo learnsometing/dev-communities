@@ -26,7 +26,7 @@
     </ul> 
   </nav>
   <div class='container post_form'>
-    <% if @new_post %>
+    <% if current_user?(@user) %>
       <%= render 'shared/post_form' %>
     <% end %>
   </div>

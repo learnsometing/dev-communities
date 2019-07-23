@@ -65,4 +65,62 @@ class UserTest < ActiveSupport::TestCase
   test 'user should have a default profile picture' do
     assert_not @user.profile_picture.url.nil?
   end
+
+  test 'associated posts should be destroyed' do
+    @user.save
+    @user.posts.create!(content: 'Delete me please')
+    assert_difference 'Post.count', -1 do
+      @user.destroy
+    end
+  end
+
+  test 'associated friend requests should be destroyed' do
+    @user.save
+    friend = create(:confirmed_user)
+    @user.sent_friend_requests.create(friend: friend)
+
+    assert_equal friend.received_friend_requests.count, 1
+
+    assert_difference 'FriendRequest.count', -1 do
+      @user.destroy
+    end
+
+    assert_equal friend.received_friend_requests.count, 0
+  end
+
+  test 'associated notifications should be destroyed' do
+    @user.save
+    friend = create(:confirmed_user)
+    @user.sent_friend_requests.create(friend: friend)
+    assert_difference 'friend.notifications.count', -1 do
+      friend.destroy
+    end
+  end
+
+  test 'associated notification_objects should be destroyed' do
+    @user.save
+    friend = create(:confirmed_user)
+    @user.sent_friend_requests.create(friend: friend)
+    assert_difference 'friend.notification_objects.count', -1 do
+      friend.destroy
+    end
+  end
+
+  test 'associated notification_changes should be destroyed' do
+    @user.save
+    friend = create(:confirmed_user)
+    @user.sent_friend_requests.create(friend: friend)
+    assert_difference '@user.notification_changes.count', -1 do
+      @user.destroy
+    end
+  end
+
+  test 'associated friendships should be destroyed' do
+    @user.save
+    friend = create(:confirmed_user)
+    @user.friendships.create(friend: friend)
+    assert_difference '@user.friendships.count', -1 do
+      @user.destroy
+    end
+  end
 end
