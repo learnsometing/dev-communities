@@ -7,9 +7,9 @@ class FriendshipsController < ApplicationController
     @requestor = User.find(friend_request.requestor_id)
     @friend = User.find(friend_request.friend_id)
 
-    friend_request.accept
     friendship = @requestor.friendships.build(friend: @friend)
     if friendship.save
+      friend_request.accept
       # Send a notification to the requestor here....
       flash[:success] = "You are now friends with #{@requestor.name}."
     else
