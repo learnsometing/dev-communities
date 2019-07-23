@@ -1,19 +1,21 @@
-<div class='d-flex flex-row'> 
-  <div class='notification_description'>
+<div class='container friend-request'> 
+  <div class='notification_description d-flex flex-column justify-content-center ml-auto mr-auto'>
     <%= friend_request_notification.description %>
   </div>
 
-  <div class='accept_request_button'>
-    <%= form_for :friend_request, url: friendships_path, method: :post do |f| %>
-      <%= f.hidden_field :id, value: friend_request_notification.notification_object.notification_triggerable_id %>
-      <%= f.submit 'Accept' %>
-    <% end %>
-  </div>
-  
-  <div class='decline_request_button'>
-    <%= form_for :friend_request, url: friend_request_path(friend_request_notification.notification_object.notification_triggerable_id), method: :delete do |f| %>
-      <%= f.submit 'Decline' %>
-    <% end %>
+  <div class='friend-request-buttons'>
+    <div class='accept_request_button mr-3'>
+      <%= form_for :friend_request, url: friendships_path, method: :post do |f| %>
+        <%= f.hidden_field :id, value: friend_request_notification.notification_object.notification_triggerable_id %>
+        <%= f.submit 'Accept', class: 'btn btn-dark'%>
+      <% end %>
+    </div>
+
+    <div class='decline_request_button'>
+      <%= form_for :friend_request, url: friend_request_path(friend_request_notification.notification_object.notification_triggerable_id), method: :delete do |f| %>
+        <%= f.submit 'Decline', class: 'btn btn-dark' %>
+      <% end %>
+    </div>
   </div>
 
 </div>

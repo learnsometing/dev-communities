@@ -34,8 +34,7 @@
               <%= link_to 'Create a Post', '#', class: 'btn btn-nav'%>
           </li>
           <li>
-              <%= link_to 'Friend Requests', friend_request_notifications_path, class: 'btn btn-nav' %>
-              <div class='btn btn-nav'><%= current_user.received_friend_requests.count %></div>
+              <%= link_to pluralize(current_user.received_friend_requests.count, 'Friend Request'), friend_request_notifications_path, class: 'btn btn-nav' %>
           </li>
           <li>
               <div class='dropdown'>

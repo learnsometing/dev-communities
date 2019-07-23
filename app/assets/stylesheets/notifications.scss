@@ -1,3 +1,17 @@
-// Place all the styles related to the Notifications controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: https://sass-lang.com/
+.friend-request {
+    width: 55rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: 1rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+
+    border: solid 1px black;
+}
+
+.friend-request-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
