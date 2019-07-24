@@ -3,14 +3,6 @@
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
 
-admin = User.new(name: 'Brian',
-                 email: 'admin@foo.com',
-                 password: 'foobar')
-
-admin.skip_confirmation!
-admin.save
-admin.confirm
-
 50.times do
   user = User.new(name: Faker::Name.name,
                   email: Faker::Internet.email,
@@ -22,21 +14,29 @@ end
 
 users_with_posts = User.take(5)
 
+included_friends = User.where.not(id: users_with_posts).take(5)
+
 users_with_posts.each do |u|
   5.times do
     u.posts.create(content: Faker::Lorem.paragraph(10, true, 10))
   end
 end
 
-users_with_posts.each do |u|
-  u.sent_friend_requests.create(friend: admin) unless u == admin
-end
+admin = User.new(name: 'Brian',
+                 email: 'admin@foo.com',
+                 password: 'foobar')
 
-included_friends = User.where.not(id: users_with_posts).take(5)
+admin.skip_confirmation!
+admin.save
+admin.confirm
+
+users_with_posts.each do |u|
+  u.sent_friend_requests.create(friend: admin)
+end
 
 included_friends.each do |friend|
   admin.friendships.create(friend_id: friend.id)
   friend.posts.create(content: Faker::Lorem.paragraph(10, true, 10))
 end
 
-
+admin.posts.create(content: 'Hey friends!')

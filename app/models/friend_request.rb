@@ -2,10 +2,10 @@
 
 # A friend request models the invitation one user will send to another to be
 # added to their network. Friend requests trigger the notification system.
-# A NotificationObject that references the FriendRequest record is created 
+# A NotificationObject that references the FriendRequest record is created
 # after the FriendRequest is saved. Then, the NotificationObject's associated
 # records, NotificationChange and Notification are created. The requestor is the
-# person that initiates the request and will be used as the actor in the 
+# person that initiates the request and will be used as the actor in the
 # NotificationChange. The friend is the person the request is sent to and the
 # Notification references.
 
@@ -43,13 +43,9 @@ class FriendRequest < ApplicationRecord
 
   def send_request_notification
     # Trigger the notification system after the creation of a friend request.
-    if NotificationObject.exists?(notification_triggerable_id: id)
-      notification_object = NotificationObject.find(notification_triggerable_id: id)
-    else
-      notification_object = notification_objects.create 
-    end
+    notification_object = notification_objects.create
     notification_change = notification_object.notification_changes.create(actor_id: requestor_id)
     notification_object.notifications.create(user_id: friend_id,
-                                            description: notification_change.full_description)
+                                             description: notification_change.full_description)
   end
 end

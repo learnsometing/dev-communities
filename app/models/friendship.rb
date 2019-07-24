@@ -15,7 +15,7 @@ class Friendship < ApplicationRecord
 
   # Validations
   validate :unique_friendship?, on: :create
-
+  validate :self_friendship?, on: :create
   # After filters
   after_create :create_reciprocal_friendship
   after_destroy :destroy_reciprocal_friendship
@@ -31,6 +31,11 @@ class Friendship < ApplicationRecord
     end
   end
 
+  def self_friendship?
+    # Can't become friends with yourself.
+    errors.add(:base, 'User and friend are the same') if user_id == friend_id
+  end
+
   def create_reciprocal_friendship
     # Called after create to create a reciprocal friendship on behalf of the
     # 'friend' that was sent the friend request.
@@ -44,16 +49,26 @@ class Friendship < ApplicationRecord
     # Called after destroy to destroy a reciprocal friendship on behalf of the
     # friend that the current user was in a friendsip with.
     if Friendship.exists?(user_id: friend_id, friend_id: user_id)
+      destroy_notifications_from_friend(friend_id, user_id)
+      destroy_notifications_from_friend(user_id, friend_id)
       Friendship.find_by(user_id: friend_id, friend_id: user_id).destroy
     end
   end
 
-  def send_friendship_notification
-    if NotificationObject.exists?(notification_triggerable_id: id)
-      notification_object = NotificationObject.find(notification_triggerable_id: id)
-    else
-      notification_object = notification_objects.create
+  def destroy_notifications_from_friend(user_id, friend_id)
+    notification_changes_from_friend = NotificationChange.where(actor_id: friend_id)
+
+    objs = []
+    notification_changes_from_friend.each do |notification_change|
+      objs << notification_change.notification_object_id
     end
+
+    notifications = Notification.where(user_id: user_id, notification_object: objs)
+    notifications.destroy_all
+  end
+
+  def send_friendship_notification
+    notification_object = notification_objects.create
     notification_change = notification_object.notification_changes.create(actor_id: friend_id)
     notification_object.notifications.create(user_id: user_id,
                                              description: notification_change.full_description)
