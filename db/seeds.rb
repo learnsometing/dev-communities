@@ -23,7 +23,7 @@ end
 users_with_posts = User.take(5)
 
 users_with_posts.each do |u|
-  10.times do
+  5.times do
     u.posts.create(content: Faker::Lorem.paragraph(10, true, 10))
   end
 end
@@ -36,4 +36,7 @@ included_friends = User.where.not(id: users_with_posts).take(5)
 
 included_friends.each do |friend|
   admin.friendships.create(friend_id: friend.id)
+  friend.posts.create(content: Faker::Lorem.paragraph(10, true, 10))
 end
+
+

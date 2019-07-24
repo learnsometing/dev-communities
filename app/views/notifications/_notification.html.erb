@@ -1,9 +1,16 @@
 <li class='container notification'>
-  <div class='notification_description d-flex flex-column justify-content-center ml-auto mr-auto'>
-    <% if notification.notification_object.object.is_a? Friendship %>
-      <%= notification.description %>
-    <% else %>
-      <%= link_to notification.description, notification.notification_object.object %>
+  <div class='notification_description d-flex flex-row align-items-center'>
+    <div class='description mr-auto'>
+      <% if notification.notification_object.object.is_a? Friendship %>
+        <%= notification.description %>
+      <% else %>
+        <%= link_to notification.description, notification.notification_object.object %>
+      <% end %>
+    </div>
+
+    <%= form_for notification, url: mark_as_read_path, method: :post do |f| %>
+      <%= f.hidden_field :id, value: notification.id %>
+      <%= f.submit 'Mark as read', class: "btn btn-dark" %>
     <% end %>
   </div>
 </li>

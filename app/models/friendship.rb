@@ -43,11 +43,17 @@ class Friendship < ApplicationRecord
   def destroy_reciprocal_friendship
     # Called after destroy to destroy a reciprocal friendship on behalf of the
     # friend that the current user was in a friendsip with.
-    Friendship.find_by(user_id: friend_id).destroy if Friendship.exists?(user_id: friend_id)
+    if Friendship.exists?(user_id: friend_id, friend_id: user_id)
+      Friendship.find_by(user_id: friend_id, friend_id: user_id).destroy
+    end
   end
 
   def send_friendship_notification
-    notification_object = notification_objects.create
+    if NotificationObject.exists?(notification_triggerable_id: id)
+      notification_object = NotificationObject.find(notification_triggerable_id: id)
+    else
+      notification_object = notification_objects.create
+    end
     notification_change = notification_object.notification_changes.create(actor_id: friend_id)
     notification_object.notifications.create(user_id: user_id,
                                              description: notification_change.full_description)

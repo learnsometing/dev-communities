@@ -22,7 +22,12 @@ class Post < ApplicationRecord
     # Trigger the notification system after the creation of a post.
     return if author.friends.empty?
     
-    notification_object = notification_objects.create
+    if NotificationObject.exists?(notification_triggerable_id: id)
+      notification_object = NotificationObject.find(notification_triggerable_id: id)
+    else
+      notification_object = notification_objects.create 
+    end
+    
     notification_change = notification_object.notification_changes.create(actor_id: author_id)
     author.friends.each do |friend|
       notification_object.notifications.create(user_id: friend.id,

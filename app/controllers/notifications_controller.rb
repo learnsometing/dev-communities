@@ -5,12 +5,30 @@ class NotificationsController < ApplicationController
   def friend_request_notifications
     # Get the pending friend requests for the user to see
     pending_f_r_ids = current_user.received_friend_requests.ids
-    f_r_notification_objs = NotificationObject.friend_request_type.triggerable_id_in_set(pending_f_r_ids)
-    @friend_request_notifications = Notification.where(notification_object: f_r_notification_objs)
+    request_objects = NotificationObject.friend_request_type.triggerable_id_in_set(pending_f_r_ids)
+    @friend_request_notifications = Notification.with_objects(request_objects)
   end
 
   def index
-    notification_objects = NotificationObject.except_friend_request_type
-    @notifications = Notification.where(notification_object_id: notification_objects)
+    # Get all of the current user's unread notifications. We want to select the
+    # NotificationChanges with actor_ids included in our friends, just in case
+    # Friendships are destroyed before a notification is read. 
+    notification_changes = NotificationChange.where(actor: current_user.friend_ids)
+
+    notification_object_ids = []
+    notification_changes.each do |c|
+      notification_object_ids << c.notification_object_id
+    end
+    
+    @notifications = Notification.with_objects(notification_object_ids).unread
+  end
+
+  def mark_as_read
+    if Notification.exists?(params[:notification][:id])
+      Notification.find(params[:notification][:id]).mark_as_read
+    else
+      flash[:danger] = 'Notification could not be read.'
+    end
+    redirect_to notifications_path
   end
 end

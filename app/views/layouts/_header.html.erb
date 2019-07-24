@@ -37,7 +37,7 @@
               <%= link_to pluralize(current_user.received_friend_requests.count, 'Friend Request'), friend_request_notifications_path, class: 'btn btn-nav' %>
           </li>
           <li>
-              <%= link_to pluralize(current_user.notifications.count - current_user.received_friend_requests.count,  'Notification'), notifications_path, class: 'btn btn-nav' %>
+              <%= link_to pluralize(current_user.notifications.unread.count - current_user.received_friend_requests.count,  'Notification'), notifications_path, class: 'btn btn-nav' %>
           </li>
           <li>
               <div class='dropdown'>

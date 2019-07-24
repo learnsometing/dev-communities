@@ -11,7 +11,7 @@ class PostsInterfaceTest < ActionDispatch::IntegrationTest
 
   test 'post interface' do
     get user_path(@user)
-    assert_select 'div.post_form'
+    assert_select 'div.post-form'
   end
 
   test 'invalid post submission' do

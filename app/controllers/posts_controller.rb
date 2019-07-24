@@ -21,6 +21,15 @@ class PostsController < ApplicationController
     end
   end
 
+  def show
+    if Post.exists?(params[:id])
+      @post = Post.find(params[:id])
+    else
+      flash[:danger] = 'Post not found.'
+      redirect_to root_path
+    end
+  end
+
   def edit
     @post = Post.find(params[:id])
   end
