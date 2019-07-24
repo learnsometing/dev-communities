@@ -37,6 +37,9 @@
               <%= link_to pluralize(current_user.received_friend_requests.count, 'Friend Request'), friend_request_notifications_path, class: 'btn btn-nav' %>
           </li>
           <li>
+              <%= link_to pluralize(current_user.notifications.count - current_user.received_friend_requests.count,  'Notification'), notifications_path, class: 'btn btn-nav' %>
+          </li>
+          <li>
               <div class='dropdown'>
                   <button class="btn btn-nav dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
                   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">

@@ -6,29 +6,49 @@ $backgroundColor: #f8f9fa;
     }
 }
 
-ul {
-    padding: 0;
-    margin-top: 1.5rem;
-}
-
 .feed {
     display: flex;
     flex-direction: column;
     align-items: center;
     list-style: none;
+    overflow-y: scroll;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.friends {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 60%;
+    list-style: none;
+    padding-left: 1rem;
+    padding-right: 1rem;
 }
 
 .friend {  
-    width: 15rem;
-    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+    border-bottom: solid 1px darken($backgroundColor, 50%);
 }
 
 .profile {
     background-color: $backgroundColor;
+    height: inherit;
 }
 
 .prof_pic {
-    padding: 1em;
-    padding-top: 2em;
     padding-bottom: 0;
+}
+
+.user-info {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.settings {
+    border: solid 1px darken($backgroundColor, 50%); 
+    padding: 1.5rem;
 }

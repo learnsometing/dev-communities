@@ -8,4 +8,9 @@ class NotificationsController < ApplicationController
     f_r_notification_objs = NotificationObject.friend_request_type.triggerable_id_in_set(pending_f_r_ids)
     @friend_request_notifications = Notification.where(notification_object: f_r_notification_objs)
   end
+
+  def index
+    notification_objects = NotificationObject.except_friend_request_type
+    @notifications = Notification.where(notification_object_id: notification_objects)
+  end
 end

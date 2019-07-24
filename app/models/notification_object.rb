@@ -13,6 +13,7 @@ class NotificationObject < ApplicationRecord
   # Scopes
 
   scope :friend_request_type, -> { where(notification_triggerable_type: 'FriendRequest') }
+  scope :except_friend_request_type, -> { where.not(notification_triggerable_type: 'FriendRequest') }
   scope :post_type, -> { where(notification_triggerable_type: 'Post') }
   scope :friendship_type, -> { where(notification_triggerable_type: 'Friendship') }  
   scope :triggerable_id_in_set, ->(ids) { where(notification_triggerable_id: ids) }

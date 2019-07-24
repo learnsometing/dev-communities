@@ -1,0 +1,9 @@
+<li class='container notification'>
+  <div class='notification_description d-flex flex-column justify-content-center ml-auto mr-auto'>
+    <% if notification.notification_object.object.is_a? Friendship %>
+      <%= notification.description %>
+    <% else %>
+      <%= link_to notification.description, notification.notification_object.object %>
+    <% end %>
+  </div>
+</li>

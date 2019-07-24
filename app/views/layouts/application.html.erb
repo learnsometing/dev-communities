@@ -7,7 +7,7 @@
 
   <body>
     <%= render 'layouts/header' %>
-    <div class='container d-flex flex-column align-items-center'>
+    <div class='container profile d-flex flex-column align-items-center'>
       <div class='container d-flex flex-column align-items-center mt-5' id='flash'>
           <% flash.each do |message_type, message| %>
             <%= content_tag(:div, message, class: "alert alert-#{message_type} d-flex flex-row justify-content-center") %>

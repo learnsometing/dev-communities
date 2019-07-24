@@ -1,55 +1,52 @@
 <%= provide(:title, @user.name) %>
 
-<div class='container container-fluid profile'>
-  <div class='prof_pic'>
-    <% if current_user?(@user) %>
-      <%= link_to image_tag(@user.profile_picture.profile.url), edit_user_path(@user) %>
-    <% else %>
-      <%= image_tag(@user.profile_picture.profile.url) %>
-    <% end %>
-  </div>
-  <nav class='navbar navbar-expand-sm navbar-light bg-light'>
-    <div class='navbar-brand mr-auto'>
-      <div class='user_name'>
-        <%= @user.name %>
-      </div>
+<div class='container prof_pic'>
+  <% if current_user?(@user) %>
+    <%= link_to image_tag(@user.profile_picture.profile.url), edit_user_path(@user) %>
+  <% else %>
+    <%= image_tag(@user.profile_picture.profile.url) %>
+  <% end %>
+</div>
+<nav class='navbar navbar-expand-sm navbar-light bg-light user-info'>
+  <div class='navbar-brand mr-auto'>
+    <div class='user_name'>
+      <%= @user.name %>
     </div>
-    <ul class='navbar-nav'>
-      <% if current_user?(@user) %>
-      <li>
-          <%= link_to pluralize(@user.friends.count, 'Friend'), friendships_path, class: 'btn btn-profile' %>
-      </li>
-      <% end %>
-
-      <% if already_friends?(@user) %>
-        <li class='friend_removal_btn'>
-          <%= form_for(current_user.friendships.find_by(friend_id: @user.id), method: :delete) do |f| %>
-            <%= f.submit 'Remove from friends', class: 'btn btn-profile' %>
-          <% end %>
-        </li>
-      <% end %>
-
-      <% unless current_user?(@user) or already_requested?(@user) or already_friends?(@user) %>
-        <li class='friend_request_btn'>
-          <%= form_for @friend_request, method: :post, url: friend_requests_url do |f| %>
-            <%= f.hidden_field :friend_id, value: @user.id %>
-            <%= f.submit 'Send Friend Request', class: 'btn btn-profile' %>
-          <% end %>
-        </li>
-      <% end %>
-
-    </ul> 
-  </nav>
-  <div class='container post_form'>
+  </div>
+  <ul class='navbar-nav'>
     <% if current_user?(@user) %>
-      <%= render 'shared/post_form' %>
+    <li>
+        <%= link_to pluralize(@user.friends.count, 'Friend'), friendships_path, class: 'btn btn-profile' %>
+    </li>
     <% end %>
-  </div>
-  <div class='container posts-container d-flex flex-column justify-content-center'>
-    <% if @user.posts.any? %>
-      <ol class='row d-flex flex-column align-items-center posts-list'>
-        <%= render @posts %>
-      </ol>
+
+    <% if already_friends?(@user) %>
+      <li class='friend_removal_btn'>
+        <%= form_for(current_user.friendships.find_by(friend_id: @user.id), method: :delete) do |f| %>
+          <%= f.submit 'Remove from friends', class: 'btn btn-profile' %>
+        <% end %>
+      </li>
     <% end %>
-  </div>
+
+    <% unless current_user?(@user) or already_requested?(@user) or already_friends?(@user) %>
+      <li class='friend_request_btn'>
+        <%= form_for @friend_request, method: :post, url: friend_requests_url do |f| %>
+          <%= f.hidden_field :friend_id, value: @user.id %>
+          <%= f.submit 'Send Friend Request', class: 'btn btn-profile' %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul> 
+</nav>
+<div class='container'>
+  <% if current_user?(@user) %>
+    <%= render 'shared/post_form' %>
+  <% end %>
+</div>
+<div class='container posts-container'>
+  <% if @user.posts.any? %>
+    <ol class='row d-flex flex-column align-items-center posts-list'>
+      <%= render @posts %>
+    </ol>
+  <% end %>
 </div>

@@ -31,3 +31,9 @@ end
 users_with_posts.each do |u|
   u.sent_friend_requests.create(friend: admin) unless u == admin
 end
+
+included_friends = User.where.not(id: users_with_posts).take(5)
+
+included_friends.each do |friend|
+  admin.friendships.create(friend_id: friend.id)
+end

@@ -1,8 +1,8 @@
-<div class='container post'>
+<div class='container post-form'>
   <%= form_for @new_post, method: :post, url: posts_path do |f| %>
     <%= render 'shared/error_messages', object: f.object %>
 
-    <div class='post_field'>
+    <div class='post-field'>
         <%= f.text_area :content, placeholder: 'What would you like to share?', class: 'form-control', required: true %>
     </div>
 

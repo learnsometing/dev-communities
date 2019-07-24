@@ -1,11 +1,9 @@
 <%= provide(:title, 'Feed') %>
 
-<div class='container profile'>
-  <% if @feed_items %> 
-    <ul class='feed'>
-      <%= render @feed_items %>      
-    </ul>
-  <% else %>
-    feed empty :(
-  <% end %>
-</div>
+<% if @feed_items %> 
+  <ul class='feed'>
+    <%= render @feed_items %>      
+  </ul>
+<% else %>
+  feed empty :(
+<% end %>
