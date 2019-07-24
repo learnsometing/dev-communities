@@ -10,7 +10,6 @@ class FriendshipsController < ApplicationController
     friendship = requestor.friendships.build(friend: friend)
     if friendship.save
       friend_request.destroy
-      # Send a notification to the requestor here....
       flash[:success] = "You are now friends with #{requestor.name}."
     else
       friendship.errors.full_messages.each do |msg|

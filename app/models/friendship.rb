@@ -11,6 +11,7 @@
 class Friendship < ApplicationRecord
   # Associations
   belongs_to :friend, class_name: 'User'
+  has_many :notification_objects, as: :notification_triggerable, dependent: :destroy
 
   # Validations
   validate :unique_friendship?, on: :create
@@ -33,7 +34,8 @@ class Friendship < ApplicationRecord
   def create_reciprocal_friendship
     # Called after create to create a reciprocal friendship on behalf of the
     # 'friend' that was sent the friend request.
-    unless Friendship.exists?(friend_id: user_id)
+    unless Friendship.exists?(friend_id: user_id, user_id: friend_id)
+      send_friendship_notification
       Friendship.create(user_id: friend_id, friend_id: user_id)
     end
   end
@@ -42,5 +44,12 @@ class Friendship < ApplicationRecord
     # Called after destroy to destroy a reciprocal friendship on behalf of the
     # friend that the current user was in a friendsip with.
     Friendship.find_by(user_id: friend_id).destroy if Friendship.exists?(user_id: friend_id)
+  end
+
+  def send_friendship_notification
+    notification_object = notification_objects.create
+    notification_change = notification_object.notification_changes.create(actor_id: friend_id)
+    notification_object.notifications.create(user_id: user_id,
+                                             description: notification_change.full_description)
   end
 end

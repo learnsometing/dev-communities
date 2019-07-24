@@ -25,7 +25,6 @@ class FriendRequest < ApplicationRecord
 
   # Scopes
   default_scope -> { where(accepted: false) }
-  scope :accepted, -> { where(accepted: true) }
 
   def unique_friend_request?
     # Since uniqueness of friend_id or requestor_id alone cannot be enforced,

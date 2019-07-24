@@ -38,9 +38,9 @@ class PostTest < ActiveSupport::TestCase
     friends = [create(:confirmed_user),
                create(:confirmed_user),
                create(:confirmed_user)]
-    author.friendships.create(friend: friends[0])
-    author.friendships.create(friend: friends[1])
-    author.friendships.create(friend: friends[2])
+    friends.each do |friend|
+      author.friendships.create(friend: friend)
+    end
 
     assert_equal friends[0].notifications.count, 0
     assert_equal friends[1].notifications.count, 0
@@ -52,8 +52,11 @@ class PostTest < ActiveSupport::TestCase
     assert_equal friends[1].notifications.count, 1
     assert_equal friends[2].notifications.count, 1
 
-    assert_equal 3, Notification.count
-    assert_equal 1, NotificationChange.count
-    assert_equal 1, NotificationObject.count
+    post_objects = NotificationObject.post_type
+    post_notifications = Notification.where(notification_object_id: post_objects)
+    post_notification_changes = NotificationChange.where(notification_object_id: post_objects)
+    assert_equal 3, post_notifications.count
+    assert_equal 1, post_notification_changes.count
+    assert_equal 1, post_objects.count
   end
 end

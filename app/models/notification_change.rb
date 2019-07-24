@@ -25,6 +25,8 @@ class NotificationChange < ApplicationRecord
     case notification_object.notification_triggerable_type
     when 'FriendRequest'
       ' sent you a friend request.'
+    when 'Friendship'
+      ' accepted your friend request.'
     when 'Post'
       ' posted something new.'
     end

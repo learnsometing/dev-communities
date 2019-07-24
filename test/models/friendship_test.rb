@@ -25,5 +25,11 @@ class FriendshipTest < ActiveSupport::TestCase
     assert_equal duplicate_friendship.errors.count, 1
   end
 
-
+  test 'should send a notification telling the requestor that the friend accepted their request' do
+    assert_difference '@requestor.notifications.count', 1 do
+      @friendship.save
+    end
+    assert_equal 1, @friend.notification_changes.count
+    assert_equal 1, @requestor.notification_objects.count
+  end
 end
