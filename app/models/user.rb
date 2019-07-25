@@ -22,6 +22,7 @@ class User < ApplicationRecord
   has_many :notification_objects, through: :notifications
   has_many :friendships, dependent: :destroy
   has_many :friends, through: :friendships, source: :friend
+  has_one :location, dependent: :destroy
   # Validations
 
   validates :name, presence: true, length: { maximum: 50 }

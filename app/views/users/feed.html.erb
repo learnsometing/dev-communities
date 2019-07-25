@@ -1,9 +1,9 @@
 <%= provide(:title, 'Feed') %>
 
-<% if @feed_items %> 
+<% if @feed_items.any? %> 
   <ul class='feed'>
     <%= render @feed_items %>      
   </ul>
 <% else %>
-  feed empty :(
+  <h1>feed empty :(</h1>
 <% end %>

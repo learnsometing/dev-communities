@@ -1,0 +1,16 @@
+<input id="pac-input" class="controls" type="text" placeholder="Search Box">
+<div id="map"></div>
+<div style="display:none">
+    <%= form_for @location, url: locations_path, :html => {id: "info_window_form"} do |f| %>
+      <%= 'Set as your location?' %>
+      <%= f.hidden_field :title %><br>
+      <%= f.hidden_field :latitude, :id => 'latitude_field' %><br>
+      <%= f.hidden_field :longitude, :id => 'longitude_field' %><br>
+      <%= f.submit "Yes" %>
+    <% end %>
+   </div>
+<script>
+  <%= render(partial: 'locations_base.js.erb') %>
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAUSuOflws6y42yYp9nyIcuVSM0hroI6BU&libraries=places&callback=initAutocomplete"
+        async defer></script>
