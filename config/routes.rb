@@ -1,10 +1,16 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  root 'users#feed'
-  devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks',
+  root 'static_pages#home'
+  devise_for :users, controllers: { confirmations: 'users/confirmations',
+                                    omniauth_callbacks: 'users/omniauth_callbacks',
                                     registrations: 'users/registrations',
                                     sessions: 'users/sessions' }
+
+  devise_scope :user do 
+    get '/users/feed', to: 'users#feed', as: 'user_root'
+  end
+
   resources :users, only: %i[show edit update]
   resources :posts, only: %i[create show edit update destroy]
   resources :friend_requests, only: %i[create destroy]

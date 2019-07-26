@@ -1,0 +1,44 @@
+<%= provide(:title, 'Welcome') %>
+<div class='container'>
+  <div class='jumbotron d-flex flex-column align-items-center'>
+    <h1><strong>Find your community</strong></h1>
+    <h2>Join the #1 networking site for developers</h2>
+    <div class='container splash'>
+      <ul class='marketing marketing-left'>
+        <li class='info-1'>
+          Collaborate with developers around the world
+        </li>
+        <li class='info-2'>
+          Discover developers near you 
+        </li>
+        <li class='info-3'>
+          Build your community 
+        </li>
+        <li class='info-4'>
+          Keep up with your community
+        </li>
+        <li class='info-5'>
+          Network within your community
+        </li>
+      </ul>
+      <ul class='marketing marketing-right'>
+        <li class='info-1'>
+          Search developers by their favorite languages
+        </li>
+        <li class='info-2'>
+          Seamless integration of Google Maps API V3
+        </li>
+        <li class='info-3'>
+          Add developers to your community 
+        </li>
+        <li class='info-4'>
+          Receive activity updates and messages from your community
+        </li>
+        <li class='info-5'>
+          Host events and engage with other developers 
+        </li>
+        </ul>
+    </div>
+    <%= link_to 'Sign up', new_user_registration_path, class: 'btn btn-sign-up' %>
+  </div>
+</div>

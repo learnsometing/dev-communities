@@ -124,6 +124,14 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
+  test 'associated location should be destroyed' do
+    loc = create(:location)
+    user = loc.user
+    assert_difference 'Location.count', -1 do
+      user.destroy
+    end
+  end
+
   test 'feed should have the right posts' do
     users = [create(:confirmed_user),
              create(:confirmed_user),
@@ -151,7 +159,5 @@ class UserTest < ActiveSupport::TestCase
     friend1.posts.each do |post|
       assert friend1.feed.include?(post)
     end
-
-    # unfriended friend2's posts
   end
 end

@@ -1,7 +1,10 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :location do
-    latitude { "9.99" }
-    longitude { "9.99" }
-    user { nil }
+    user
+    title { Faker::Address.state }
+    latitude { Faker::Address.latitude }
+    longitude { Faker::Address.longitude }
   end
 end

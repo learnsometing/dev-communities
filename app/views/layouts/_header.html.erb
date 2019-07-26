@@ -8,11 +8,9 @@
           <li>
               <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: {class: 'form-inline'}) do |f| %>
                   
-                  <%= f.label :email, class: 'navlabel' %><br />
-                  <%= f.email_field :email, autofocus: true, autocomplete: "email", class: 'form-control mr-4 ml-3' %>
+                  <%= f.email_field :email, autofocus: true, placeholder: 'email', autocomplete: "email", class: 'form-control mr-4 ml-3' %>
               
-                  <%= f.label :password, class: 'navlabel' %><br />
-                  <%= f.password_field :password, autocomplete: "current-password", class: 'form-control mr-4 ml-3' %>
+                  <%= f.password_field :password, autocomplete: "current-password", placeholder: 'password', class: 'form-control mr-4 ml-3' %>
                   
                   <% if devise_mapping.rememberable? %>
                       <%= f.check_box :remember_me, class: 'form-check-input mr-2 ' %>
@@ -28,7 +26,7 @@
               <%= link_to current_user.name, current_user, class: 'btn btn-nav' %>
           </li>
           <li>
-              <%= link_to 'Home', root_path, class: 'btn btn-nav' %>
+              <%= link_to 'Home', user_root_path, class: 'btn btn-nav' %>
           </li>
           <li>
               <%= link_to 'Create a Post', '#', class: 'btn btn-nav'%>

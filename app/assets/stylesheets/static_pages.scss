@@ -1,0 +1,62 @@
+// Place all the styles related to the StaticPages controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: https://sass-lang.com/
+
+$red-base: #c52f24;
+
+.btn-sign-up {
+    background-color: $red-base;
+}
+
+.info-1 {
+    color: adjust-hue($red-base, 50%);
+}
+
+.info-2 {
+    color: adjust-hue($red-base, 40%);
+}
+
+.info-3 {
+    color: adjust-hue($red-base, 30%);
+}
+
+.info-4 {
+    color: adjust-hue($red-base, 20%);
+}
+
+.info-5 {
+    color: adjust-hue($red-base, 10%);
+}
+
+.marketing {
+    list-style: none;
+    padding-left: 0;
+    width: 50%;
+    margin-bottom: 0;
+}
+
+.marketing-left {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    padding-right: 1rem;
+    border-right: solid 1px black;
+}
+
+.marketing-right {
+    padding-left: 1rem;
+}
+
+.splash {
+    display: flex;
+    flex-direction: row;
+    justify-content:  center;
+    box-sizing: border-box;
+    margin: 1rem;
+}
+
+#vert-divider {
+    border-left: solid 1px black;
+    margin-right: 1rem;
+    margin-left: 1rem;
+}
