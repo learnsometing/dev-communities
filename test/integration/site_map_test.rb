@@ -45,18 +45,16 @@ class SiteMapTest < ActionDispatch::IntegrationTest
   end
 
   test 'sign in confirmed user without location set' do
-    user = create(:confirmed_user)
+    user = create(:confirmed_user_without_location)
     assert user.location.nil?
     assert user.valid?
     post user_session_path, params: { user: { email: user.email,
                                               password: user.password } }
     assert_redirected_to new_location_path
-    follow_redirect!
-    assert_template 'locations/new'
   end
 
   test 'sign in confirmed user with location set then sign out' do
-    user = create(:confirmed_user)
+    user = create(:confirmed_user_without_location)
     user.create_location(title: 'Stafford, VA, 22554', latitude: 38.4150861,
                          longitude: -77.4360554)
     assert user.valid?

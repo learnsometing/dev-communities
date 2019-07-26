@@ -9,6 +9,11 @@ FactoryBot.define do
     
     factory :confirmed_user do
       confirmed_at { Date.today }
+      location
     end
+
+    factory :confirmed_user_without_location do
+      confirmed_at { Date.today }
+    end      
   end
 end

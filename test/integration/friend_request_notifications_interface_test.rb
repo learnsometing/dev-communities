@@ -3,10 +3,15 @@ require 'test_helper'
 class FriendRequestNotificationsInterfaceTest < ActionDispatch::IntegrationTest
   def setup
     # Create the necessary users
-    @requestor = create(:confirmed_user)
-    @requestor2 = create(:confirmed_user)
+    users = []
+    3.times do
+      user = create(:confirmed_user)
+      users << user
+    end
 
-    @friend = create(:confirmed_user)
+    @requestor  = users[0]
+    @requestor2 = users[1]
+    @friend     = users[2]
     
     # Send two friend requests to the same friend 
     @requestor.sent_friend_requests.create(friend: @friend)

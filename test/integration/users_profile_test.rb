@@ -5,6 +5,7 @@ require 'test_helper'
 class UsersProfileTest < ActionDispatch::IntegrationTest
   def setup
     @user = create(:confirmed_user)
+    @user.create_location(attributes_for(:location))
     posts = create_list(:post, 5)
     @user.posts = posts
   end

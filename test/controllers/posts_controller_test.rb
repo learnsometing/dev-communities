@@ -25,8 +25,7 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'should redirect edit for wrong post' do
-    user = create(:user)
-    user.confirm
+    user = create(:confirmed_user)
     sign_in user
 
     get edit_post_path(@post)
@@ -34,8 +33,7 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'should redirect update for wrong post' do
-    user = create(:user)
-    user.confirm
+    user = create(:confirmed_user)
     sign_in user
 
     patch post_path(@post), params: { post: { content: 'edited' } }
@@ -43,8 +41,7 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'should redirect destroy for wrong post' do
-    user = create(:user)
-    user.confirm
+    user = create(:confirmed_user)
     sign_in user
 
     assert_no_difference 'Post.count' do

@@ -2,11 +2,16 @@
 
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
+  # Helpers
   include ApplicationHelper
 
+  # Before Filters
+  before_action :location_set?
+  
   def logged_in_user
     unless user_signed_in?
-      store_location
+      url = request.original_url if request.get?
+      store_location_for(:user, url)
       flash[:danger] = 'You must be logged in to do that.'
       redirect_to new_user_session_path
     end
@@ -17,6 +22,12 @@ class ApplicationController < ActionController::Base
       new_location_path
     else
       stored_location_for(resource) || signed_in_root_path(resource)
+    end
+  end
+
+  def location_set?
+    if user_signed_in?
+      redirect_to new_location_path unless current_user.location
     end
   end
 end

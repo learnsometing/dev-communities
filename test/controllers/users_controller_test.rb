@@ -5,10 +5,8 @@ require 'test_helper'
 class UsersControllerTest < ActionDispatch::IntegrationTest
   include Devise::Test::IntegrationHelpers
   def setup
-    @user = create(:user)
-    @user.confirm
-    @other_user = create(:user)
-    @other_user.confirm
+    @user = create(:confirmed_user)
+    @other_user = create(:confirmed_user)
   end
 
   test 'should redirect show unless logged in' do
