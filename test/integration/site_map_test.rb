@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'test_helper'
 
 class SiteMapTest < ActionDispatch::IntegrationTest
@@ -20,7 +22,7 @@ class SiteMapTest < ActionDispatch::IntegrationTest
     get new_user_registration_path
     assert_template 'users/registrations/new'
     assert_difference 'User.count', 1 do
-      post user_registration_path, params: { user:  attributes_for(:user) }
+      post user_registration_path, params: { user: attributes_for(:user) }
     end
     assert_equal 1, ActionMailer::Base.deliveries.size
     assert_template 'users/mailer/confirmation_instructions'
@@ -53,16 +55,21 @@ class SiteMapTest < ActionDispatch::IntegrationTest
     assert_template 'locations/new'
   end
 
-  test 'sign in confirmed user with location set' do
+  test 'sign in confirmed user with location set then sign out' do
     user = create(:confirmed_user)
-    user.location.create(title: 'Stafford, VA, 22554', latitude: 38.4150861,
-                                                       longitude: -77.4360554)
-    assert user.location.nil?
+    user.create_location(title: 'Stafford, VA, 22554', latitude: 38.4150861,
+                         longitude: -77.4360554)
     assert user.valid?
     post user_session_path, params: { user: { email: user.email,
                                               password: user.password } }
-    assert_redirected_to new_location_path
+    assert_redirected_to user_root_path
     follow_redirect!
-    assert_template 'locations/new'
+    assert_template 'users/feed'
+
+    # Log the user out to make sure they are directed to correct controller action
+    delete destroy_user_session_path
+    assert_redirected_to root_path
+    follow_redirect!
+    assert_template 'static_pages/home'
   end
 end
