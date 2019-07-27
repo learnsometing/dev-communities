@@ -14,10 +14,10 @@
     </div>
   </div>
   <ul class='navbar-nav'>
-    <% if current_user?(@user) %>
-    <li class='friends'>
-        <%= link_to pluralize(@user.friends.count, 'Friend'), friendships_path, class: 'btn btn-profile' %>
-    </li>
+    <% if current_user?(@user) || already_friends?(@user) %>
+      <li class='friend-count'>
+          <%= link_to pluralize(@user.friends.count, 'Friend'), friendships_path, class: 'btn btn-profile' %>
+      </li>
     <% end %>
 
     <% if already_friends?(@user) %>
@@ -41,6 +41,9 @@
 <div class='location mr-auto'>
     <%= image_tag 'location-icon-profile' %>
     <%= @user.location.formatted_title %>
+    <% if current_user?(@user) %>
+      <%= link_to 'edit', edit_location_path(@user.location) %>
+    <% end %>
 </div>
 <div class='container'>
   <% if current_user?(@user) %>

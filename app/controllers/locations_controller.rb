@@ -23,14 +23,30 @@ class LocationsController < ApplicationController
     end
   end
 
-  def edit; end
+  def edit
+    @location = Location.find(params[:id])
+  end
 
-  def update; end
+  def update
+    @location = Location.find(params[:id])
+    if @location.update_attributes(location_params)
+      flash[:success] = 'Location updated successfully'
+      redirect_to current_user
+    else
+      render 'edit'
+    end
+  end
 
   private
 
+  def location_params
+    params.require(:location).permit(:title, :latitude, :longitude)
+  end
+
   def location?
-    flash[:danger] = 'You already set your location. Visit the edit page to change it'
-    redirect_to current_user if current_user.location
+    if current_user.location
+      flash[:danger] = 'You already set your location. Visit the edit page to change it.'
+      redirect_to current_user 
+    end
   end
 end

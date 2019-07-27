@@ -1,4 +1,4 @@
-<%= form_for :location, url: url, method: method, html: {id: "info_window_form"} do |f| %>
+<%= form_for :location, url: location_path(id), method: :patch, html: {id: "info_window_form"} do |f| %>
   <%= 'Set as your location?' %>
   <%= f.hidden_field :title, id: 'title_field' %>
   <%= f.hidden_field :latitude, id: 'latitude_field'%>

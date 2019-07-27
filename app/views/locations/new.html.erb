@@ -9,10 +9,10 @@
 <input id="pac-input" class="controls" type="text" placeholder="Search Box">
 <div id="map"></div>
 <div style="display:none">    
-  <%= render 'location_form', locals: { location: @location} %>
+  <%= render partial: 'location_form', locals: { location: @location, url: locations_path, method: :post} %>
 </div>
 <script>
-  <%= render 'locations_base.js.erb' %>
+  <%= render 'locations_new.js.erb' %>
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAUSuOflws6y42yYp9nyIcuVSM0hroI6BU&libraries=places&callback=initAutocomplete"
         async defer></script>
