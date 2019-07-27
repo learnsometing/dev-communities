@@ -37,7 +37,8 @@ class FriendRequestNotificationsInterfaceTest < ActionDispatch::IntegrationTest
     assert_not flash.empty?
     assert_redirected_to friend_request_notifications_path
     follow_redirect!
-    assert_select 'div.alert-success', text: "You are now friends with #{@requestor.name}."
+    assert_select 'div.alert-success'
+    assert_match "You are now friends with #{@requestor.name}.", response.body
     # Check that the FriendRequest default scope is working.
     assert_select 'div.notification_description', count: 1
     assert_select 'div.accept_request_button', count: 1
@@ -51,6 +52,7 @@ class FriendRequestNotificationsInterfaceTest < ActionDispatch::IntegrationTest
     assert_not flash.empty?
     assert_redirected_to friend_request_notifications_path
     follow_redirect!
-    assert_select 'div.alert-notice', text: "Friend request successfully declined."
+    assert_select 'div.alert-notice'
+    assert_match "Friend request successfully declined.", response.body
   end
 end

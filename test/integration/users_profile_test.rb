@@ -5,7 +5,6 @@ require 'test_helper'
 class UsersProfileTest < ActionDispatch::IntegrationTest
   def setup
     @user = create(:confirmed_user)
-    @user.create_location(attributes_for(:location))
     posts = create_list(:post, 5)
     @user.posts = posts
   end
@@ -17,6 +16,8 @@ class UsersProfileTest < ActionDispatch::IntegrationTest
     assert_select 'div.prof_pic'
     assert_select 'a[href=?]', edit_user_path(@user)
     assert_select 'img[src=?]', @user.profile_picture.profile.url
+    assert_select 'div.location'
+    assert_select 'li.friends'
     @user.posts.each do |post|
       assert_match post.content, response.body
     end

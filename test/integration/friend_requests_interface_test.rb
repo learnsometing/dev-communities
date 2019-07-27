@@ -38,7 +38,8 @@ class FriendRequestsInterfaceTest < ActionDispatch::IntegrationTest
     assert_not flash.empty?
     assert_redirected_to @friend
     follow_redirect!
-    assert_select 'div.alert-danger', text: 'You already friended this person.'
+    assert_select 'div.alert-danger'
+    assert_match  'You already friended this person.', response.body
   end
 
   test 'friend request button should not be present if already friends' do

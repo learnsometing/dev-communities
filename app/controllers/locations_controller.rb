@@ -2,6 +2,10 @@
 
 class LocationsController < ApplicationController
 
+  # Before filters
+  before_action :logged_in_user
+  before_action :location?, only: %i[new create]
+
   def new
     @location = Location.new
   end
@@ -22,4 +26,11 @@ class LocationsController < ApplicationController
   def edit; end
 
   def update; end
+
+  private
+
+  def location?
+    flash[:danger] = 'You already set your location. Visit the edit page to change it'
+    redirect_to current_user if current_user.location
+  end
 end

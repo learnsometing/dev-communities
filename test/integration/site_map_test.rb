@@ -41,7 +41,8 @@ class SiteMapTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_template 'users/sessions/new'
     assert_not flash.empty?
-    assert_select 'div.alert-alert', text: 'You have to confirm your email address before continuing.'
+    assert_select 'div.alert-alert'
+    assert_match "You have to confirm your email address before continuing.", response.body
   end
 
   test 'sign in confirmed user without location set' do
