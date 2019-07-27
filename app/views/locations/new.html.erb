@@ -1,29 +1,18 @@
 <%= provide(:title, 'Set Loctation') %>
 <div id='trans-layer'>
-  <div id='location-instructions'>
+  <div id='location-notice'>
       This site uses Google location services to connect our users with each other. Do you accept?
     <button type='button' id='yes' class='btn btn-dark ml-2'>Yes</button>
-    <%= form_for @location, url: locations_path, method: :post do |f| %>
-      <%= f.hidden_field :title, value: 'The Bermuda Trianlge' %>
-      <%= f.hidden_field :latitude, value: 24.9999993 %>
-      <%= f.hidden_field :longitude, value: -71.0087548 %>
-      <%= f.submit 'No', class: 'btn btn-dark ml-2' %>
-    <% end %>
+    <%= render 'decline_form', locals: { location: @location } %>
   </div>
 </div>
 <input id="pac-input" class="controls" type="text" placeholder="Search Box">
 <div id="map"></div>
 <div style="display:none">    
-  <%= form_for @location, url: locations_path, :html => {id: "info_window_form"} do |f| %>
-    <%= 'Set as your location?' %>
-    <%= f.hidden_field :title, id: 'title_field' %>
-    <%= f.hidden_field :latitude, id: 'latitude_field' %>
-    <%= f.hidden_field :longitude, id: 'longitude_field' %>
-    <%= f.submit "Yes" %>
-  <% end %>
+  <%= render 'location_form', locals: { location: @location} %>
 </div>
 <script>
-  <%= render(partial: 'locations_base.js.erb') %>
+  <%= render 'locations_base.js.erb' %>
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAUSuOflws6y42yYp9nyIcuVSM0hroI6BU&libraries=places&callback=initAutocomplete"
         async defer></script>

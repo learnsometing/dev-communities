@@ -1,7 +1,7 @@
-<%= form_for @location, url: locations_path, :html => {id: "info_window_form"} do |f| %>
+<%= form_for :location, url: locations_path, html: {id: "info_window_form"} do |f| %>
   <%= 'Set as your location?' %>
-  <%= f.hidden_field :title %><br>
-  <%= f.hidden_field :latitude, :id => 'latitude_field' %><br>
-  <%= f.hidden_field :longitude, :id => 'longitude_field' %><br>
+  <%= f.hidden_field :title, id: 'title_field' %>
+  <%= f.hidden_field :latitude, id: 'latitude_field'%>
+  <%= f.hidden_field :longitude, id: 'longitude_field' %>
   <%= f.submit "Yes" %>
-<% end %>
+<% end %>'

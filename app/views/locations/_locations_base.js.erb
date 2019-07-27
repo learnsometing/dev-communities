@@ -2,14 +2,30 @@
 // feature. People can enter geographical searches. The search box will return a
 // pick list containing a mix of places and predicted search terms.
 
-var yesButton = document.getElementById('yes');
+var yesButton   = document.getElementById('yes');
+var transLayer = document.getElementById('trans-layer');
 
 yesButton.addEventListener('click', function(){
-    let transLayer = document.getElementById('trans-layer');
+    let locationNotice = document.getElementById('location-notice');
 
-    transLayer.remove();
+    transLayer.removeChild(locationNotice);
+
+    let locationInstructions = document.createElement('div');
+    locationInstructions.id = 'location-instructions';
+    locationInstructions.innerText = 'Please do not select your full address. Instead, select the locality or city you live in to remain anonymous.';
+
+    let gotItButton = document.createElement('button');
+    gotItButton.id = 'got-it'
+    gotItButton.setAttribute('class', 'btn btn-dark ml-2');
+    gotItButton.innerText = 'Got it.'
+
+    transLayer.appendChild(locationInstructions);
+    locationInstructions.appendChild(gotItButton);
+   
+    gotItButton.addEventListener('click', function(){
+        transLayer.remove();
+    });
 });
-
 
 function initAutocomplete() {
     var map = new google.maps.Map(document.getElementById('map'), {
@@ -58,7 +74,6 @@ function initAutocomplete() {
                 anchor: new google.maps.Point(17, 34),
                 scaledSize: new google.maps.Size(25, 25)
             };
-            var title;
 
             // Create a marker for each place.
             markers.push(new google.maps.Marker({
@@ -70,20 +85,24 @@ function initAutocomplete() {
             
             // Add a infowindow to each marker that renders the set location form
             markers.forEach(function(marker){
-                content = document.getElementById('info_window_form')
-
-                var infowindow = new google.maps.InfoWindow({
-                        content: content
-                }); 
-                
-                document.getElementById('title_field').value = marker.title
-
-                document.getElementById('latitude_field').value = marker.position.lat();
-                
-                document.getElementById('longitude_field').value = marker.position.lng();
-
 
                 marker.addListener('click', function() {
+                    if (infowindow){
+                        infowindow.close();
+                    }
+
+                    document.getElementById('title_field').value = marker.title
+
+                    document.getElementById('latitude_field').value = marker.position.lat();
+
+                    document.getElementById('longitude_field').value = marker.position.lng();
+
+                    var content = document.getElementById('info_window_form').cloneNode(true);
+
+                    var infowindow = new google.maps.InfoWindow({
+                            content: content
+                    });
+
                     infowindow.open(map, marker);
                 });                
             }); 
