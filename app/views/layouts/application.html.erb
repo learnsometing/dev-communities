@@ -7,9 +7,14 @@
 
   <body>
     <%= render 'layouts/header' %>
-    <div class='d-flex flex-column align-items-center' id='flash'>
+    <div class='d-flex flex-row align-items-center' id='flash'>
         <% flash.each do |message_type, message| %>
-          <%= content_tag(:div, message, class: "alert alert-#{message_type} d-flex flex-row justify-content-center") %>
+          <%= content_tag(:div, class: "alert alert-#{message_type} d-flex flex-row justify-content-center") do %>
+            <%= content_tag(:div, message) %>
+            <%= button_tag(type: 'button', class: 'close', 'aria-label': 'Close', 'data-dismiss': 'alert' ) do %>
+              <%= content_tag(:span, "\u00D7", 'aria-hidden': true, class: 'ml-2') %>
+            <% end %>
+          <% end %>
         <% end %>
     </div>
     <div class='container profile d-flex flex-column align-items-center'>

@@ -7,7 +7,7 @@
     <%= image_tag(@user.profile_picture.profile.url) %>
   <% end %>
 </div>
-<nav class='navbar navbar-expand-sm navbar-light bg-light user-info'>
+<div class='container container-fluid user-info'>
   <div class='navbar-brand mr-auto'>
     <div class='user_name'>
       <%= @user.name %>
@@ -37,7 +37,11 @@
       </li>
     <% end %>
   </ul> 
-</nav>
+</div>
+<div class='location mr-auto'>
+    <%= image_tag 'location-icon-profile' %>
+    <%= @user.location.formatted_title %>
+</div>
 <div class='container'>
   <% if current_user?(@user) %>
     <%= render 'shared/post_form' %>

@@ -13,12 +13,13 @@ body {
 }
 
 #flash {
+    position: relative;
     top: 5rem;
-    position:absolute;
 }
 
 #flash, .alert {
     width: 100%;
+    margin-bottom: 0 !important;
 }
 
 .alert-alert {
