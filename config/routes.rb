@@ -19,4 +19,5 @@ Rails.application.routes.draw do
   post '/mark_as_read', to: 'notifications#mark_as_read'
   resources :friendships, only: %i[create index destroy]
   resources :locations, only: %i[new create edit update]
+  patch '/locations/:id/disable', to: 'locations#disable', as:'disable_location'
 end

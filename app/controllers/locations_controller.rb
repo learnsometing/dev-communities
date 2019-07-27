@@ -37,6 +37,12 @@ class LocationsController < ApplicationController
     end
   end
 
+  def disable
+    Location.find(params[:id]).disable
+    flash[:success] = 'Location successfully disabled. You can enable it again at any time.'
+    redirect_to current_user
+  end
+
   private
 
   def location_params

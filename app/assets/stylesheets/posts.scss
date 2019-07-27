@@ -12,7 +12,7 @@ $backgroundColor: #f8f9fa;
 }
 
 .posts-container{
-    background-color: $backgroundColor;
+    background-color: white;
     box-sizing: border-box;
     position: relative;
     height: inherit;
@@ -37,5 +37,6 @@ $backgroundColor: #f8f9fa;
 
 .post-form {
     border: solid 1px darken($backgroundColor, 50%);
+    background-color: #e9ebee;
     padding: 1rem;
 }

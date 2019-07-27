@@ -32,6 +32,10 @@ $backgroundColor: #f8f9fa;
 }
 
 .location {
+    width: fit-content;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     font-family: Arial, sans-serif;
     font-style: italic;
     color: grey;
@@ -39,7 +43,7 @@ $backgroundColor: #f8f9fa;
     margin-bottom: 0.5rem;
 }
 .profile {
-    background-color: $backgroundColor;
+    background-color: white;
     height: inherit;
     padding-top: 5rem;
 }
