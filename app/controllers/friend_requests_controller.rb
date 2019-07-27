@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
 class FriendRequestsController < ApplicationController
+  
+  # Before Filters
   before_action :logged_in_user
+  before_action :location_set?
 
   def create
     friend_id = params[:friend_request][:friend_id]

@@ -51,6 +51,8 @@ class SiteMapTest < ActionDispatch::IntegrationTest
     post user_session_path, params: { user: { email: user.email,
                                               password: user.password } }
     assert_redirected_to new_location_path
+    follow_redirect!
+    assert_template 'locations/new'
   end
 
   test 'sign in confirmed user with location set then sign out' do

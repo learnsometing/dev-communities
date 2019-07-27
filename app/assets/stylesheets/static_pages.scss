@@ -6,6 +6,7 @@ $red-base: #c52f24;
 
 .btn-sign-up {
     background-color: $red-base;
+    margin: 0.5rem;
 }
 
 .info-1 {
@@ -45,6 +46,12 @@ $red-base: #c52f24;
 
 .marketing-right {
     padding-left: 1rem;
+}
+
+.sign-up-sign-in {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
 
 .splash {

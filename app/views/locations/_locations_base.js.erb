@@ -2,6 +2,15 @@
 // feature. People can enter geographical searches. The search box will return a
 // pick list containing a mix of places and predicted search terms.
 
+var yesButton = document.getElementById('yes');
+
+yesButton.addEventListener('click', function(){
+    let transLayer = document.getElementById('trans-layer');
+
+    transLayer.remove();
+});
+
+
 function initAutocomplete() {
     var map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: 39.7654142, lng: -96},
@@ -51,8 +60,6 @@ function initAutocomplete() {
             };
             var title;
 
-            console.log(place.formatted_address)
-
             // Create a marker for each place.
             markers.push(new google.maps.Marker({
                 map: map,
@@ -61,7 +68,6 @@ function initAutocomplete() {
                 position: place.geometry.location
             }));
             
-
             // Add a infowindow to each marker that renders the set location form
             markers.forEach(function(marker){
                 content = document.getElementById('info_window_form')
@@ -69,6 +75,13 @@ function initAutocomplete() {
                 var infowindow = new google.maps.InfoWindow({
                         content: content
                 }); 
+                
+                document.getElementById('title_field').value = marker.title
+
+                document.getElementById('latitude_field').value = marker.position.lat();
+                
+                document.getElementById('longitude_field').value = marker.position.lng();
+
 
                 marker.addListener('click', function() {
                     infowindow.open(map, marker);

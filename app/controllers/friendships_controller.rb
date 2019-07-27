@@ -1,7 +1,11 @@
 # frozen_string_literal: true
 
 class FriendshipsController < ApplicationController
+
+  # Before filters
   before_action :logged_in_user
+  before_action :location_set?
+
   def create
     friend_request = FriendRequest.find(params[:friend_request][:id])
     requestor = User.find(friend_request.requestor_id)

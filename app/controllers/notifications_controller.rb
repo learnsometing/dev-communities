@@ -1,7 +1,11 @@
 # frozen_string_literal: true
 
 class NotificationsController < ApplicationController
+
+  # Before filters
   before_action :logged_in_user, only: %i[friend_request_notifications index]
+  before_action :location_set?
+
   def friend_request_notifications
     # Get the pending friend requests for the user to see
     pending_f_r_ids = current_user.received_friend_requests.ids

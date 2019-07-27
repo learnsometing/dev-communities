@@ -1,8 +1,12 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
+  # Helpers
   helper UsersHelper
+
+  # Before filters
   before_action :logged_in_user
+  before_action :location_set?
   before_action :correct_user, only: %i[edit update]
 
   def show

@@ -4,9 +4,6 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   # Helpers
   include ApplicationHelper
-
-  # Before Filters
-  before_action :location_set?
   
   def logged_in_user
     unless user_signed_in?

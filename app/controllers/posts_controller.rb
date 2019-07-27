@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
 class PostsController < ApplicationController
+  # Before filters
+
   before_action :logged_in_user
+  before_action :location_set?
   before_action :correct_post, only: %i[edit update destroy]
 
   def create
