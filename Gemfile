@@ -21,6 +21,7 @@ gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.5'
 gem 'jquery-rails', '~> 4.3', '>= 4.3.5'
 # Reduces boot times through caching; required in config/boot.rb
+gem 'acts-as-taggable-on', '~> 6.0'
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'bootstrap', '~> 4.3', '>= 4.3.1'
 gem 'carrierwave', '~> 1.3', '>= 1.3.1'
@@ -29,6 +30,7 @@ gem 'faker', '~> 1.9', '>= 1.9.6'
 gem 'figaro'
 gem 'mini_magick', '~> 4.9', '>= 4.9.4'
 gem 'omniauth-github'
+gem 'rails-jquery-autocomplete', '~> 1.0', '>= 1.0.5'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
