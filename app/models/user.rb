@@ -22,6 +22,7 @@ class User < ApplicationRecord
   has_many :friendships, dependent: :destroy
   has_many :friends, through: :friendships, source: :friend
   has_one :location, dependent: :destroy
+  acts_as_taggable
   acts_as_taggable_on :skills
 
   # Validations
@@ -67,11 +68,7 @@ class User < ApplicationRecord
   end
 
   private
-
-  def user_params
-    params.require(:user).permit(:skill_list)
-  end
-
+  
   def picture_size
     msg = 'should be less than 5MB'
     errors.add(:profile_picture, msg) if profile_picture.size > 5.megabytes

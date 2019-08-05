@@ -7,11 +7,15 @@ Rails.application.routes.draw do
                                     registrations: 'users/registrations',
                                     sessions: 'users/sessions' }
 
-  devise_scope :user do 
+  devise_scope :user do
     get '/users/feed', to: 'users#feed', as: 'user_root'
   end
 
-  resources :users, only: %i[show edit update]
+  resources :users do
+    get :autocomplete_skill_name, on: :collection
+  end
+
+  get 'users/:id/edit_skill_list', to: 'users#edit_skill_list', as: 'edit_skill_list'
   resources :posts, only: %i[create show edit update destroy]
   resources :friend_requests, only: %i[create destroy]
   get '/friend_request_notifications', to: 'notifications#friend_request_notifications'
@@ -19,5 +23,5 @@ Rails.application.routes.draw do
   post '/mark_as_read', to: 'notifications#mark_as_read'
   resources :friendships, only: %i[create index destroy]
   resources :locations, only: %i[new create edit update]
-  patch '/locations/:id/disable', to: 'locations#disable', as:'disable_location'
+  patch '/locations/:id/disable', to: 'locations#disable', as: 'disable_location'
 end

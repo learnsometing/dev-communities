@@ -4,6 +4,8 @@ class UsersController < ApplicationController
   # Helpers
   helper UsersHelper
 
+  autocomplete :skill, :name, class_name: 'ActsAsTaggableOn::Tag', full: true
+
   # Before filters
   before_action :logged_in_user
   before_action :location_set?
@@ -35,10 +37,14 @@ class UsersController < ApplicationController
     end
   end
 
+  def edit_skill_list
+    @user = User.find(params[:id])
+  end
+
   private
 
   def user_params
-    params.require(:user).permit(:profile_picture)
+    params.require(:user).permit(:profile_picture, :skill_list)
   end
 
   # Before filters

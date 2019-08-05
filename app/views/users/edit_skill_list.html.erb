@@ -1,0 +1,69 @@
+<%= provide(:title, 'Skill Tags') %>
+<div class='profile'>
+  <div id='tagging-header'>
+      <h2>
+        <strong>
+          What languages, tools, and technologies do you use?
+        </strong>
+      </h2>
+      <h5>
+        Tags allow you to find and collaborate other developers using similar technologies.
+      </h5>
+  </div>
+  <div id='tagging-instructions'>
+    <p>
+      Tag your profile with any programming languages, tools, and technologies you use.
+    </p>
+    <p>
+      <strong><em>Tags are not case sensitive. </em></strong>
+    </p>
+    <p>
+      For example:
+    </p>
+    <div id='valid-tags'>
+      <p id='check-mark'><%= "\u2713" %></p>
+      <p>
+        'javascript', 'ruby-on-rails', and 'heroku' are all valid tags.
+      </p>
+    </div>
+    <div id='invalid-tags'>
+      <p id='x-mark'><%= "\u2715" %></p>
+      <p>
+        <strong>Separate words with hyphens! Using characters other than hyphens may split the community.</strong> 
+      </p>
+    </div>
+  </div>
+  <%= render 'skills_search' %>
+  <div id='search-results'>
+  </div>
+  <hr>
+  <div id='tag-buttons'>
+
+  </div>
+  <%= form_for @user, html: {id: 'selected-tags'} do |f| %>
+  <%= f.submit 'Finish tagging' %>
+  <% end %>
+</div>
+<script>
+  var tagSearch = $("#tag-search");
+  var tagButtons = $("#tag-buttons");
+  var selectedTags = $("#selected-tags");
+
+  tagSearch.bind('railsAutocomplete.select', function(event, data){
+    /* TODO */
+    /*Check if tag already exists */
+
+    /* Make a button like tag for the user to see and add it to a div where they will all be placed */
+    let tagButton = document.createElement('div');
+    tagButton.classList.add('tag');
+    tagButton.innerText = data.item.value;
+    tagButtons.append(tagButton);
+
+    /* Add the name of the skill to the form for the user's skill list */
+    let hiddenField = document.createElement('input');
+    hiddenField.type = 'hidden';
+    hiddenField.name = 'skill_list[]';
+    hiddenField.value = data.item.value;
+    selectedTags.append(hiddenField);
+  });
+</script>
