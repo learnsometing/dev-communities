@@ -8,7 +8,6 @@ class User < ApplicationRecord
          :confirmable, :omniauthable, omniauth_providers: %i[github]
 
   # Associations
-
   has_many :posts, foreign_key: 'author_id', dependent: :destroy
   has_many :sent_friend_requests, class_name: 'FriendRequest',
                                   foreign_key: 'requestor_id',
@@ -23,6 +22,8 @@ class User < ApplicationRecord
   has_many :friendships, dependent: :destroy
   has_many :friends, through: :friendships, source: :friend
   has_one :location, dependent: :destroy
+  acts_as_taggable_on :skills
+
   # Validations
 
   validates :name, presence: true, length: { maximum: 50 }
@@ -66,6 +67,10 @@ class User < ApplicationRecord
   end
 
   private
+
+  def user_params
+    params.require(:user).permit(:skill_list)
+  end
 
   def picture_size
     msg = 'should be less than 5MB'
