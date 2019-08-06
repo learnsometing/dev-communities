@@ -3,6 +3,29 @@
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
 
+# Create Tags
+
+languages = [ 'Java', 'C', 'C++', 'C#', 'Python', 'Visual Basic .NET',
+              'PHP', 'JavaScript', 'Delphi/Object Pascal',
+              'Swift', 'Perl', 'Ruby', 'Assembly', 'R', 'Visual Basic',
+              'Objective C', 'Go', 'MATLAB', 'PL/SQL', 'Scratch', 'SAS', 'D', 
+              'Dart', 'ABAP', 'COBOL', 'Ada', 'Fortran', 'Transact SQL', 'Lua', 
+              'Scala', 'Logo', 'F#', 'Lisp', 'LabVIEW', 'Prolog', 'Haskell', 
+              'Scheme', 'Groovy', 'RPG(OS/400)', 'APEX', 'Erlang', 'MQL4', 
+              'Rust', 'Bash', 'Ladder', 'Logic', 'Q', 'Julia', 'Alice', 'VHDL', 
+              'Awk', 'FoxPro', 'ABC', 'ActionScript', 'APL', 'AutoLISP', 'bc', 
+              'BlitzMax', 'Bourne Shell', 'C shell', 'CML', 'cg', 'CL(OS/400)', 
+              'Clipper Clojure', 'Common Lisp', 'Crystal', 'Eiffel', 'Elixir', 
+              'Elm', 'Emacs Lisp', 'Forth', 'Hack', 'Icon', 'IDL', 'Inform', 
+              'Io', 'J', 'Korn Shell', 'Kotlin', 'Maple', 'ML', 'NATURAL', 
+              'NXT-G', 'OCaml', 'OpenCL', 'OpenEdge ABL', 'Oz', 'PL/I', 
+              'PowerShell', 'REXX', 'Ring', 'S', 'Smalltalk', 'SPARK', 'SPSS', 
+              'Standard ML', 'Stata', 'Tcl', 'VBScript', 'Verilog' ]
+
+languages.each do |l|
+ tag = ActsAsTaggableOn::Tag.find_or_create_by(name: l)
+end
+
 # Developers I know grouped by location
 
 devs_by_location = { arlington:      ['Kyle Johnson', 'John Paschal'],

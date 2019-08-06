@@ -1,10 +1,6 @@
 $backgroundColor: #f8f9fa;
 $borderColor: darken($backgroundColor, 50%);
-.btn-profile{
-    &:hover {
-        background-color: darken($backgroundColor, 10%);
-    }
-}
+$tagColor: #c52f24;
 
 #check-mark {
     color: green;
@@ -15,51 +11,15 @@ $borderColor: darken($backgroundColor, 50%);
     margin-right: 0.5rem;
 }
 
-.feed {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    list-style: none;
-    overflow-y: scroll;
-    padding-left: 1rem;
-    padding-right: 1rem;
-}
-
-.friends {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    width: 60%;
-    list-style: none;
-    padding-left: 1rem;
-    padding-right: 1rem;
-}
-
-.friend {  
-    padding: 0.5rem;
-    border-bottom: solid 1px $borderColor;
-}
-
-.location {
-    width: fit-content;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    font-family: Arial, sans-serif;
-    font-style: italic;
-    color: grey;
-    margin-left: 0.5rem;
-    margin-bottom: 0.5rem;
-}
-
-.profile {
-    background-color: white;
-    height: inherit;
-    padding-top: 5rem;
-}
-
-.prof_pic {
-    padding-bottom: 0;
+.remove-tag-button {
+    color: $backgroundColor;
+    background-color: $tagColor;
+    border: 1px solid $tagColor;
+    border-radius: 3px;
+    padding: 0 5.5px;;
+    &:hover{
+        background-color: darken($tagColor, 20%);
+    }
 }
 
 #search-results {
@@ -96,18 +56,6 @@ $borderColor: darken($backgroundColor, 50%);
     width: fit-content;
 }
 
-.settings {
-    border: solid 1px $borderColor; 
-    padding: 1.5rem;
-}
-
-#tagging-header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 1rem;
-}
-
 #tagging-instructions {
     padding: 1rem;
     background-color: darken($backgroundColor, 5%);
@@ -127,6 +75,25 @@ $borderColor: darken($backgroundColor, 50%);
     }
 }
 
+.tag {
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    padding: 0.25rem;
+    margin: 0.5rem;
+    background-color: $tagColor;
+    color: $backgroundColor;
+    border: 1px solid darken($tagColor, 50%);
+    border-radius: 3px;
+}
+
+#tagging-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
 .ui-widget-content .ui-state-active {
     border: 1px solid darken($backgroundColor, 20%);
     border-radius: 2px;
@@ -140,20 +107,8 @@ div .ui-menu-item-wrapper {
     margin-right: 0.4rem;
 }
 
-.user-info {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-}
-
-#valid-tags, #invalid-tags {
+#valid-tags {
     display: flex;
     flex-direction: row;
     align-items: center;
-}
-
-#x-mark{
-    color: red;
 }

@@ -1,0 +1,67 @@
+$backgroundColor: #f8f9fa;
+$borderColor: darken($backgroundColor, 50%);
+.btn-profile{
+    &:hover {
+        background-color: darken($backgroundColor, 10%);
+    }
+}
+
+.feed {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    list-style: none;
+    overflow-y: scroll;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.friends {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 60%;
+    list-style: none;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.friend {  
+    padding: 0.5rem;
+    border-bottom: solid 1px $borderColor;
+}
+
+.location {
+    width: fit-content;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    font-style: italic;
+    color: grey;
+    margin-left: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.profile {
+    background-color: white;
+    height: inherit;
+    padding-top: 5rem;
+}
+
+.prof_pic {
+    padding-bottom: 0;
+}
+
+.settings {
+    border: solid 1px $borderColor; 
+    padding: 1.5rem;
+}
+
+.user-info {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}

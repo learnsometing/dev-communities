@@ -2,7 +2,8 @@
     <%= label_tag :tag_search, 'Tags' %>
     <%= autocomplete_field_tag :tag_search, '', autocomplete_skill_name_users_path, 
         'data-auto-focus': true,
+        'data-showNoMatches': false,
         append_to: '#search-results',
-        placeholder: 'e.g. python jenkins javascript',
+        placeholder: 'e.g. python javascript',
         id: 'tag-search'%>
   </div>

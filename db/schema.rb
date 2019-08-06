@@ -84,20 +84,6 @@ ActiveRecord::Schema.define(version: 2019_08_05_141164) do
     t.index ["author_id"], name: "index_posts_on_author_id"
   end
 
-  create_table "skill_tags", force: :cascade do |t|
-    t.bigint "user_id"
-    t.bigint "skill_id"
-    t.index ["skill_id"], name: "index_skill_tags_on_skill_id"
-    t.index ["user_id", "skill_id"], name: "skill_by_user", unique: true
-    t.index ["user_id"], name: "index_skill_tags_on_user_id"
-  end
-
-  create_table "skills", force: :cascade do |t|
-    t.string "title"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "taggings", id: :serial, force: :cascade do |t|
     t.integer "tag_id"
     t.string "taggable_type"
@@ -149,6 +135,6 @@ ActiveRecord::Schema.define(version: 2019_08_05_141164) do
   add_foreign_key "notification_changes", "users", column: "actor_id"
   add_foreign_key "notifications", "notification_objects"
   add_foreign_key "notifications", "users"
-  add_foreign_key "skill_tags", "skills"
-  add_foreign_key "skill_tags", "users"
+  add_foreign_key "skill_taggings", "skills"
+  add_foreign_key "skill_taggings", "users"
 end

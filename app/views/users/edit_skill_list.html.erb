@@ -3,19 +3,16 @@
   <div id='tagging-header'>
       <h2>
         <strong>
-          What languages, tools, and technologies do you use?
+          What programming languages do you use?
         </strong>
       </h2>
       <h5>
-        Tags allow you to find and collaborate other developers using similar technologies.
+        Tags allow you to find and collaborate other developers using similar languages.
       </h5>
   </div>
   <div id='tagging-instructions'>
     <p>
-      Tag your profile with any programming languages, tools, and technologies you use.
-    </p>
-    <p>
-      <strong><em>Tags are not case sensitive. </em></strong>
+      Tag your profile with any programming languages you use.
     </p>
     <p>
       For example:
@@ -23,13 +20,12 @@
     <div id='valid-tags'>
       <p id='check-mark'><%= "\u2713" %></p>
       <p>
-        'javascript', 'ruby-on-rails', and 'heroku' are all valid tags.
+        'Javascript', 'Java', and 'C++' are all valid tags.
       </p>
     </div>
-    <div id='invalid-tags'>
-      <p id='x-mark'><%= "\u2715" %></p>
+    <div id='valid-tags'>
       <p>
-        <strong>Separate words with hyphens! Using characters other than hyphens may split the community.</strong> 
+        <strong>Scroll over the tag in the search results, then click it to add it to your profile.</strong> 
       </p>
     </div>
   </div>
@@ -37,58 +33,10 @@
   <div id='search-results'>
   </div>
   <hr>
-  <div id='tag-buttons'>
+  <div id='tags'>
 
   </div>
   <%= form_for @user, html: {id: 'skills-form'} do |f| %>
   <%= f.submit 'Finish tagging' %>
   <% end %>
 </div>
-<script>
-  var tagSearch = $("#tag-search");
-  var tagButtonsDiv = document.getElementById("tag-buttons");
-  var skillsForm = document.getElementById("skills-form");
-
-  function createAndAppendTagButton(tagName){
-    /* Make a button-like div that represents the tag for the user to see and add it to a container */
-    /* Prevents multiples from being created by checking for the button in the container first */
-    let children = tagButtonsDiv.childNodes
-
-    for (let child of children){
-      if (child.innerText == tagName){
-        return;
-      }
-    };
-    
-    let tagButton = document.createElement('div');
-    tagButton.classList.add('tag');
-    tagButton.innerText = tagName;
-    tagButtonsDiv.append(tagButton);
-  }
-
-  function addSkillNameToForm(tagName){
-    /* Add the name of the skill to the form for the user's skill list */
-    /* Checks the form for the name of the skill before appending it */
-    let children = skillsForm.childNodes
-
-    for (let child of children){
-      if (child.value == tagName){
-        return;
-      }
-    };
-
-    let hiddenField = document.createElement('input');
-    hiddenField.type = 'hidden';
-    hiddenField.name = 'skill_list[]';
-    hiddenField.value = tagName;
-    skillsForm.append(hiddenField);
-  }
-
-  tagSearch.bind('railsAutocomplete.select', function(event, data){ 
-    let tagName = data.item.value;
-    createAndAppendTagButton(tagName);
-    addSkillNameToForm(tagName);
-    $(this).val(''); 
-    return false;
-  });
-</script>
