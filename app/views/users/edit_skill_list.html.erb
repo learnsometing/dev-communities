@@ -37,6 +37,8 @@
 
   </div>
   <%= form_for @user, html: {id: 'skills-form'} do |f| %>
-  <%= f.submit 'Finish tagging' %>
+    <div id='submit-tags'>
+      <%= f.submit 'Finished' %>
+    </div>
   <% end %>
 </div>
