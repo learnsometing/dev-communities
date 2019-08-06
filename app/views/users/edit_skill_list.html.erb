@@ -86,9 +86,9 @@
 
   tagSearch.bind('railsAutocomplete.select', function(event, data){ 
     let tagName = data.item.value;
-
     createAndAppendTagButton(tagName);
-
     addSkillNameToForm(tagName);
+    $(this).val(''); 
+    return false;
   });
 </script>
