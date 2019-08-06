@@ -40,30 +40,55 @@
   <div id='tag-buttons'>
 
   </div>
-  <%= form_for @user, html: {id: 'selected-tags'} do |f| %>
+  <%= form_for @user, html: {id: 'skills-form'} do |f| %>
   <%= f.submit 'Finish tagging' %>
   <% end %>
 </div>
 <script>
   var tagSearch = $("#tag-search");
-  var tagButtons = $("#tag-buttons");
-  var selectedTags = $("#selected-tags");
+  var tagButtonsDiv = document.getElementById("tag-buttons");
+  var skillsForm = document.getElementById("skills-form");
 
-  tagSearch.bind('railsAutocomplete.select', function(event, data){
-    /* TODO */
-    /*Check if tag already exists */
+  function createAndAppendTagButton(tagName){
+    /* Make a button-like div that represents the tag for the user to see and add it to a container */
+    /* Prevents multiples from being created by checking for the button in the container first */
+    let children = tagButtonsDiv.childNodes
 
-    /* Make a button like tag for the user to see and add it to a div where they will all be placed */
+    for (let child of children){
+      if (child.innerText == tagName){
+        return;
+      }
+    };
+    
     let tagButton = document.createElement('div');
     tagButton.classList.add('tag');
-    tagButton.innerText = data.item.value;
-    tagButtons.append(tagButton);
+    tagButton.innerText = tagName;
+    tagButtonsDiv.append(tagButton);
+  }
 
+  function addSkillNameToForm(tagName){
     /* Add the name of the skill to the form for the user's skill list */
+    /* Checks the form for the name of the skill before appending it */
+    let children = skillsForm.childNodes
+
+    for (let child of children){
+      if (child.value == tagName){
+        return;
+      }
+    };
+
     let hiddenField = document.createElement('input');
     hiddenField.type = 'hidden';
     hiddenField.name = 'skill_list[]';
-    hiddenField.value = data.item.value;
-    selectedTags.append(hiddenField);
+    hiddenField.value = tagName;
+    skillsForm.append(hiddenField);
+  }
+
+  tagSearch.bind('railsAutocomplete.select', function(event, data){ 
+    let tagName = data.item.value;
+
+    createAndAppendTagButton(tagName);
+
+    addSkillNameToForm(tagName);
   });
 </script>
