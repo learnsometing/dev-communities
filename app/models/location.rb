@@ -1,15 +1,18 @@
 # frozen_string_literal: true
 
+# The location model stores information about a place that can be looked up
+# via google maps API. A location can have many users associated with it
+# because many developers can live in the same location.
 class Location < ApplicationRecord
-  belongs_to :user
-
-  validates :user_id, uniqueness: true
-
-  def disable
-    update(title: 'The Bermuda Triangle')
-    update(latitude: 24.9999993)
-    update(longitude: -71.0087548)
-  end
+  # Associations
+  has_many :user_locations, dependent: :destroy
+  has_many :users, through: :user_locations
+  
+  # Validations
+  validates :title, presence: true
+  validates :latitude, presence: true
+  validates :longitude, presence: true
+  validate :already_exists?, on: :create
 
   def disabled?
     return true if title == 'The Bermuda Triangle'
@@ -21,5 +24,13 @@ class Location < ApplicationRecord
     return 'This user prefers to keep their location secret' if disabled?
 
     title
+  end
+
+  private
+
+  def already_exists?
+    if Location.exists?(title: title, latitude: latitude, longitude: longitude)
+      errors.add(:base, 'This location already exists.')
+    end
   end
 end

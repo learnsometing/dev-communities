@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_05_141164) do
+ActiveRecord::Schema.define(version: 2019_08_08_170534) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,13 +37,15 @@ ActiveRecord::Schema.define(version: 2019_08_05_141164) do
   end
 
   create_table "locations", force: :cascade do |t|
-    t.string "title"
-    t.decimal "latitude"
-    t.decimal "longitude"
-    t.bigint "user_id"
+    t.string "title", null: false
+    t.decimal "latitude", null: false
+    t.decimal "longitude", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_locations_on_user_id"
+    t.index ["latitude", "longitude"], name: "index_locations_on_latitude_and_longitude", unique: true
+    t.index ["latitude"], name: "index_locations_on_latitude"
+    t.index ["longitude"], name: "index_locations_on_longitude"
+    t.index ["title"], name: "index_locations_on_title", unique: true
   end
 
   create_table "notification_changes", force: :cascade do |t|
@@ -84,20 +86,6 @@ ActiveRecord::Schema.define(version: 2019_08_05_141164) do
     t.index ["author_id"], name: "index_posts_on_author_id"
   end
 
-  create_table "skill_taggings", force: :cascade do |t|
-    t.bigint "user_id"
-    t.bigint "skill_id"
-    t.index ["skill_id"], name: "index_skill_taggings_on_skill_id"
-    t.index ["user_id", "skill_id"], name: "skill_by_user", unique: true
-    t.index ["user_id"], name: "index_skill_taggings_on_user_id"
-  end
-
-  create_table "skills", force: :cascade do |t|
-    t.string "title"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "taggings", id: :serial, force: :cascade do |t|
     t.integer "tag_id"
     t.string "taggable_type"
@@ -123,6 +111,17 @@ ActiveRecord::Schema.define(version: 2019_08_05_141164) do
     t.index ["name"], name: "index_tags_on_name", unique: true
   end
 
+  create_table "user_locations", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "location_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "disabled", default: false
+    t.index ["location_id"], name: "index_user_locations_on_location_id"
+    t.index ["user_id", "location_id"], name: "user_by_location", unique: true
+    t.index ["user_id"], name: "index_user_locations_on_user_id", unique: true
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -144,11 +143,10 @@ ActiveRecord::Schema.define(version: 2019_08_05_141164) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "locations", "users"
   add_foreign_key "notification_changes", "notification_objects"
   add_foreign_key "notification_changes", "users", column: "actor_id"
   add_foreign_key "notifications", "notification_objects"
   add_foreign_key "notifications", "users"
-  add_foreign_key "skill_taggings", "skills"
-  add_foreign_key "skill_taggings", "users"
+  add_foreign_key "user_locations", "locations"
+  add_foreign_key "user_locations", "users"
 end

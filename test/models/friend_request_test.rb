@@ -4,8 +4,15 @@ require 'test_helper'
 
 class FriendRequestTest < ActiveSupport::TestCase
   def setup
-    @friend = create(:confirmed_user)
-    @requestor = create(:confirmed_user)
+    location = create(:location)
+    users = []
+    2.times do
+      user = create(:confirmed_user_without_location)
+      create(:user_location, user_id: user.id, location_id: location.id)
+      users << user
+    end
+    @friend = users[0]
+    @requestor = users[1]
     @request = @requestor.sent_friend_requests.build(friend_id: @friend.id)
   end
 

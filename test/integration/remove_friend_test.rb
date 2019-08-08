@@ -4,8 +4,15 @@ require 'test_helper'
 
 class RemoveFriendTest < ActionDispatch::IntegrationTest
   def setup
-    @user = create(:confirmed_user)
-    @friend = create(:confirmed_user)
+    location = create(:location)
+    users = []
+    2.times do
+      user = create(:confirmed_user_without_location)
+      create(:user_location, user_id: user.id, location_id: location.id)
+      users << user
+    end
+    @user = users[0]
+    @friend = users[1]
 
     @friendship = @user.friendships.create(friend_id: @friend.id)
   end

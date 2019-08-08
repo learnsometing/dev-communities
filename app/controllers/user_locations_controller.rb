@@ -1,6 +1,7 @@
-# frozen_string_literal: true
-
-class LocationsController < ApplicationController
+# The UserLocationsController allows a user to set and update their location.
+# It is in charge of associating a User model with a Location model through the
+# user_locations table.
+class UserLocationsController < ApplicationController
   # Before filters
   before_action :logged_in_user
   before_action :location?, only: %i[new create]
@@ -13,8 +14,9 @@ class LocationsController < ApplicationController
     @location = Location.find_or_initialize_by(title: params[:location][:title],
                                                latitude: params[:location][:latitude],
                                                longitude: params[:location][:longitude])
-    if @location.save
-      UserLocation.create(user_id: current_user.id, location_id: @location.id)
+    @user_location = UserLocation.new(user_id: current_user.id, location_id: @location.id)
+
+    if @user_location.save
       flash[:success] = 'Location set successfully.'
       redirect_to current_user
     else
@@ -24,12 +26,12 @@ class LocationsController < ApplicationController
   end
 
   def edit
-    @location = Location.find(params[:id])
+    @user_location = UserLocation.find(params[:id])
   end
 
   def update
-    @location = Location.find(params[:id])
-    if @location.update_attributes(location_params)
+    @user_location = UserLocation.find(params[:id])
+    if @user_location.update_attributes(location_params)
       flash[:success] = 'Location updated successfully'
       redirect_to current_user
     else
@@ -45,8 +47,8 @@ class LocationsController < ApplicationController
 
   private
 
-  def location_params
-    params.require(:location).permit(:title, :latitude, :longitude)
+  def user_location_params
+    params.require(:user_location).permit(:location_id)
   end
 
   def location?

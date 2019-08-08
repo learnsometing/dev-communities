@@ -3,9 +3,11 @@ require 'test_helper'
 class FriendRequestNotificationsInterfaceTest < ActionDispatch::IntegrationTest
   def setup
     # Create the necessary users
+    location = create(:location)
     users = []
     3.times do
-      user = create(:confirmed_user)
+      user = create(:confirmed_user_without_location)
+      create(:user_location, user_id: user.id, location_id: location.id)
       users << user
     end
 

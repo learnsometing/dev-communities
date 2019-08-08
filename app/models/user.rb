@@ -21,7 +21,8 @@ class User < ApplicationRecord
   has_many :notification_objects, through: :notifications
   has_many :friendships, dependent: :destroy
   has_many :friends, through: :friendships, source: :friend
-  has_one :location, dependent: :destroy
+  has_one :user_location, dependent: :destroy
+  has_one :location, through: :user_location
   acts_as_taggable
   acts_as_taggable_on :skills
 

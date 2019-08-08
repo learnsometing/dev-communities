@@ -33,24 +33,33 @@ class PostTest < ActiveSupport::TestCase
     assert_equal @post, Post.first
   end
 
-  test 'post creation notficiations system' do
-    author = create(:confirmed_user)
-    friends = [create(:confirmed_user),
-               create(:confirmed_user),
-               create(:confirmed_user)]
+  # Move this into the notification model test file?
+  test 'post creation notfications system' do
+    location = create(:location)
+
+    users = []
+    4.times do
+      user = create(:confirmed_user_without_location)
+      create(:user_location, user_id: user.id, location_id: location.id)
+      users << user
+    end
+
+    author = users[0]
+    friends = users[1..3]
+
+    # Form the friendships between the post author and other users
     friends.each do |friend|
       author.friendships.create(friend: friend)
+      assert_equal 0, friend.notifications.count
     end
 
-    assert_equal friends[0].notifications.count, 0
-    assert_equal friends[1].notifications.count, 0
-    assert_equal friends[2].notifications.count, 0
+    # Create the post, triggering the notification system
+    author.posts.create(attributes_for(:post))
 
-    assert_difference 'friends[0].notifications.count', 1 do
-      author.posts.create(attributes_for(:post))
+    # Check that each friend received a notification about the post's creation
+    friends.each do |friend|
+      assert_equal 1, friend.notifications.count
     end
-    assert_equal friends[1].notifications.count, 1
-    assert_equal friends[2].notifications.count, 1
 
     post_objects = NotificationObject.post_type
     post_notifications = Notification.where(notification_object_id: post_objects)

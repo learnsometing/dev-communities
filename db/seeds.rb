@@ -35,7 +35,8 @@ devs_by_location = { arlington:      ['Kyle Johnson', 'John Paschal'],
                                       'Thad Humphries', 'Michael Pastore',
                                       'Cameron Gallarno'],
                      stafford:       ['Brian Monaccio']
-                   } 
+                   }
+
 # The location information of the above developers
 locations = { arlington:      { title: 'Arlington, VA, USA',
                                 latitude: 38.8808113,
@@ -53,6 +54,12 @@ locations = { arlington:      { title: 'Arlington, VA, USA',
                                 latitude: 38.4150861,
                                 longitude: -77.4360554 }, }
 
+# Create each location
+
+locations.values.each do |attributes|
+  Location.create(attributes)
+end
+
 # Create the devs
 devs_by_location.each do |location, devs_by_name|
   devs_by_name.each do |dev_name|
@@ -62,8 +69,12 @@ devs_by_location.each do |location, devs_by_name|
     new_user.skip_confirmation_notification!
     new_user.save
     new_user.confirm
-    # Create the dev locations
-    new_user.create_location(locations[location])
+    
+    # Get the right location for each dev
+    loc = Location.find_by(title: locations[location][:title])
+
+    # Associate each dev with a location 
+    new_user.create_user_location(location: loc)
   end
 end
 

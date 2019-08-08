@@ -42,7 +42,7 @@ class SiteMapTest < ActionDispatch::IntegrationTest
     assert_template 'users/sessions/new'
     assert_not flash.empty?
     assert_select 'div.alert-alert'
-    assert_match "You have to confirm your email address before continuing.", response.body
+    assert_match 'You have to confirm your email address before continuing.', response.body
   end
 
   test 'sign in confirmed user without location set' do
@@ -58,8 +58,9 @@ class SiteMapTest < ActionDispatch::IntegrationTest
 
   test 'sign in confirmed user with location set then sign out' do
     user = create(:confirmed_user_without_location)
-    user.create_location(title: 'Stafford, VA, 22554', latitude: 38.4150861,
-                         longitude: -77.4360554)
+    location = create(:location, title: 'Stafford, VA, 22554', latitude: 38.4150861,
+                                 longitude: -77.4360554)
+    user.create_user_location(location_id: location.id)
     assert user.valid?
     post user_session_path, params: { user: { email: user.email,
                                               password: user.password } }

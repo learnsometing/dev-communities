@@ -4,8 +4,15 @@ require 'test_helper'
 
 class FriendRequestsControllerTest < ActionDispatch::IntegrationTest
   def setup
-    @friend = create(:confirmed_user)
-    @requestor = create(:confirmed_user)
+    location = create(:location)
+    users = []
+    2.times do
+      user = create(:confirmed_user_without_location)
+      create(:user_location, user_id: user.id, location_id: location.id)
+      users << user
+    end
+    @friend = users[0]
+    @requestor = users[1]
   end
 
   test 'should redirect create when logged out' do

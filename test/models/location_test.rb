@@ -11,17 +11,28 @@ class LocationTest < ActiveSupport::TestCase
     assert @location.valid?
   end
 
-  test 'should not allow a location to be created with the same user_id' do
-    assert build(:location, user_id: @location.user_id).invalid?
+  test 'should not allow title to be nil' do
+    @location.title = nil
+    assert @location.invalid?
   end
 
-  test 'should allow latitude to be nil' do
+  test 'should not allow latitude to be nil' do
     @location.latitude = nil
-    assert @location.valid?
+    assert @location.invalid?
   end
 
-  test 'should allow longitude to be nil' do
+  test 'should not allow longitude to be nil' do
     @location.longitude = nil
-    assert @location.valid?
+    assert @location.invalid?
+  end
+
+  test 'should not be able to create copies of the same location' do
+    # Only one location per google maps place should exist
+    location = Location.new(title: @location.title,
+                            latitude: @location.latitude,
+                            longitude: @location.longitude)
+    assert_no_difference 'Location.count' do
+      location.save
+    end
   end
 end
