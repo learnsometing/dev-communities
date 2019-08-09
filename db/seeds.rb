@@ -68,7 +68,7 @@ devs_by_location.each do |location, devs_by_name|
     # Get the right location for each dev 
     location_id = Location.find_by(title: locations[location][:title]).id
     UserLocation.create(user_id: new_user.id, location_id: location_id)
-    new_user.user_location.disable if new_user.name = 'Evan Ruchelman'
+    new_user.user_location.disable if new_user.name == 'Evan Ruchelman'
   end
 end
 
