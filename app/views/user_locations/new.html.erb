@@ -1,18 +1,19 @@
 <%= provide(:title, 'Set Loctation') %>
 <div id='trans-layer'>
   <div id='location-notice'>
-      This site uses Google location services to connect our users with each other. Do you accept?
-    <button type='button' id='yes' class='btn btn-dark ml-2'>Yes</button>
-    <%= render 'decline_form', locals: { user_location: @user_location } %>
+    This site uses Google location services to connect our users with each other. Do you accept?
+    <button id='yes' class='btn btn-dark ml-2'>Yes</button>
+    <%= render 'decline_form', locals: { user_location: @user_location }, html: { id: 'decline-form' } %>
   </div>
 </div>
 <input id="pac-input" class="controls" type="text" placeholder="Search Box">
 <div id="map"></div>
-<div style="display:none">    
+<div style="display:none">
   <%= render partial: 'location_form', locals: { location: @location, url: user_locations_path, method: :post} %>
 </div>
 <script>
   <%= render 'locations_new.js.erb' %>
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAUSuOflws6y42yYp9nyIcuVSM0hroI6BU&libraries=places&callback=initAutocomplete"
-        async defer></script>
+<script
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAUSuOflws6y42yYp9nyIcuVSM0hroI6BU&libraries=places&callback=initAutocomplete"
+  async defer></script>

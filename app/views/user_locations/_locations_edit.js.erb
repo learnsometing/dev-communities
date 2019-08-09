@@ -13,7 +13,7 @@ var service;
 var infowindow;
 
 function initMap() {
-    var currentPosition = {lat: <%= @location.latitude %>, lng: <%= location.longitude %>}
+    var currentPosition = {lat: <%= location.latitude %>, lng: <%= location.longitude %>}
     map = new google.maps.Map(document.getElementById('map'), {
         center: currentPosition,
         zoom:4,
