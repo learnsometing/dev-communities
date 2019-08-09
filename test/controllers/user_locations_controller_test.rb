@@ -18,19 +18,25 @@ class UserLocationsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'should redirect edit if logged out' do
-    user_loc = create(:user_location, user: @user, location: create(:location))
+    user_loc = create(:user_location, user: @user)
     get edit_user_location_path(user_loc)
     assert_redirected_to new_user_session_path
   end
 
   test 'should redirect update if logged out' do
-    user_loc = create(:user_location, user: @user, location: create(:location))
+    user_loc = create(:user_location, user: @user)
     patch user_location_path(user_loc), params: { location_id: 2 }
     assert_redirected_to new_user_session_path
   end
 
+  test 'should redirect disable_location if logged out' do
+    user_loc = create(:user_location, user: @user)
+    patch disable_location_path(user_loc)
+    assert_redirected_to new_user_session_path
+  end
+
   test 'should redirect new if the current user already has a location' do
-    create(:user_location, user: @user, location: create(:location))
+    create(:user_location, user: @user)
     sign_in @user
     get new_user_location_path
     assert_redirected_to @user
@@ -38,14 +44,14 @@ class UserLocationsControllerTest < ActionDispatch::IntegrationTest
 
   test 'should redirect create if the current user already has a location' do
     sign_in @user
-    create(:user_location, user: @user, location: create(:location))
+    create(:user_location, user: @user)
     assert_no_difference 'Location.count' do
       post user_locations_path, params: { location: attributes_for(:location) }
     end
     assert_redirected_to @user
   end
 
-  test 'disable should successfully trigger the disable action on the model' do
+  test 'disable_location should trigger the disable action on the model' do
     sign_in @user
     create(:user_location, user: @user)
     patch disable_location_path(@user.user_location.id)

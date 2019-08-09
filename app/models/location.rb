@@ -19,6 +19,10 @@ class Location < ApplicationRecord
   private
 
   def already_exists?
+    # Prevent users from attempting to create the same location twice via a
+    # POST request. Although find_or_create_by is used in the controller,
+    # still don't want users to try to create a location more than once, which
+    # would cause postgres to raise an exception.
     if Location.exists?(title: title, latitude: latitude, longitude: longitude)
       errors.add(:base, 'This location already exists.')
     end

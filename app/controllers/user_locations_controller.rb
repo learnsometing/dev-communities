@@ -4,7 +4,7 @@
 class UserLocationsController < ApplicationController
   # Before filters
   before_action :logged_in_user
-  before_action :location?, only: %i[new create]
+  before_action :require_nil_user_location, only: %i[new create]
 
   def new
     @location = Location.new
@@ -12,14 +12,24 @@ class UserLocationsController < ApplicationController
   end
 
   def create
+    # A UserLocation can be created in 2 ways. 
+    #
+    # If the user opts out of location services, a nil location_id will be sent
+    # present in  user_location_params. The UserLocation will be created with a 
+    # nil location_id and with disabled set to true.
+    #
+    # If no user_location_params are present, location data from google maps
+    # will be present in location_params and a Location record will be either 
+    # found or created. This location is used in the UserLocation.
+    
     if params[:user_location][:location_id]
       @user_location = UserLocation.new(user_id: current_user.id,
                                         location_id: nil,
                                         disabled: true)
     else
       @location = Location.find_or_create_by(title: params[:location][:title],
-                                               latitude: params[:location][:latitude],
-                                               longitude: params[:location][:longitude])
+                                             latitude: params[:location][:latitude],
+                                             longitude: params[:location][:longitude])
       @user_location = UserLocation.new(user_id: current_user.id, location_id: @location.id)
     end
 
@@ -34,27 +44,31 @@ class UserLocationsController < ApplicationController
 
   def edit
     @user_location = UserLocation.find(params[:id])
-    if @user_location.location.nil?
-      @location = Location.find_or_create_by(title: 'United States', 
-                                             latitude: 37.09024, 
+    @location = if @user_location.location.nil?
+                  Location.find_or_create_by(title: 'United States',
+                                             latitude: 37.09024,
                                              longitude: -95.71289)
-    else
-      @location = @user_location.location
-    end
+                else
+                  @user_location.location
+                end
   end
 
   def update
     @user_location = UserLocation.find(params[:id])
-    @location = Location.find_or_create_by(location_params)
-    if @user_location.update(location: @location, disabled: false)
+    @location      = Location.find_or_create_by(location_params)
+    if @user_location && @location
+      @user_location.update(location: @location, disabled: false)
       flash[:success] = 'Location updated successfully'
       redirect_to current_user
-    else
+    else 
       render 'edit'
     end
   end
 
   def disable_location
+    # If the user does not want to show their location, they can opt to disable
+    # it. This action calls the disable method on the associated UserLocation,
+    # which sets location_id to nil and disabled to true.
     UserLocation.find(params[:id]).disable
     flash[:success] = 'Location successfully disabled. You can enable it again at any time.'
     redirect_to current_user
@@ -70,10 +84,18 @@ class UserLocationsController < ApplicationController
     params.require(:user_location).permit(:location_id)
   end
 
-  def location?
-    if current_user.user_location
-      flash[:danger] = 'You already set your location. Visit the edit page to change it.'
-      redirect_to current_user
-    end
+  def require_nil_user_location
+    # Prevent the user from attempting to create a second user_location
+    # over the web. Checks for a user_location before proceeding to new 
+    # or create. If the user_location is nil, the request cycle should
+    # proceed normally. If user_location is not nil, then the user must
+    # have already set up their location and is barred from accessing
+    # the new or create actions.
+
+    return unless current_user.user_location
+
+    msg = 'You must visit the edit page to change your location.'
+    flash[:danger] = msg
+    redirect_to current_user
   end
 end

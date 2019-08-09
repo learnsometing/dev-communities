@@ -14,7 +14,7 @@ class UserLocation < ApplicationRecord
     update(location: nil, disabled: true)
   end
 
-  def formatted_title
+  def display_title
     return 'This user prefers to keep their location secret' if disabled
 
     location.title
