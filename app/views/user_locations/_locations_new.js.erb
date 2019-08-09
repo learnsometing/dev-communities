@@ -2,60 +2,37 @@
 // feature. People can enter geographical searches. The search box will return a
 // pick list containing a mix of places and predicted search terms.
 
+var yesButton  = document.getElementById('yes');
 var transLayer = document.getElementById('trans-layer');
-var gotItButton = document.getElementById('got-it');
-gotItButton.addEventListener('click', function(){
-    transLayer.remove();
+
+yesButton.addEventListener('click', function(){
+    let locationNotice = document.getElementById('location-notice');
+
+    transLayer.removeChild(locationNotice);
+
+    let locationInstructions = document.createElement('div');
+    locationInstructions.id = 'location-instructions';
+    locationInstructions.innerText = "Please do not select your full address. Make sure you include the region and country you live in e.g. 'Stafford, VA, USA'";
+
+    let gotItButton = document.createElement('button');
+    gotItButton.id = 'got-it'
+    gotItButton.setAttribute('class', 'btn btn-dark ml-2');
+    gotItButton.innerText = 'Got it.'
+
+    transLayer.appendChild(locationInstructions);
+    locationInstructions.appendChild(gotItButton);
+   
+    gotItButton.addEventListener('click', function(){
+        transLayer.remove();
+    });
 });
 
-var map;
-var service;
-var infowindow;
-
-function initMap() {
-    var currentPosition = {lat: <%= @location.latitude %>, lng: <%= location.longitude %>}
-    map = new google.maps.Map(document.getElementById('map'), {
-        center: currentPosition,
-        zoom: 12,
-        mapTypeId: 'roadmap'
-    }); 
-  
-    infowindow = new google.maps.InfoWindow();
-
-    var request = {
-        query: '<%= location.title %>',
-        fields: ['name', 'geometry'],
-    };
-
-    var service = new google.maps.places.PlacesService(map);
-
-    service.findPlaceFromQuery(request, function(results, status) {
-        if (status === google.maps.places.PlacesServiceStatus.OK) {
-            for (var i = 0; i < results.length; i++) {
-                createMarker(results[i]);
-            }
-            map.setCenter(results[0].geometry.location);
-        }
-        else {
-            console.log('failed');
-        }
-    });
-
-    function createMarker(place) {
-        var marker = new google.maps.Marker({
-          map: map,
-          position: place.geometry.location
-        });
-
-        google.maps.event.addListener(marker, 'click', function() {
-          infowindow.setContent(place.name);
-          infowindow.open(map, this);
-        });
-    }
-}
-
 function initAutocomplete() {
-    initMap();
+    var map = new google.maps.Map(document.getElementById('map'), {
+        center: {lat: 39.7654142, lng: -96},
+        zoom: 4,
+        mapTypeId: 'roadmap'
+    });
 
     // Create the search box and link it to the UI element.
     var input = document.getElementById('pac-input');
@@ -68,7 +45,6 @@ function initAutocomplete() {
     });
 
     var markers = [];
-
     // Listen for the event fired when the user selects a prediction and retrieve
     // more details for that place.
     searchBox.addListener('places_changed', function() {
@@ -103,12 +79,13 @@ function initAutocomplete() {
             markers.push(new google.maps.Marker({
                 map: map,
                 icon: icon,
-                title: place.name,
+                title: place.formatted_address,
                 position: place.geometry.location
             }));
             
+            // Add an infowindow to each marker that renders the location form
             markers.forEach(function(marker){
-                // Add a infowindow to each marker that renders the set location form
+
                 marker.addListener('click', function() {
                     if (infowindow){
                         infowindow.close();
@@ -116,9 +93,8 @@ function initAutocomplete() {
 
                     document.getElementById('title_field').value = marker.title
 
-                    document.getElementById('latitude_field').value = marker.position.lat();
-
-                    document.getElementById('longitude_field').value = marker.position.lng();
+                    document.getElementById('latitude_field').value = marker.position.lat().toFixed(5);
+                    document.getElementById('longitude_field').value = marker.position.lng().toFixed(5);
 
                     var content = document.getElementById('info_window_form').cloneNode(true);
 

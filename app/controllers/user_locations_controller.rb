@@ -8,30 +8,45 @@ class UserLocationsController < ApplicationController
 
   def new
     @location = Location.new
+    @user_location = UserLocation.new
   end
 
   def create
-    @location = Location.find_or_initialize_by(title: params[:location][:title],
+    if params[:user_location][:location_id]
+      @user_location = UserLocation.new(user_id: current_user.id,
+                                        location_id: nil,
+                                        disabled: true)
+    else
+      @location = Location.find_or_create_by(title: params[:location][:title],
                                                latitude: params[:location][:latitude],
                                                longitude: params[:location][:longitude])
-    @user_location = UserLocation.new(user_id: current_user.id, location_id: @location.id)
+      @user_location = UserLocation.new(user_id: current_user.id, location_id: @location.id)
+    end
 
     if @user_location.save
       flash[:success] = 'Location set successfully.'
       redirect_to current_user
     else
-      flash.now[:danger] = 'Location could not be set.'
+      flash[:danger] = 'Location could not be set.'
       render 'new'
     end
   end
 
   def edit
     @user_location = UserLocation.find(params[:id])
+    if @user_location.location.nil?
+      @location = Location.find_or_create_by(title: 'United States', 
+                                             latitude: 37.09024, 
+                                             longitude: -95.71289)
+    else
+      @location = @user_location.location
+    end
   end
 
   def update
     @user_location = UserLocation.find(params[:id])
-    if @user_location.update_attributes(location_params)
+    @location = Location.find_or_create_by(location_params)
+    if @user_location.update(location: @location, disabled: false)
       flash[:success] = 'Location updated successfully'
       redirect_to current_user
     else
@@ -39,20 +54,24 @@ class UserLocationsController < ApplicationController
     end
   end
 
-  def disable
-    Location.find(params[:id]).disable
+  def disable_location
+    UserLocation.find(params[:id]).disable
     flash[:success] = 'Location successfully disabled. You can enable it again at any time.'
     redirect_to current_user
   end
 
   private
 
+  def location_params
+    params.require(:location).permit(:title, :latitude, :longitude)
+  end
+
   def user_location_params
     params.require(:user_location).permit(:location_id)
   end
 
   def location?
-    if current_user.location
+    if current_user.user_location
       flash[:danger] = 'You already set your location. Visit the edit page to change it.'
       redirect_to current_user
     end

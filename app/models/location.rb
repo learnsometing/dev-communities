@@ -2,29 +2,19 @@
 
 # The location model stores information about a place that can be looked up
 # via google maps API. A location can have many users associated with it
-# because many developers can live in the same location.
+# because many developers can live in the same location. The title of each
+# Location must be unique, in order to distinguish between locations that
+# may have the same name in different municipalities, states, etc.
 class Location < ApplicationRecord
   # Associations
   has_many :user_locations, dependent: :destroy
   has_many :users, through: :user_locations
-  
+
   # Validations
-  validates :title, presence: true
+  validates :title, presence: true, uniqueness: true
   validates :latitude, presence: true
   validates :longitude, presence: true
   validate :already_exists?, on: :create
-
-  def disabled?
-    return true if title == 'The Bermuda Triangle'
-
-    false
-  end
-
-  def formatted_title
-    return 'This user prefers to keep their location secret' if disabled?
-
-    title
-  end
 
   private
 

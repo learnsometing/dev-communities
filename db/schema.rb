@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_08_170534) do
+ActiveRecord::Schema.define(version: 2019_08_08_225245) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,8 +38,8 @@ ActiveRecord::Schema.define(version: 2019_08_08_170534) do
 
   create_table "locations", force: :cascade do |t|
     t.string "title", null: false
-    t.decimal "latitude", null: false
-    t.decimal "longitude", null: false
+    t.decimal "latitude", precision: 8, scale: 5, null: false
+    t.decimal "longitude", precision: 8, scale: 5, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["latitude", "longitude"], name: "index_locations_on_latitude_and_longitude", unique: true

@@ -8,6 +8,6 @@ class ApplicationControllerTest < ActionDispatch::IntegrationTest
   test 'ApplicationController should require a user to set their locaton' do
     sign_in @user
     get user_path(@user)
-    assert_redirected_to new_location_path
+    assert_redirected_to new_user_location_path
   end
 end

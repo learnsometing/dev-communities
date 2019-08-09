@@ -1,7 +1,7 @@
 <%= provide(:title, 'Set Loctation') %>
 <div id='trans-layer'>
   <div id='location-instructions'>
-    Please do not select your full address. Instead, select the locality or city you live in to remain anonymous.
+    Please do not select your full address, but be specific about which state and country you live in. e.g. 'Stafford, VA, USA'
     <button type='button' id='got-it' class='btn btn-dark ml-2'>
       Got it.
     </button>
@@ -11,7 +11,7 @@
 <input id="pac-input" class="controls" type="text" placeholder="Search Box">
 <div id="map"></div>
 <div style="display:none">    
-  <%= render partial: 'location_form', locals: { location: @location, url: location_path(@location), method: :patch } %>
+  <%= render partial: 'location_form', locals: { location: @location, url: user_location_path(@user_location), method: :patch } %>
 </div>
 <script>
   <%= render partial: 'locations_edit.js.erb', locals: { location: @location } %>

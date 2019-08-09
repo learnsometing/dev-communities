@@ -30,34 +30,29 @@ end
 
 devs_by_location = { arlington:      ['Kyle Johnson', 'John Paschal'],
                      bellevue:       ['Kai Johnson'],
-                     bermuda:        ['Evan Ruchelman'],
                      fredericksburg: ['David Murray', 'Matt Wilber', 
                                       'Thad Humphries', 'Michael Pastore',
                                       'Cameron Gallarno'],
-                     stafford:       ['Brian Monaccio']
+                     stafford:       ['Brian Monaccio', 'Evan Ruchelman']
                    }
 
 # The location information of the above developers
 locations = { arlington:      { title: 'Arlington, VA, USA',
-                                latitude: 38.8808113,
-                                longitude: -77.1371754 },
+                                latitude: 38.87997,
+                                longitude: -77.10677 },
               bellevue:       { title: 'Bellevue, WA, USA',
-                                latitude: 47.5977342,
-                                longitude: -122.2211709},
-              bermuda:        { title: 'The Bermuda Triangle',
-                                latitude: 24.9999993,
-                                longitude: -71.0087548 },
-              fredericksburg: { title: 'Fredericksburg, VA, USA',
-                                latitude: 38.2983242,
-                                longitude: -77.5599267 },
-              stafford:       { title: 'Stafford, VA, USA',
-                                latitude: 38.4150861,
-                                longitude: -77.4360554 }, }
+                                latitude: 47.6101497,
+                                longitude: -122.2015159},
+              fredericksburg: { title: 'Fredericksburg, VA 22401, USA',
+                                latitude: 38.3031837,
+                                longitude: -77.46053990000001 },
+              stafford:       { title: 'Stafford, VA 22554, USA',
+                                latitude: 38.4220687,
+                                longitude: -77.4083086 } }
 
 # Create each location
-
 locations.values.each do |attributes|
-  Location.create(attributes)
+  location = Location.create(attributes)
 end
 
 # Create the devs
@@ -70,11 +65,10 @@ devs_by_location.each do |location, devs_by_name|
     new_user.save
     new_user.confirm
     
-    # Get the right location for each dev
-    loc = Location.find_by(title: locations[location][:title])
-
-    # Associate each dev with a location 
-    new_user.create_user_location(location: loc)
+    # Get the right location for each dev 
+    location_id = Location.find_by(title: locations[location][:title]).id
+    UserLocation.create(user_id: new_user.id, location_id: location_id)
+    new_user.user_location.disable if new_user.name = 'Evan Ruchelman'
   end
 end
 

@@ -32,7 +32,7 @@ class UserLocationsControllerTest < ActionDispatch::IntegrationTest
   test 'should redirect new if the current user already has a location' do
     create(:user_location, user: @user, location: create(:location))
     sign_in @user
-    get new_location_path
+    get new_user_location_path
     assert_redirected_to @user
   end
 
@@ -40,8 +40,17 @@ class UserLocationsControllerTest < ActionDispatch::IntegrationTest
     sign_in @user
     create(:user_location, user: @user, location: create(:location))
     assert_no_difference 'Location.count' do
-      post locations_path, params: { location: attributes_for(:location) }
+      post user_locations_path, params: { location: attributes_for(:location) }
     end
     assert_redirected_to @user
+  end
+
+  test 'disable should successfully trigger the disable action on the model' do
+    sign_in @user
+    create(:user_location, user: @user)
+    patch disable_location_path(@user.user_location.id)
+    @user.reload
+    assert_nil @user.location
+    assert_equal true, @user.user_location.disabled
   end
 end

@@ -1,0 +1,157 @@
+// This example adds a search box to a map, using the Google Place Autocomplete
+// feature. People can enter geographical searches. The search box will return a
+// pick list containing a mix of places and predicted search terms.
+
+var transLayer = document.getElementById('trans-layer');
+var gotItButton = document.getElementById('got-it');
+gotItButton.addEventListener('click', function(){
+    transLayer.remove();
+});
+
+var map;
+var service;
+var infowindow;
+
+function initMap() {
+    var currentPosition = {lat: <%= @location.latitude %>, lng: <%= location.longitude %>}
+    map = new google.maps.Map(document.getElementById('map'), {
+        center: currentPosition,
+        zoom:4,
+        mapTypeId: 'roadmap'
+    }); 
+  
+    infowindow = new google.maps.InfoWindow();
+
+    var request = {
+        query: '<%= location.title %>',
+        fields: ['name', 'geometry'],
+    };
+
+    var service = new google.maps.places.PlacesService(map);
+
+    service.findPlaceFromQuery(request, function(results, status) {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+            for (var i = 0; i < results.length; i++) {
+                createMarker(results[i]);
+            }
+            map.setCenter(results[0].geometry.location);
+        }
+        else {
+            console.log('failed');
+        }
+    });
+
+    function createMarker(place) {
+        var marker = new google.maps.Marker({
+          map: map,
+          position: place.geometry.location
+        });
+
+        google.maps.event.addListener(marker, 'click', function() {
+          infowindow.setContent(place.name);
+          infowindow.open(map, this);
+        });
+    }
+}
+
+function initAutocomplete() {
+    initMap();
+
+    // Create the search box and link it to the UI element.
+    var input = document.getElementById('pac-input');
+    var searchBox = new google.maps.places.SearchBox(input);
+    map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+    // Bias the SearchBox results towards current map's viewport.
+    map.addListener('bounds_changed', function() {
+        searchBox.setBounds(map.getBounds());
+    });
+
+    var markers = [];
+
+    // Listen for the event fired when the user selects a prediction and retrieve
+    // more details for that place.
+    searchBox.addListener('places_changed', function() {
+        var places = searchBox.getPlaces();
+
+        if (places.length == 0) {
+            return;
+        }
+
+        // Clear out the old markers.
+        markers.forEach(function(marker) {
+            marker.setMap(null);
+        });
+        markers = [];
+
+        // For each place, get the icon, name and location.
+        var bounds = new google.maps.LatLngBounds();
+        places.forEach(function(place) {
+            if (!place.geometry) {
+                console.log("Returned place contains no geometry");
+                return;
+             }
+            var icon = {
+                url: place.icon,
+                size: new google.maps.Size(71, 71),
+                origin: new google.maps.Point(0, 0),
+                anchor: new google.maps.Point(17, 34),
+                scaledSize: new google.maps.Size(25, 25)
+            };
+
+            // Create a marker for each place.
+            markers.push(new google.maps.Marker({
+                map: map,
+                icon: icon,
+                title: place.formatted_address,
+                position: place.geometry.location
+            }));
+            
+            markers.forEach(function(marker){
+                // Add an event listener to each marker that renders the location form when clicked
+                marker.addListener('click', function() {
+                    // Close any existing infoWindows
+                    if (infowindow){
+                        infowindow.close();
+                    }
+                    // Get the hidden form that is displayed when the page loads
+                    let infoWindowForm = document.getElementById('info_window_form');
+                    // Get the title field of the hidden form
+                    let titleField = document.getElementById('title_field');
+                    // Make a div that will contain the address of the location they choose
+                    let markerTitle = document.getElementById('marker-title')
+                    if(!markerTitle){
+                        markerTitle = document.createElement('div');
+                        markerTitle.id = 'marker-title';
+                    }
+
+                    // Set the text of the div element
+                    markerTitle.innerText = "Set " + marker.title + " as your location?";
+                    // Insert the new div at the top of the form
+                    infoWindowForm.insertBefore(markerTitle, titleField);
+
+                    // Set the fields of the hidden form to values from the marker data
+                    titleField.value = marker.title
+                    document.getElementById('latitude_field').value = marker.position.lat().toFixed(5);
+                    document.getElementById('longitude_field').value = marker.position.lng().toFixed(5);
+
+                    // Clone the hidden form and set the info window content to the cloned version
+                    var content = document.getElementById('info_window_form').cloneNode(true);
+                    var infowindow = new google.maps.InfoWindow({
+                            content: content
+                    });
+                    // Display the infoWindow
+                    infowindow.open(map, marker);
+                });                
+            }); 
+
+            if (place.geometry.viewport) {
+                // Only geocodes have viewport.
+                bounds.union(place.geometry.viewport);
+            } else {
+                bounds.extend(place.geometry.location);
+            }
+        });
+        map.fitBounds(bounds);
+    });
+}

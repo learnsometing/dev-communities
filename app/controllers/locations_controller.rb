@@ -1,5 +1,9 @@
 # frozen_string_literal: true
 
+# The LocationsController was originally used to set the user's location via
+# google maps, but after introducing the UserLocation model, it is no longer needed.
+# It could be used by admins in the future to manipulate location records, so
+# it will not be scrapped yet.
 class LocationsController < ApplicationController
   # Before filters
   before_action :logged_in_user

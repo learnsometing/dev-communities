@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
 
   def after_sign_in_path_for(resource)
     if resource.is_a?(User) && resource.location.nil?
-      new_location_path
+      new_user_location_path
     else
       stored_location_for(resource) || signed_in_root_path(resource)
     end
@@ -24,7 +24,7 @@ class ApplicationController < ActionController::Base
 
   def location_set?
     if user_signed_in?
-      redirect_to new_location_path unless current_user.location
+      redirect_to new_user_location_path unless current_user.user_location
     end
   end
 end

@@ -16,17 +16,22 @@ class UserLocationTest < ActiveSupport::TestCase
     assert @user_location.invalid?
   end
 
-  test 'user_location should have a location' do
+  test 'user_location should have an optional location' do
     @user_location.location = nil
-    assert @user_location.invalid?
+    assert @user_location.valid?
   end
 
   test 'only one user_location per user' do
-    user = create(:confirmed_user)
-    location = create(:location)
-
+    user = @user_location.user
+    location = @user_location.location
     assert_no_difference 'UserLocation.count' do
       UserLocation.create(user_id: user.id, location_id: location.id)
     end
+  end
+
+  test 'disable should set location to nil and disabled to true' do
+    @user_location.disable
+    assert_nil @user_location.location_id
+    assert_equal true, @user_location.disabled
   end
 end

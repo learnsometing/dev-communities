@@ -3,13 +3,13 @@
   <div id='location-notice'>
       This site uses Google location services to connect our users with each other. Do you accept?
     <button type='button' id='yes' class='btn btn-dark ml-2'>Yes</button>
-    <%= render 'decline_form', locals: { location: @location } %>
+    <%= render 'decline_form', locals: { user_location: @user_location } %>
   </div>
 </div>
 <input id="pac-input" class="controls" type="text" placeholder="Search Box">
 <div id="map"></div>
 <div style="display:none">    
-  <%= render partial: 'location_form', locals: { location: @location, url: locations_path, method: :post} %>
+  <%= render partial: 'location_form', locals: { location: @location, url: user_locations_path, method: :post} %>
 </div>
 <script>
   <%= render 'locations_new.js.erb' %>
