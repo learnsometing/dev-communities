@@ -12,33 +12,19 @@ class UserLocationsController < ApplicationController
   end
 
   def create
-    # A UserLocation can be created in 2 ways. 
-    #
-    # If the user opts out of location services, a nil location_id will be sent
-    # present in  user_location_params. The UserLocation will be created with a 
-    # nil location_id and with disabled set to true.
-    #
-    # If no user_location_params are present, location data from google maps
-    # will be present in location_params and a Location record will be either 
-    # found or created. This location is used in the UserLocation.
-    
-    if params[:user_location][:location_id]
-      @user_location = UserLocation.new(user_id: current_user.id,
-                                        location_id: nil,
-                                        disabled: true)
-    else
-      @location = Location.find_or_create_by(title: params[:location][:title],
-                                             latitude: params[:location][:latitude],
-                                             longitude: params[:location][:longitude])
-      @user_location = UserLocation.new(user_id: current_user.id, location_id: @location.id)
-    end
+    # Attempts to create a new UserLocation. If there is an error and the Location
+    # cannot be found or created, the if block will be executed because
+    # the location will be set as nil, but disabled will still be set to false,
+    # which will never be possible under normal conditions. Also defaults to this
+    # behavior if the record can't be saved.
+    @user_location = new_user_location
 
-    if @user_location.save
+    if (@user_location.location.nil? && !@user_location.disabled) || !@user_location.save
+      flash.now[:danger] = "Location couldn't be set."
+      render 'new'
+    else
       flash[:success] = 'Location set successfully.'
       redirect_to current_user
-    else
-      flash[:danger] = 'Location could not be set.'
-      render 'new'
     end
   end
 
@@ -56,11 +42,12 @@ class UserLocationsController < ApplicationController
   def update
     @user_location = UserLocation.find(params[:id])
     @location      = Location.find_or_create_by(location_params)
-    if @user_location && @location
+    if @user_location && @location.valid?
       @user_location.update(location: @location, disabled: false)
-      flash[:success] = 'Location updated successfully'
+      flash[:success] = 'Location updated successfully.'
       redirect_to current_user
-    else 
+    else
+      flash.now[:danger] = "Location couldn't be set."
       render 'edit'
     end
   end
@@ -82,6 +69,26 @@ class UserLocationsController < ApplicationController
 
   def user_location_params
     params.require(:user_location).permit(:location_id)
+  end
+
+  def new_user_location
+    # A UserLocation can be created in 2 ways.
+    #
+    # If the user opts out of location services, a nil location_id will be sent
+    # present in user_location_params. The UserLocation will be created with a 
+    # nil location_id and with disabled set to true.
+    #
+    # If no user_location_params are present, location data from google maps
+    # will be present in location_params and a Location record will be either 
+    # found or created. This location is used in the UserLocation.
+    if params[:user_location]
+      UserLocation.new(user_id: current_user.id, location: nil, disabled: true)
+    elsif params[:location]
+      @location = Location.find_or_create_by(title: params[:location][:title],
+                                       latitude: params[:location][:latitude],
+                                       longitude: params[:location][:longitude])
+      UserLocation.new(user_id: current_user.id, location_id: @location.id)
+    end
   end
 
   def require_nil_user_location

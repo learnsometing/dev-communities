@@ -44,7 +44,7 @@ locations = { arlington:      { title: 'Arlington, VA, USA',
                                 latitude: 47.6101497,
                                 longitude: -122.2015159},
               fredericksburg: { title: 'Fredericksburg, VA 22401, USA',
-                                latitude: 38.3031837,
+                                latitude: 37.3031837,
                                 longitude: -77.46053990000001 },
               stafford:       { title: 'Stafford, VA 22554, USA',
                                 latitude: 38.4220687,
@@ -52,7 +52,7 @@ locations = { arlington:      { title: 'Arlington, VA, USA',
 
 # Create each location
 locations.values.each do |attributes|
-  location = Location.create(attributes)
+  Location.create(attributes)
 end
 
 # Create the devs

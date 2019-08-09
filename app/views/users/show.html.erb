@@ -40,7 +40,7 @@
 </div>
 <div class='location mr-auto'>
     <%= image_tag 'location-icon-profile' %>
-    <div class='ml-2 mr-2'><%= @user.user_location.display_title %></div>
+    <div class='ml-2 mr-2 user-location'><%= @user.user_location.display_title %></div>
     <% if current_user?(@user) %>
       <div class='dropdown'>
         <button class="btn btn-profile dropdown-toggle" type='button' data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
