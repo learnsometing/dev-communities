@@ -86,6 +86,22 @@ ActiveRecord::Schema.define(version: 2019_08_08_225245) do
     t.index ["author_id"], name: "index_posts_on_author_id"
   end
 
+  create_table "skill_taggings", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "skill_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["skill_id"], name: "index_skill_taggings_on_skill_id"
+    t.index ["user_id", "skill_id"], name: "index_skill_taggings_on_user_id_and_skill_id"
+    t.index ["user_id"], name: "index_skill_taggings_on_user_id"
+  end
+
+  create_table "skills", force: :cascade do |t|
+    t.string "title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "taggings", id: :serial, force: :cascade do |t|
     t.integer "tag_id"
     t.string "taggable_type"
