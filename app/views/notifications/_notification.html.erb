@@ -8,8 +8,7 @@
       <% end %>
     </div>
 
-    <%= form_for notification, url: mark_as_read_path, method: :post do |f| %>
-      <%= f.hidden_field :id, value: notification.id %>
+    <%= form_for notification, url: notification_path(notification.id), method: :delete, html: { class: 'notification-form', id: "delete-notificiation-#{notification.id}" } do |f| %>
       <%= f.submit 'Mark as read', class: "btn btn-dark" %>
     <% end %>
   </div>

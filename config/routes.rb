@@ -18,9 +18,8 @@ Rails.application.routes.draw do
   get 'users/:id/edit_skill_list', to: 'users#edit_skill_list', as: 'edit_skill_list'
   resources :posts, only: %i[create show edit update destroy]
   resources :friend_requests, only: %i[create destroy]
+  resources :notifications, only: %i[index destroy]
   get '/friend_request_notifications', to: 'notifications#friend_request_notifications'
-  get '/notifications', to: 'notifications#index'
-  post '/mark_as_read', to: 'notifications#mark_as_read'
   resources :friendships, only: %i[create index destroy]
   resources :user_locations, only: %i[new create edit update]
   patch '/user_locations/:id/disable', to: 'user_locations#disable_location', as: 'disable_location'

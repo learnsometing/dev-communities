@@ -10,7 +10,7 @@ class SiteMapTest < ActionDispatch::IntegrationTest
   end
 
   test 'root route as signed in user' do
-    user = create(:confirmed_user)
+    user = create(:confirmed_user_with_location_and_skills)
     sign_in user
     get root_path
     assert_redirected_to user_root_path
@@ -46,7 +46,7 @@ class SiteMapTest < ActionDispatch::IntegrationTest
   end
 
   test 'sign in confirmed user without location set' do
-    user = create(:confirmed_user_without_location)
+    user = create(:confirmed_user)
     assert user.location.nil?
     assert user.valid?
     post user_session_path, params: { user: { email: user.email,
@@ -54,11 +54,20 @@ class SiteMapTest < ActionDispatch::IntegrationTest
     assert_redirected_to new_user_location_path
   end
 
-  test 'sign in confirmed user with location set then sign out' do
-    user = create(:confirmed_user_without_location)
-    location = create(:location, title: 'Stafford, VA, 22554', latitude: 38.4150861,
-                                 longitude: -77.4360554)
-    user.create_user_location(location_id: location.id)
+  test 'sign in confirmed user with location set' do
+    user = create(:confirmed_user_with_location)
+    assert user.valid?
+    post user_session_path, params: { user: { email: user.email,
+                                              password: user.password } }
+    assert_redirected_to user_root_path
+    follow_redirect!
+    assert_redirected_to edit_skill_list_path(user.id)
+    follow_redirect!
+    assert_template 'users/edit_skill_list'
+  end
+
+  test 'sign in confirmed user with location and skills set then sign out' do
+    user = create(:confirmed_user_with_location_and_skills)
     assert user.valid?
     post user_session_path, params: { user: { email: user.email,
                                               password: user.password } }

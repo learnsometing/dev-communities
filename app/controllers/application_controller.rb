@@ -22,9 +22,25 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def location_set?
+  def require_user_location
+    # Require that the user set up their user_location before continuing.
+    # Halts the request cycle if the current_user's user_location is nil.
     if user_signed_in?
-      redirect_to new_user_location_path unless current_user.user_location
+      unless current_user.user_location
+        flash[:notice] = 'You must set your location before continuing.'
+        redirect_to new_user_location_path
+      end
+    end
+  end
+
+  def require_skills
+    # Require that the user set their skills before continuing.
+    # Halts the request cycle if the current_user's skill_list is empty.
+    if user_signed_in?
+      if current_user.skills.empty?
+        flash[:notice] = 'You must set your skills before continuing.'
+        redirect_to edit_skill_list_path(current_user)
+      end
     end
   end
 end

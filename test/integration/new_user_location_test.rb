@@ -10,7 +10,7 @@ class NewUserLocationTest < ActionDispatch::IntegrationTest
   end
 
   def setup
-    @user = create(:confirmed_user_without_location)
+    @user = create(:confirmed_user)
   end
 
   test 'new user_location interface' do

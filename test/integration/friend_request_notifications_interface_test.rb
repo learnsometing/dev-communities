@@ -4,13 +4,7 @@ class FriendRequestNotificationsInterfaceTest < ActionDispatch::IntegrationTest
   def setup
     # Create the necessary users
     location = create(:location)
-    users = []
-    3.times do
-      user = create(:confirmed_user_without_location)
-      create(:user_location, user_id: user.id, location_id: location.id)
-      users << user
-    end
-
+    users = create_list(:confirmed_user_with_location_and_skills, 3, location: location)
     @requestor  = users[0]
     @requestor2 = users[1]
     @friend     = users[2]

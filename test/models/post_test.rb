@@ -36,14 +36,7 @@ class PostTest < ActiveSupport::TestCase
   # Move this into the notification model test file?
   test 'post creation notfications system' do
     location = create(:location)
-
-    users = []
-    4.times do
-      user = create(:confirmed_user_without_location)
-      create(:user_location, user_id: user.id, location_id: location.id)
-      users << user
-    end
-
+    users = create_list(:confirmed_user_with_location_and_skills, 4, location: location)
     author = users[0]
     friends = users[1..3]
 

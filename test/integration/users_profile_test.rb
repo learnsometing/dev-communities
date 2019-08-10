@@ -5,12 +5,7 @@ require 'test_helper'
 class UsersProfileTest < ActionDispatch::IntegrationTest
   def setup
     location = create(:location)
-    users = []
-    2.times do
-      user = create(:confirmed_user_without_location)
-      create(:user_location, user_id: user.id, location_id: location.id)
-      users << user
-    end
+    users = create_list(:confirmed_user_with_location_and_skills, 2, location: location)
     @user = users[0]
     @other_user = users[1]
     posts = create_list(:post, 5)

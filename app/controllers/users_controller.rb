@@ -8,7 +8,8 @@ class UsersController < ApplicationController
 
   # Before filters
   before_action :logged_in_user
-  before_action :location_set?
+  before_action :require_user_location
+  before_action :require_skills, only: %i[show feed edit]
   before_action :correct_user, only: %i[edit update]
 
   def show
@@ -28,13 +29,24 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
-
-    if @user.update_attributes(user_params)
-      flash[:success] = 'Profile Picture Updated'
-      redirect_to @user
-    else
-      render 'edit'
+    if params[:user][:skill_list]
+      @user.skill_list = params[:user][:skill_list].join(', ')
+      if @user.save
+        flash[:success] = 'Your skills were successfully updated.'
+        redirect_to @user
+      else
+        render 'edit_skill_list'
+      end
+    elsif params[:user][:profile_picture]
+      if @user.update_attributes(user_params)
+        flash[:success] = 'Your profile picture was successfully updated.'
+        redirect_to @user
+      else
+        render 'edit'
+      end
     end
+
+    
   end
 
   def edit_skill_list

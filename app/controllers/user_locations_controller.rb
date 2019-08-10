@@ -5,6 +5,8 @@ class UserLocationsController < ApplicationController
   # Before filters
   before_action :logged_in_user
   before_action :require_nil_user_location, only: %i[new create]
+  before_action :require_skills, only: %i[edit update disable_location]
+  before_action :correct_user_location, only: %i[edit update disable_location]
 
   def new
     @location = Location.new
@@ -104,5 +106,12 @@ class UserLocationsController < ApplicationController
     msg = 'You must visit the edit page to change your location.'
     flash[:danger] = msg
     redirect_to current_user
+  end
+
+  def correct_user_location
+    # Checks that the user_location belongs to the current user to prevent
+    # a malicious user from manipulating user_locaitons that are not theirs.
+    user_loc = UserLocation.find_by(id: params[:id])
+    redirect_to root_url unless current_user.user_location == user_loc
   end
 end

@@ -4,7 +4,7 @@ require 'test_helper'
 
 class PostsInterfaceTest < ActionDispatch::IntegrationTest
   def setup
-    @user = create(:confirmed_user)
+    @user = create(:confirmed_user_with_location_and_skills)
     @post = @user.posts.create(content: 'This is my post.')
     sign_in(@user)
   end
@@ -40,7 +40,7 @@ class PostsInterfaceTest < ActionDispatch::IntegrationTest
     assert_select "a#post-#{@post.id}-edit", text: 'Edit'
   end
 
-  test 'valid post edits' do
+  test 'valid post updates' do
     get edit_post_path(@post)
     assert_template 'posts/edit'
     og_content = @post.content
@@ -55,7 +55,7 @@ class PostsInterfaceTest < ActionDispatch::IntegrationTest
     assert_match new_content, response.body
   end
 
-  test 'invalid post edits' do
+  test 'invalid post updates' do
     get edit_post_path(@post)
     assert_template 'posts/edit'
     patch post_path(@post), params: { post: { content: '' } }
@@ -67,10 +67,10 @@ class PostsInterfaceTest < ActionDispatch::IntegrationTest
   end
 
   test 'delete a post' do
-    get user_path(@user)
+    get user_path(@user.id)
     assert_select "a#post-#{@post.id}-delete", text: 'Delete'
     assert_difference 'Post.count', -1 do
-      delete post_path(@post)
+      delete post_path(@post.id)
     end
   end
 end

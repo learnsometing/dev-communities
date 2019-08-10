@@ -2,7 +2,7 @@
 
 class ApplicationControllerTest < ActionDispatch::IntegrationTest
   def setup
-    @user = create(:confirmed_user_without_location)
+    @user = create(:confirmed_user)
   end
 
   test 'ApplicationController should require a user to set their locaton' do

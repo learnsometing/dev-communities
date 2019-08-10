@@ -3,8 +3,10 @@
 class NotificationsController < ApplicationController
 
   # Before filters
-  before_action :logged_in_user, only: %i[friend_request_notifications index]
-  before_action :location_set?
+  before_action :logged_in_user
+  before_action :require_user_location
+  before_action :require_skills
+  before_action :correct_notification, only: %i[destroy]
 
   def friend_request_notifications
     # Get the pending friend requests for the user to see
@@ -30,12 +32,21 @@ class NotificationsController < ApplicationController
     @notifications = current_user.notifications.with_objects(notification_object_ids)
   end
 
-  def mark_as_read
-    if Notification.exists?(params[:notification][:id])
-      Notification.find(params[:notification][:id]).destroy
+  def destroy
+    if Notification.exists?(params[:id])
+      Notification.find(params[:id]).destroy
     else
-      flash[:danger] = 'Notification could not be read.'
+      flash[:danger] = 'Notification could not be marked as read.'
     end
     redirect_to notifications_path
+  end
+
+  private
+
+  def correct_notification
+    # Checks that the notification belongs to the currently logged in user to
+    # prevent a malicious user from manipulating notifications that are not theirs.
+    @notification = current_user.notifications.find_by(id: params[:id])
+    redirect_to root_url if @notification.nil?
   end
 end

@@ -4,7 +4,8 @@ class PostsController < ApplicationController
   # Before filters
 
   before_action :logged_in_user
-  before_action :location_set?
+  before_action :require_user_location
+  before_action :require_skills
   before_action :correct_post, only: %i[edit update destroy]
 
   def create
@@ -48,10 +49,12 @@ class PostsController < ApplicationController
   end
 
   def destroy
-    @post.destroy
+    Post.find(params[:id]).destroy
     flash[:success] = 'Post deleted'
     redirect_to request.referrer || current_user
   end
+
+  private
 
   def post_params
     params.require(:post).permit(:content)
@@ -60,7 +63,6 @@ class PostsController < ApplicationController
   def correct_post
     # Checks that the post belongs to the currently logged in user to prevent
     # a malicious user from manipulating posts that are not theirs.
-    @post = current_user.posts.find_by(id: params[:id])
-    redirect_to root_url if @post.nil?
+    redirect_to root_url if current_user.posts.find_by(id: params[:id]).nil?
   end
 end

@@ -7,8 +7,15 @@ FactoryBot.define do
     email { Faker::Internet.email }
     password { 'foobar' }
     password_confirmation { 'foobar' }
-    
+
     factory :confirmed_user do
+      # A confirmed user that has not set their location. Use this factory
+      # in tests that require multiple confirmed users.
+      # Then set each user_location using the location factory.
+      confirmed_at { Date.today }
+    end
+
+    factory :confirmed_user_with_location do
       # A confirmed user that has also set their location.
       # Only use in tests that require one user after confirmation with location 
       # set. Otherwise, creating multiple users may lead to conflicts with 
@@ -16,13 +23,10 @@ FactoryBot.define do
       # If the location exists, the database will throw an error.
       confirmed_at { Date.today }
       location
-    end
 
-    factory :confirmed_user_without_location do
-      # A confirmed user that has not set their location. Use this factory
-      # in tests that require multiple confirmed users.
-      # Then set each user_location using the location factory.
-      confirmed_at { Date.today }
-    end      
+      factory :confirmed_user_with_location_and_skills do
+        skill_list { %w[Ruby JavaScript HTML CSS] }
+      end
+    end
   end
 end

@@ -4,8 +4,10 @@ class FriendshipsController < ApplicationController
 
   # Before filters
   before_action :logged_in_user
-  before_action :location_set?
-
+  before_action :require_user_location
+  before_action :require_skills
+  before_action :correct_friendship, only: %i[destroy
+  ]
   def create
     friend_request = FriendRequest.find(params[:friend_request][:id])
     requestor = User.find(friend_request.requestor_id)
@@ -38,5 +40,14 @@ class FriendshipsController < ApplicationController
     end
 
     redirect_to user
+  end
+
+  private
+
+  def correct_friendship
+    # Checks that the friendship belongs to the current user to
+    # prevent a malicious user from manipulating frienships that aren't theirs.
+
+    redirect_to root_url if current_user.friendships.find_by(id: params[:id]).nil?
   end
 end

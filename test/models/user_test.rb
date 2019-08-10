@@ -76,7 +76,7 @@ class UserTest < ActiveSupport::TestCase
 
   test 'associated friend requests should be destroyed' do
     @user.save
-    friend = create(:confirmed_user_without_location)
+    friend = create(:confirmed_user)
     @user.sent_friend_requests.create(friend: friend)
 
     assert_equal friend.received_friend_requests.count, 1
@@ -90,7 +90,7 @@ class UserTest < ActiveSupport::TestCase
 
   test 'associated notifications should be destroyed' do
     @user.save
-    friend = create(:confirmed_user_without_location)
+    friend = create(:confirmed_user)
     @user.sent_friend_requests.create(friend: friend)
     assert_difference 'friend.notifications.count', -1 do
       friend.destroy
@@ -99,7 +99,7 @@ class UserTest < ActiveSupport::TestCase
 
   test 'associated notification_objects should be destroyed' do
     @user.save
-    friend = create(:confirmed_user_without_location)
+    friend = create(:confirmed_user)
     @user.sent_friend_requests.create(friend: friend)
     assert_difference 'friend.notification_objects.count', -1 do
       friend.destroy
@@ -108,7 +108,7 @@ class UserTest < ActiveSupport::TestCase
 
   test 'associated notification_changes should be destroyed' do
     @user.save
-    friend = create(:confirmed_user_without_location)
+    friend = create(:confirmed_user)
     @user.sent_friend_requests.create(friend: friend)
     assert_difference '@user.notification_changes.count', -1 do
       @user.destroy
@@ -117,7 +117,7 @@ class UserTest < ActiveSupport::TestCase
 
   test 'associated friendships should be destroyed' do
     @user.save
-    friend = create(:confirmed_user_without_location)
+    friend = create(:confirmed_user)
     @user.friendships.create(friend: friend)
     assert_difference '@user.friendships.count', -1 do
       @user.destroy
@@ -128,12 +128,7 @@ class UserTest < ActiveSupport::TestCase
     # Create the users. Set the location explicitly to avoid conflicts
     # between locations.
     location = create(:location)
-    users = []
-    3.times do
-      user = create(:confirmed_user_without_location)
-      create(:user_location, user_id: user.id, location_id: location.id)
-      users << user
-    end
+    users = create_list(:confirmed_user_with_location_and_skills, 3, location: location)
 
     # Create posts for each user
     users.each do |user|
@@ -161,7 +156,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test 'associated location should be destroyed' do
-    user = create(:confirmed_user)
+    user = create(:confirmed_user_with_location)
     assert_difference 'UserLocation.count', -1 do
       user.destroy
     end
