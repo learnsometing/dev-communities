@@ -10,7 +10,7 @@ class UsersController < ApplicationController
   before_action :logged_in_user
   before_action :require_user_location
   before_action :require_skills, only: %i[show feed edit]
-  before_action :correct_user, only: %i[edit update]
+  before_action :correct_user, only: %i[edit update edit_skill_list]
 
   def show
     @user = User.find(params[:id])
@@ -45,8 +45,6 @@ class UsersController < ApplicationController
         render 'edit'
       end
     end
-
-    
   end
 
   def edit_skill_list

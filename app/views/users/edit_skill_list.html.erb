@@ -34,11 +34,13 @@
   </div>
   <hr>
   <div id='tags'>
-
+    <%= render partial: 'skill', collection: @user.skills %>
   </div>
   <%= form_for @user, html: {id: 'skills-form'} do |f| %>
+    <div id='skill-fields'>
+    </div>
     <div id='submit-tags'>
-      <%= f.submit 'Finished' %>
+      <%= f.submit 'Finished', id: 'submit-skills' %>
     </div>
   <% end %>
 </div>
