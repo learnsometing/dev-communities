@@ -9,10 +9,11 @@ $(document).on('turbolinks:load', function () {
     var tagsDiv = document.getElementById('tags');
     var skillFields = document.getElementById('skill-fields');
     var submitButton = document.getElementById('submit-skills');
+    var unicodeX = '\u2715';
 
     function RemoveButton() {
         // skill tag removal button constructor 
-        this.text = '\u2715';
+        this.text = unicodeX;
     };
     RemoveButton.prototype.create = function (tag) {
         // Appends a new skill tag removal button to the given tag div
@@ -73,7 +74,7 @@ $(document).on('turbolinks:load', function () {
                 continue
             }
 
-            if (node.innerText.includes(name) || node.value.includes(name)) {
+            if ((node.innerText && node.innerText == `${name}\n${unicodeX}`) || (node.value && node.value == name)) {
                 return node;
             }
         };
@@ -85,7 +86,7 @@ $(document).on('turbolinks:load', function () {
         /* Make a div that represents the tag for the user to see and add it to 
            the tags div. Prevents multiples from being created by checking for 
            the tag in the tags div first */
-        let children = tagsDiv.childNodes;
+        let children = tagsDiv.children;
 
         if (nodeWithTextOrValue(name, children)) {
             return;
@@ -98,7 +99,7 @@ $(document).on('turbolinks:load', function () {
     function addSkillNameToForm(value) {
         /* Add the name of the skill to the form for the user's skill list
            Checks the form for the name of the skill before appending it */
-        let children = skillFields.childNodes
+        let children = skillFields.children
 
         if (nodeWithTextOrValue(value, children)) {
             return;

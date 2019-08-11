@@ -28,22 +28,18 @@ class UsersController < ApplicationController
   end
 
   def update
+    # Update the user model using the white-listed parameters. Works both for
+    # updating profile picture and for updating skill list. The request referrer
+    # is used to determing which flash message to display, or which action to
+    # fall back to if the update fails.
     @user = User.find(params[:id])
-    if params[:user][:skill_list]
-      @user.skill_list = params[:user][:skill_list].join(', ')
-      if @user.save
-        flash[:success] = 'Your skills were successfully updated.'
-        redirect_to @user
-      else
-        render 'edit_skill_list'
-      end
-    elsif params[:user][:profile_picture]
-      if @user.update_attributes(user_params)
-        flash[:success] = 'Your profile picture was successfully updated.'
-        redirect_to @user
-      else
-        render 'edit'
-      end
+    flash_messages, fallback_action = info_for_update(user_params)
+    if @user.update(user_params)
+      flash[:success] = flash_messages[:success]
+      redirect_to @user
+    else
+      flash.now[:danger] = flash_messages[:failure]
+      render fallback_action
     end
   end
 
@@ -54,7 +50,22 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:profile_picture, :skill_list)
+    params.require(:user).permit(:profile_picture, skill_list: [])
+  end
+
+  def info_for_update(params)
+    # Used in the update action to get the correct set of flash messages
+    # and fallback action based on the key present in user_params. The user
+    # will only be updating via one key at a time.
+    if params.key?(:skill_list)
+      [{ success: 'Your skills were successfully updated.',
+         failure: "Your skills couldn't be updated." },
+       'edit_skill_list']
+    elsif params.key?(:profile_picture)
+      [{ success: 'Your profile picture was successfully updated.',
+         failure: "Your profile picture couldn't be updated." },
+       'edit']
+    end
   end
 
   # Before filters

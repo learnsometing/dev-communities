@@ -25,6 +25,7 @@ class User < ApplicationRecord
   has_one :location, through: :user_location
   acts_as_taggable
   acts_as_taggable_on :skills
+  mount_uploader :profile_picture, ProfilePictureUploader
 
   # Validations
 
@@ -32,9 +33,6 @@ class User < ApplicationRecord
   validate :picture_size
 
   # CarrierWave for Image Upload
-
-  mount_uploader :profile_picture, ProfilePictureUploader
-
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       user.email = auth.info.email

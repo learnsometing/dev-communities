@@ -51,8 +51,8 @@ class UserProfPicUploadTest < ActionDispatch::IntegrationTest
 
       ext = ext(f)
       file = fixture_file_upload(File.join(invalid_path, f), "image/#{ext}")
-
-      patch user_path(@user), params: { user: { profile_picture: file } }
+      get edit_user_path(@user.id)
+      patch user_path(@user.id), params: { user: { profile_picture: file } }
       prof_pic_ext = ext(assigns(:user).profile_picture.profile.url)
 
       assert_equal default_ext, prof_pic_ext
