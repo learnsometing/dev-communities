@@ -45,4 +45,21 @@ class UserLocationTest < ActiveSupport::TestCase
     @user_location.reload
     assert_equal 'This user prefers to keep their location secret', @user_location.display_title
   end
+
+  test 'search_by_loc_title should return correct results' do
+    loc = @user_location.location
+    # Search with actual location title
+    assert_equal 1, UserLocation.search_by_loc_title(loc.title).size
+    assert_equal @user_location, UserLocation.search_by_loc_title(loc.title).first
+    # Search with location title that doesn't exist (location titles in the
+    # Factory will always be the name of a state)
+    assert UserLocation.search_by_loc_title("The Moon").empty?
+  end
+
+  test 'Works with any input type' do
+    # Input is always converted to string
+    assert UserLocation.search_by_loc_title(1).empty?
+    assert UserLocation.search_by_loc_title([1, 2, 3]).empty?
+    assert UserLocation.search_by_loc_title(:test).empty?
+  end
 end

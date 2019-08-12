@@ -19,4 +19,8 @@ class UserLocation < ApplicationRecord
 
     location.title
   end
+
+  def self.search_by_loc_title(term)
+    joins(:location).where('title ILIKE ?', "%#{term}%")
+  end
 end

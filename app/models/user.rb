@@ -54,6 +54,15 @@ class User < ApplicationRecord
     end
   end
 
+  def self.search(term)
+    # Search users by their name, location and skills
+    results = []
+    where('name ILIKE ?', "%#{term}%").each { |user| results << user} # Good
+    UserLocation.search_by_loc_title(term).each { |ul| results << ul.user }
+    User.tagged_with(term, any: true).each { |user| results << user }
+    results.uniq
+  end
+
   def feed
     Post.where(author_id: id).or(Post.where(author_id: friend_ids))
   end

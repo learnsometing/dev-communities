@@ -161,4 +161,22 @@ class UserTest < ActiveSupport::TestCase
       user.destroy
     end
   end
+
+  test 'search should return correct results' do
+    location = create(:location)
+    users = create_list(:confirmed_user_with_location_and_skills, 4, location: location)
+    users[0].update(name: 'Brian Monaccio')
+    users[1].update(name: 'Kai Johnson')
+    users[2].update(name: 'Kyle Johnson')
+    users[3].update(name: 'John Paschal')
+    # Search by name
+    assert_equal 3, User.search('John').size
+    assert User.search('z').empty?
+    # Search by location
+    assert_equal 4, User.search(location.title).size
+    assert User.search('Fredericksburg').empty?
+    # Search by tags
+    assert_equal 4, User.search('JavaScript').size
+    assert User.search('Python').empty?
+  end
 end
