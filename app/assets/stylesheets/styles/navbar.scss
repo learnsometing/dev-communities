@@ -8,6 +8,16 @@ $white: #ffffff;
     color: $white;
 }
 
+// .navbar{
+//     min-height: 48.33333px;
+//     height: calc(16px + 6.7017vh);
+//     width: 100%;
+// }
+
+.btn {
+    font-size: calc(12px + 0.41885vh);
+}
+
 .bg-red {
     background-color: $red-base;
 }
@@ -32,6 +42,6 @@ $white: #ffffff;
 }
 
 .navbar-brand {
-    font-size: 36px;
+    font-size: calc(12px + 2.51309vh);
     font-weight: bolder;
 }

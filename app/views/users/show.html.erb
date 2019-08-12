@@ -1,62 +1,78 @@
 <%= provide(:title, @user.name) %>
 
-<div class='container prof_pic'>
-  <% if current_user?(@user) %>
-    <%= link_to image_tag(@user.profile_picture.profile.url), edit_user_path(@user) %>
-  <% else %>
-    <%= image_tag(@user.profile_picture.profile.url) %>
-  <% end %>
-</div>
-<div class='container container-fluid user-info'>
-  <div class='navbar-brand mr-auto'>
-    <div class='user_name'>
-      <%= @user.name %>
-    </div>
-  </div>
-  <ul class='navbar-nav'>
-    <% if current_user?(@user) || already_friends?(@user) %>
-      <li class='friend-count'>
-          <%= link_to pluralize(@user.friends.count, 'Friend'), friendships_path, class: 'btn btn-profile' %>
-      </li>
-    <% end %>
-
-    <% if already_friends?(@user) %>
-      <li class='friend_removal_btn'>
-        <%= form_for(current_user.friendships.find_by(friend_id: @user.id), method: :delete) do |f| %>
-          <%= f.submit 'Remove from friends', class: 'btn btn-profile' %>
-        <% end %>
-      </li>
-    <% end %>
-
-    <% unless current_user?(@user) or already_requested?(@user) or already_friends?(@user) %>
-      <li class='friend_request_btn'>
-        <%= form_for @friend_request, method: :post, url: friend_requests_url do |f| %>
-          <%= f.hidden_field :friend_id, value: @user.id %>
-          <%= f.submit 'Send Friend Request', class: 'btn btn-profile' %>
-        <% end %>
-      </li>
-    <% end %>
-  </ul> 
-</div>
-<div class='location mr-auto'>
-    <%= image_tag 'location-icon-profile' %>
-    <div class='ml-2 mr-2 user-location'><%= @user.user_location.display_title %></div>
+<div class='container profile-header'>
+  <div class='prof-pic'>
     <% if current_user?(@user) %>
-      <div class='dropdown'>
-        <button class="btn btn-profile dropdown-toggle" type='button' data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-        <div class="dropdown-menu" aria-labelledby="user_location-<%= @user.user_location.id %>-dropdown">
-            <% if @user.user_location.disabled? %>
-              <%= link_to 'Turn on my location', edit_user_location_path(@user.user_location.id), class: 'dropdown-item'%>
-            <% else %>
-              <%= link_to 'Edit', edit_user_location_path(@user.user_location.id), class: 'dropdown-item'%>
-              <hr>
-              <%= link_to 'Turn off my location', disable_location_path(@user.user_location.id), method: :patch, class: 'dropdown-item', 
-                                                  data: { confirm: 'Are you sure you want to disable your location? You can turn it back on at a later date.' }%>
+      <%= link_to image_tag(@user.profile_picture.profile.url), edit_user_path(@user) %>
+    <% else %>
+      <%= image_tag(@user.profile_picture.profile.url) %>
+    <% end %>
+  </div>
+  <div class='user-info'>
+    <div class='top-half'>
+      <div class='name-friends'>
+        <h2 class='name mr-auto'>
+            <%= @user.name %>
+        </h2>
+        <div class='friend-info'>
+            <% if current_user?(@user) || already_friends?(@user) %>
+              <div class='friend-count'>
+                  <%= link_to pluralize(@user.friends.count, 'Friend'), friend_list_path(@user.id), class: 'btn btn-profile' %>
+              </div>
+            <% end %>
+            
+            <% if already_friends?(@user) %>
+              <div class='friend-removal-btn'>
+                <%= form_for(current_user.friendships.find_by(friend_id: @user.id), method: :delete) do |f| %>
+                  <%= f.submit 'Remove from friends', class: 'btn btn-profile' %>
+                <% end %>
+              </div>
+            <% end %>
+            
+            <% unless current_user?(@user) or already_requested?(@user) or already_friends?(@user) %>
+              <div class='friendrequest-btn'>
+                <%= form_for @friend_request, method: :post, url: friend_requests_url do |f| %>
+                  <%= f.hidden_field :friend_id, value: @user.id %>
+                  <%= f.submit 'Send Friend Request', class: 'btn btn-profile' %>
+                <% end %>
+              </div>
             <% end %>
         </div>
       </div>
-    <% end %>
+      <div class='location-info'>
+        <div class='location'>
+            <div class='ml-2 mr-2 user-location'>
+              <%= @user.user_location.display_title %>
+            </div>
+            <% if current_user?(@user) %>
+              <div class='dropdown'>
+                <button class="btn btn-profile dropdown-toggle" type='button' data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                <div class="dropdown-menu" aria-labelledby="user_location-<%= @user.user_location.id %>-dropdown">
+                    <% if @user.user_location.disabled? %>
+                      <%= link_to 'Turn on my location', edit_user_location_path(@user.user_location.id), class: 'dropdown-item'%>
+                    <% else %>
+                      <%= link_to 'Edit', edit_user_location_path(@user.user_location.id), class: 'dropdown-item'%>
+                      <hr>
+                      <%= link_to 'Turn off my location', disable_location_path(@user.user_location.id), method: :patch, class: 'dropdown-item', 
+                                                          data: { confirm: 'Are you sure you want to disable your location? You can turn it back on at a later date.' }%>
+                    <% end %>
+                </div>
+              </div>
+            <% end %>
+        </div>
+      </div>
+    </div>  
+    <div class='skill-tags'>
+      <% if current_user?(@user) %>  
+        <%= link_to "\u270E", edit_skill_list_path(@user.id), id: 'edit-skills-icon'  %>
+      <% end %>
+      <% tag_cloud(@skills, %w(css1 css2 css3 css4)) do |skill, css_class| %>
+        <%= content_tag :div, skill.name, class: "#{css_class} skill" %>
+      <% end %>
+    </div>
+  </div>
 </div>
+
 <div class='container'>
   <% if current_user?(@user) %>
     <%= render 'shared/post_form' %>

@@ -14,6 +14,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    @skills = @user.tag_counts_on(:skills)
     @posts = @user.authored_posts
     @new_post = @user.posts.build if current_user?(@user)
     @friend_request = @user.sent_friend_requests.build
@@ -21,6 +22,11 @@ class UsersController < ApplicationController
 
   def feed
     @feed_items = current_user.feed
+  end
+
+
+  def friends
+    @user = User.find(params[:id])
   end
 
   def edit

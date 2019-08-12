@@ -20,7 +20,8 @@ Rails.application.routes.draw do
   resources :friend_requests, only: %i[create destroy]
   resources :notifications, only: %i[index destroy]
   get '/friend_request_notifications', to: 'notifications#friend_request_notifications'
-  resources :friendships, only: %i[create index destroy]
+  resources :friendships, only: %i[create destroy]
+  get 'users/:id/friends', to: 'users#friends', as: 'friend_list'
   resources :user_locations, only: %i[new create edit update]
   patch '/user_locations/:id/disable', to: 'user_locations#disable_location', as: 'disable_location'
 end

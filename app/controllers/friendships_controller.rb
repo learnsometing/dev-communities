@@ -25,10 +25,6 @@ class FriendshipsController < ApplicationController
     redirect_to friend_request_notifications_path
   end
 
-  def index
-    @friends = current_user.friends
-  end
-
   def destroy
     if Friendship.exists?(params[:id])
       friendship = Friendship.find(params[:id])

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module UsersHelper
+  include ActsAsTaggableOn::TagsHelper
   def resource_name
     :user
   end

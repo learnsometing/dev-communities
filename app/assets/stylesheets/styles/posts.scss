@@ -12,11 +12,12 @@ $backgroundColor: #f8f9fa;
 }
 
 .posts-container{
-    background-color: white;
     box-sizing: border-box;
     position: relative;
-    height: inherit;
-    overflow-y: scroll;
+    background-color: white;
+    height: 55%;
+    overflow-y: auto;
+    
 }
 
 .posts-list {
