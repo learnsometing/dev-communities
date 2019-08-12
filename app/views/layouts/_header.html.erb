@@ -1,8 +1,10 @@
 <nav class='navbar fixed-top navbar-expand-sm navbar-dark bg-red'>
   <div class='container'>
+    <% if user_signed_in? %>
       <div class='user-search-field'>
         <%= text_field_tag(:user_search, '', placeholder: 'Search', data: {autocomplete_source: search_users_path}) %>
       </div>
+    <% end %>
     <% unless user_signed_in? %>
         <div class='navbar-brand'>
             <%= link_to'Dev Communities', root_path, class: 'clickable-logo' %>

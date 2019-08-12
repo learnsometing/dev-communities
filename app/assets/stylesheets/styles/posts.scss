@@ -14,7 +14,6 @@ $backgroundColor: #f8f9fa;
 .posts-container{
     box-sizing: border-box;
     position: relative;
-    background-color: white;
     height: 55%;
     overflow-y: auto;
     
@@ -26,6 +25,7 @@ $backgroundColor: #f8f9fa;
 }
 
 .post {
+    background-color: $backgroundColor;
     border: solid 1px darken($backgroundColor, 50%);
     padding: 2rem;
     margin-top: 0.5rem;

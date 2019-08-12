@@ -9,14 +9,14 @@
     <% end %>
   </div>
   <div class='user-info'>
-    <div class='top-half'>
+    <div class='top'>
       <div class='name-friends'>
-        <h2 class='name mr-auto'>
+        <h2 class='name'>
             <%= @user.name %>
         </h2>
+        <%= render 'location_info' %>
         <%= render 'friend_info' %>
       </div>
-      <%= render 'location_info' %>
     </div>  
     <div class='skill-tags'>
       <%= render 'tag_cloud' %>
