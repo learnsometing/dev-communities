@@ -8,7 +8,7 @@ class UsersController < ApplicationController
   # Before filters
   before_action :logged_in_user
   before_action :require_user_location
-  before_action :require_skills, only: %i[show feed edit]
+  before_action :require_skills, only: %i[show feed friends edit]
   before_action :correct_user, only: %i[edit update edit_skill_list]
 
   def show

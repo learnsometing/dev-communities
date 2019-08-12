@@ -16,14 +16,14 @@ class UsersProfileTest < ActionDispatch::IntegrationTest
     sign_in @user
     get user_path(@user)
     assert_template 'users/show'
-    assert_select 'div.prof_pic'
+    assert_select 'div.prof-pic'
     assert_select 'a[href=?]', edit_user_path(@user)
     assert_select 'img[src=?]', @user.profile_picture.profile.url
     assert_select 'div.location'
     assert_select 'a[href=?]', edit_user_location_path(@user.user_location)
-    assert_select 'li.friend_request_button', count: 0
-    assert_select 'li.friend_removal_button', count: 0
-    assert_select 'li.friend-count'
+    assert_select 'div.friend-request-btn', count: 0
+    assert_select 'div.friend-removal-btn', count: 0
+    assert_select 'div.friend-count'
     @user.posts.each do |post|
       assert_match post.content, response.body
     end
@@ -36,17 +36,17 @@ class UsersProfileTest < ActionDispatch::IntegrationTest
     assert_select 'img[src=?]', @user.profile_picture.profile.url
     assert_select 'div.location'
     assert_select 'a[href=?]', edit_user_location_path(@user.user_location), count: 0
-    assert_select 'li.friend_request_btn'
-    assert_select 'li.friend_removal_btn', count: 0
-    assert_select 'li.friend-count', count: 0
+    assert_select 'div.friend-request-btn'
+    assert_select 'div.friend-removal-btn', count: 0
+    assert_select 'div.friend-count', count: 0
   end
 
   test 'friend user profile layout' do
     @user.friendships.create(friend: @other_user)
     sign_in @user
     get user_path(@other_user)
-    assert_select 'li.friend_request_btn', count: 0
-    assert_select 'li.friend_removal_btn'
-    assert_select 'li.friend-count'
+    assert_select 'div.friend-request-btn', count: 0
+    assert_select 'div.friend-removal-btn'
+    assert_select 'div.friend-count'
   end
 end

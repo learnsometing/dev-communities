@@ -19,7 +19,7 @@ class FriendshipsControllerTest < ActionDispatch::IntegrationTest
     post friendships_path, params: { friend_request: { id: 1 } }
     assert_redirected_to new_user_session_path
     # index
-    get friendships_path
+    get friend_list_path(@requestor)
     assert_redirected_to new_user_session_path
     # destroy
     delete friendship_path(1)
@@ -33,7 +33,7 @@ class FriendshipsControllerTest < ActionDispatch::IntegrationTest
     post friendships_path, params: { friend_request: { id: 1 } }
     assert_redirected_to new_user_location_path
     # index
-    get friendships_path
+    get friend_list_path(@requestor)
     assert_redirected_to new_user_location_path
     # destroy
     delete friendship_path(1)
@@ -47,7 +47,7 @@ class FriendshipsControllerTest < ActionDispatch::IntegrationTest
     post friendships_path, params: { friend_request: { id: 1 } }
     assert_redirected_to edit_skill_list_path(@requestor.id)
     # index
-    get friendships_path
+    get friend_list_path(@requestor)
     assert_redirected_to edit_skill_list_path(@requestor.id)
     # destroy
     delete friendship_path(1)

@@ -15,7 +15,7 @@ class RemoveFriendTest < ActionDispatch::IntegrationTest
   test 'friend removal interface' do
     sign_in @user
     get user_path(@friend)
-    assert_select 'li.friend_removal_btn'
+    assert_select 'div.friend-removal-btn'
     assert_difference '@user.friendships.count', -1 do
       delete friendship_path(@friendship)
     end
@@ -24,6 +24,6 @@ class RemoveFriendTest < ActionDispatch::IntegrationTest
     assert_redirected_to @friend
     follow_redirect!
     assert_select 'div.alert-success'
-    assert_select 'li.friend_request_btn'
+    assert_select 'div.friend-request-btn'
   end
 end
