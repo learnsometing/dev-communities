@@ -1,13 +1,12 @@
 $backgroundColor: #f8f9fa;
 $borderColor: darken($backgroundColor, 50%);
-.btn-profile{
-    font-size: calc(16px + 1vh);
-    font-weight: 500;
-    &:hover {
-        background-color: darken($backgroundColor, 10%);
-    }
+
+.settings {
+    border: solid 1px $borderColor; 
+    padding: 1.5rem;
 }
 
+// Feed styles
 .feed {
     display: flex;
     flex-direction: column;
@@ -18,17 +17,8 @@ $borderColor: darken($backgroundColor, 50%);
     padding-right: 1rem;
 }
 
-.friend-info {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    height: 50%;
-    max-height: 50%;
-    width: fit-content;
-    max-width: 68.1818%;
-    padding: 0.928%;
-}
+// Friend list styles
+
 .friends {
     display: flex;
     flex-direction: column;
@@ -44,6 +34,68 @@ $borderColor: darken($backgroundColor, 50%);
     border-bottom: solid 1px $borderColor;
 }
 
+// Profile Header Div
+.profile-header {
+    width: 100%;
+    height: 21%;
+    display: flex;
+    justify-content: flex-start;
+    margin-top:1rem;
+    margin-bottom: 0.5rem;
+}
+
+// Profile buttons
+.btn-profile{
+    font-size: calc(16px + 1vh);
+    font-weight: 500;
+    &:hover {
+        background-color: darken($backgroundColor, 10%);
+    }
+}
+
+// Profile picture Div
+
+.prof-pic {
+    max-width: 20.9424%;
+    max-height: 100%;
+}
+
+.prof-pic img {
+    max-height: 100%;
+    max-width: 100%;
+    min-height: 25%;
+    min-width: 25%;
+}
+
+// Top half of profile header
+
+
+.top-half {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    height: calc(16px + 8.79581vh);
+    width: 100%;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 81.489%;
+}
+
+.name-friends, .location-info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 50%;
+    max-height: 50px;
+    width: 100%;
+    max-width: 880px;
+    padding: 0.5rem;
+}
+
 h2.name{
     display: flex;
     flex-direction: column;
@@ -53,6 +105,18 @@ h2.name{
     line-height: 100%;
     font-size: calc(16px + 1vh);
     margin-bottom: 0;
+}
+
+.friend-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    height: 50%;
+    max-height: 50%;
+    width: fit-content;
+    max-width: 68.1818%;
+    padding: 0.928%;
 }
 
 .location {
@@ -67,52 +131,7 @@ h2.name{
     color: grey;
 }
 
-.name-friends, .location-info {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    height: 50%;
-    max-height: 50px;
-    width: 100%;
-    max-width: 880px;
-    padding: 0.5rem;
-}
-
-.profile {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: white;
-    height: 100%;
-    max-height: 100%
-}
-
-.profile-header {
-    width: 100%;
-    height: 21%;
-    display: flex;
-    justify-content: flex-start;
-    margin-top:1rem;
-    margin-bottom: 0.5rem;
-}
-
-.prof-pic {
-    max-width: 20.9424%;
-    max-height: 100%;
-}
-
-.prof-pic img {
-    max-height: 100%;
-    max-width: 100%;
-    min-height: 25%;
-    min-width: 25%;
-}
-
-.settings {
-    border: solid 1px $borderColor; 
-    padding: 1.5rem;
-}
-
+// Bottom half of profile header (tag cloud)
 
 .skill-tags {
     height: calc(16px + 8.79581vh);
@@ -137,22 +156,13 @@ h2.name{
     background-color: #c52f24;
     height: fit-content;
     width: fit-content;
-    padding: 0.25rem;
+    padding: 0 0.5rem;
     margin: 0.25rem;
     border-radius: 3px;
 }
 
-.top-half {
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    height: calc(16px + 8.79581vh);
-    width: 100%;
-}
+.css1 { font-size: 1.0em; }
+.css2 { font-size: 1.2em; }
+.css3 { font-size: 1.4em; }
+.css4 { font-size: 1.6em; }
 
-.user-info {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    width: 81.489%;
-}

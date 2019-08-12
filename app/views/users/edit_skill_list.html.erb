@@ -1,46 +1,41 @@
 <%= provide(:title, 'Skill Tags') %>
-<div class='profile'>
-  <div id='tagging-header'>
-      <h2>
-        <strong>
-          What programming languages do you use?
-        </strong>
-      </h2>
-      <h5>
-        Tags allow you to find and collaborate other developers using similar languages.
-      </h5>
-  </div>
-  <div id='tagging-instructions'>
-    <p>
-      Tag your profile with any programming languages you use.
-    </p>
-    <p>
-      For example:
-    </p>
-    <div id='valid-tags'>
-      <p id='check-mark'><%= "\u2713" %></p>
-      <p>
-        'Javascript', 'Java', and 'C++' are all valid tags.
-      </p>
-    </div>
-    <div id='valid-tags'>
-      <p>
-        <strong>Scroll over the tag in the search results, then click it to add it to your profile.</strong> 
-      </p>
-    </div>
-  </div>
-  <%= render 'skills_search' %>
-  <div id='search-results'>
-  </div>
-  <hr>
-  <div id='tags'>
-    <%= render partial: 'skill', collection: @user.skills %>
-  </div>
-  <%= form_for @user, html: {id: 'skills-form'} do |f| %>
-    <div id='skill-fields'>
-    </div>
-    <div id='submit-tags'>
-      <%= f.submit 'Finished', id: 'submit-skills' %>
-    </div>
-  <% end %>
+<div id='tagging-header'>
+    <h2>
+      <strong>
+        What programming languages do you use?
+      </strong>
+    </h2>
+    <h5>
+      You can search developers by language tags.
+    </h5>
 </div>
+<div id='tagging-instructions'>
+  <p>
+    Tag your profile with any programming languages you use.
+  </p>
+  <p>
+    For example:
+  </p>
+  <div id='valid-tags'>
+    <p id='check-mark'><%= "\u2713" %></p>
+    <p>
+      'Javascript', 'Java', and 'C++' are all valid tags.
+    </p>
+  </div>
+  <p>
+    <strong>Scroll over the tag in the search results, then click it to add it to your profile.</strong> 
+  </p>
+</div>
+<%= render 'skills_search' %>
+<div id='search-results'>
+</div>
+<div id='tags'>
+  <%= render partial: 'skill', collection: @user.skills %>
+</div>
+<%= form_for @user, html: {id: 'skills-form'} do |f| %>
+  <div id='skill-fields'>
+  </div>
+  <div id='submit-tags'>
+    <%= f.submit 'Finished', id: 'submit-skills' %>
+  </div>
+<% end %>

@@ -23,64 +23,83 @@ languages = [ 'Java', 'C', 'C++', 'C#', 'Python', 'Visual Basic .NET',
               'Standard ML', 'Stata', 'Tcl', 'VBScript', 'Verilog' ]
 
 languages.each do |l|
- tag = ActsAsTaggableOn::Tag.find_or_create_by(name: l)
+  ActsAsTaggableOn::Tag.find_or_create_by(name: l)
 end
 
-# Developers I know grouped by location
-
-devs_by_location = { arlington:      ['Kyle Johnson', 'John Paschal'],
-                     bellevue:       ['Kai Johnson'],
-                     fredericksburg: ['David Murray', 'Matt Wilber', 
-                                      'Thad Humphries', 'Michael Pastore',
-                                      'Cameron Gallarno'],
-                     stafford:       ['Brian Monaccio', 'Evan Ruchelman']
-                   }
-
-# The location information of the above developers
+# Attributes for each seed location
 locations = { arlington:      { title: 'Arlington, VA, USA',
                                 latitude: 38.87997,
                                 longitude: -77.10677 },
               bellevue:       { title: 'Bellevue, WA, USA',
-                                latitude: 47.6101497,
-                                longitude: -122.2015159},
+                                latitude: 47.61015,
+                                longitude: -122.20152},
               fredericksburg: { title: 'Fredericksburg, VA 22401, USA',
-                                latitude: 37.3031837,
-                                longitude: -77.46053990000001 },
-              stafford:       { title: 'Stafford, VA 22554, USA',
-                                latitude: 38.4220687,
-                                longitude: -77.4083086 } }
+                                latitude: 38.30318,
+                                longitude: -77.46054 } }
 
-# Create each location
-locations.values.each do |attributes|
-  Location.create(attributes)
-end
+# Information about the developers I know that I will seed the application with
+devs = [{ name: 'Kyle Johnson',
+          location: :arlington,
+          skills: %w[Python JavaScript R] },
+        { name: 'John Paschal',
+          location: :arlington,
+          skills: %w[JavaScript Objective\ C Python C] },
+        { name: 'Kai Johnson',
+          location: :bellevue,
+          skills: %w[Python JavaScript Swift Go Groovy C] },
+        { name: 'David Murray',
+          location: :fredericksburg,
+          skills: %w[PHP C Smalltalk] },
+        { name: 'Matt Wilber',
+          location: :fredericksburg,
+          skills: %w[JavaScript] },
+        { name: 'Thad Humphries',
+          location: :fredericksburg,
+          skills: %w[Java JavaScript C C++] },
+        { name: 'Cameron Gallarno',
+          location: :fredericksburg,
+          skills: %w[Ruby JavaScript Kotlin] },
+        { name: 'Brian Monaccio',
+          location: nil,
+          skills: nil },
+        { name: 'Evan Ruchelman',
+          location: nil,
+          skills: %w[Objective\ C Swift] }]
 
 # Create the devs
-devs_by_location.each do |location, devs_by_name|
-  devs_by_name.each do |dev_name|
-    email = dev_name.gsub(/\s+/, '').downcase + '@dev-communities.com'
-    new_user = User.new(name: dev_name, email: email, 
-                          password: 'foobar', password_confirmation: 'foobar')
-    new_user.skip_confirmation_notification!
-    new_user.save
-    new_user.confirm
-    
-    # Get the right location for each dev 
-    location_id = Location.find_by(title: locations[location][:title]).id
-    UserLocation.create(user_id: new_user.id, location_id: location_id)
-    new_user.user_location.disable if new_user.name == 'Evan Ruchelman'
+devs.each do |attributes|
+  # Create a user
+  email = attributes[:name].gsub(/\s+/, '').downcase + '@dev-communities.com'
+  user = User.new(name: attributes[:name],
+                  email: email,
+                  password: 'foobar',
+                  password_confirmation: 'foobar')
+  user.skip_confirmation_notification!
+  user.save
+  user.confirm
+  # Set the user's location. Evan's will be disabled from the get go. Brian's
+  # will not be set for the demo.
+  if attributes[:location]
+    key = attributes[:location]
+    location = Location.find_or_create_by(locations[key])
+    UserLocation.create(user_id: user.id, location_id: location.id)
+  elsif attributes[:name] == 'Evan Ruchelman'
+    UserLocation.create(user_id: user.id, location_id: nil, disabled: true)
   end
+
+  user.skill_list = attributes[:skills]
+  user.save
 end
 
 # Designate some users to send friend requests.
 friend_requestors = User.take(5)
 
-# Designate an admin user
-admin = User.find_by(name: 'Brian Monaccio')
+# Brian will be the demo user
+brian = User.find_by(name: 'Brian Monaccio')
 
 # Send the friend requests
 friend_requestors.each do |u|
-  u.sent_friend_requests.create(friend: admin)
+  u.sent_friend_requests.create(friend: brian)
 end
 
 # Create some posts on the users with sent friend requests. When we accept 
@@ -94,9 +113,9 @@ end
 # Designate some users to be friends with.
 included_friends = User.where.not(id: friend_requestors).take(5)
 
-# Form the friendships between the included friends and the admin
+# Form the friendships between the included friends and the demo user
 included_friends.each do |friend|
-  admin.friendships.create(friend_id: friend.id)
-  # Have the friend create a post so admin is notified of it
+  brian.friendships.create(friend_id: friend.id)
+  # Have the friend create a post so demo user is notified of it
   friend.posts.create(content: Faker::Lorem.paragraph(10, true, 10))
 end
