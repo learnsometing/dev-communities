@@ -1,0 +1,24 @@
+<div class='friend-info'>
+  <% if current_user?(@user) || already_friends?(@user) %>
+    <div class='friend-count'>
+        <%= link_to pluralize(@user.friends.count, 'Friend'), friend_list_path(@user.id), class: 'btn btn-profile' %>
+    </div>
+  <% end %>
+  
+  <% if already_friends?(@user) %>
+    <div class='friend-removal-btn'>
+      <%= form_for(current_user.friendships.find_by(friend_id: @user.id), method: :delete) do |f| %>
+        <%= f.submit 'Remove from friends', class: 'btn btn-profile' %>
+      <% end %>
+    </div>
+  <% end %>
+  
+  <% unless current_user?(@user) or already_requested?(@user) or already_friends?(@user) %>
+    <div class='friendrequest-btn'>
+      <%= form_for @friend_request, method: :post, url: friend_requests_url do |f| %>
+        <%= f.hidden_field :friend_id, value: @user.id %>
+        <%= f.submit 'Send Friend Request', class: 'btn btn-profile' %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

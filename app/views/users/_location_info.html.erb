@@ -1,0 +1,22 @@
+<div class='location-info'>
+  <div class='location'>
+      <div class='ml-2 mr-2 user-location'>
+        <%= @user.user_location.display_title %>
+      </div>
+      <% if current_user?(@user) %>
+        <div class='dropdown'>
+          <button class="btn btn-profile dropdown-toggle" type='button' data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+          <div class="dropdown-menu" aria-labelledby="user_location-<%= @user.user_location.id %>-dropdown">
+              <% if @user.user_location.disabled? %>
+                <%= link_to 'Turn on my location', edit_user_location_path(@user.user_location.id), class: 'dropdown-item'%>
+              <% else %>
+                <%= link_to 'Edit', edit_user_location_path(@user.user_location.id), class: 'dropdown-item'%>
+                <hr>
+                <%= link_to 'Turn off my location', disable_location_path(@user.user_location.id), method: :patch, class: 'dropdown-item', 
+                                                    data: { confirm: 'Are you sure you want to disable your location? You can turn it back on at a later date.' }%>
+              <% end %>
+          </div>
+        </div>
+      <% end %>
+  </div>
+</div>

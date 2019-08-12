@@ -1,0 +1,6 @@
+<% if current_user?(@user) %>  
+    <%= link_to "\u270E", edit_skill_list_path(@user.id), id: 'edit-skills-icon'  %>
+  <% end %>
+  <% tag_cloud(@skills, %w(css1 css2 css3 css4)) do |skill, css_class| %>
+    <%= content_tag :div, skill.name, class: "#{css_class} skill" %>
+<% end %>
