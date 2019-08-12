@@ -40,7 +40,9 @@ class SkillListInterfaceTest < ActionDispatch::IntegrationTest
     assert_difference '@user.skills.count', 2 do
       patch user_path(@user.id), params: { user: { skill_list: %w[Ruby Javascript] } }
     end
-    # user show view code here
+    assert_redirected_to @user
+    follow_redirect!
+    assert_select '.skill', count: 2
   end
 
   test 'successful skill list update with initially populated skill list' do
