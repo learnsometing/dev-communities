@@ -13,6 +13,7 @@ Rails.application.routes.draw do
 
   resources :users do
     get :autocomplete_skill_name, on: :collection
+    get '/search', to: 'users#search', on: :collection
   end
 
   get 'users/:id/edit_skill_list', to: 'users#edit_skill_list', as: 'edit_skill_list'

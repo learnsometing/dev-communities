@@ -116,16 +116,18 @@ $(document).on('turbolinks:load', function () {
         return false;
     });
 
-    let existingTags = tagsDiv.children
+    if (tagsDiv) {
+        let existingTags = tagsDiv.children
 
-    for (let tag of existingTags) {
-        let hiddenField = new HiddenField(tag.innerText);
-        hiddenField.create();
-        let removeBtn = new RemoveButton();
-        removeBtn.create(tag);
-    }
+        for (let tag of existingTags) {
+            let hiddenField = new HiddenField(tag.innerText);
+            hiddenField.create();
+            let removeBtn = new RemoveButton();
+            removeBtn.create(tag);
+        }
 
-    if (skillFields.children.length == 0) {
-        submitButton.disabled = true;
+        if (skillFields.children.length == 0) {
+            submitButton.disabled = true;
+        }
     }
 });

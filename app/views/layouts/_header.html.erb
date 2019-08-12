@@ -1,8 +1,13 @@
 <nav class='navbar fixed-top navbar-expand-sm navbar-dark bg-red'>
   <div class='container'>
-    <div class='navbar-brand'>
-        <%= link_to 'Dev Communities', root_path, class: 'clickable-logo' %>
-    </div>
+      <div class='user-search-field'>
+        <%= text_field_tag(:user_search, '', placeholder: 'Search', data: {autocomplete_source: search_users_path}) %>
+      </div>
+    <% unless user_signed_in? %>
+        <div class='navbar-brand'>
+            <%= link_to'Dev Communities', root_path, class: 'clickable-logo' %>
+        </div>
+    <% end %>
     <ul class='navbar-nav'>
       <% unless user_signed_in? %>
             <li>

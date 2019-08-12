@@ -5,7 +5,6 @@ class UsersController < ApplicationController
   helper UsersHelper
 
   autocomplete :skill, :name, class_name: 'ActsAsTaggableOn::Tag', full: true
-
   # Before filters
   before_action :logged_in_user
   before_action :require_user_location
@@ -51,6 +50,11 @@ class UsersController < ApplicationController
 
   def edit_skill_list
     @user = User.find(params[:id])
+  end
+
+  def search
+    @users = User.search(params[:term])
+    render json: @users
   end
 
   private
