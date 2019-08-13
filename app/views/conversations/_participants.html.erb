@@ -1,0 +1,8 @@
+<% conversation.participants.each do |participant| %>
+  <% unless participant == current_user %>
+  <div class='media'>
+    <%= image_tag participant.profile_picture.thumb.url, class: 'media-left' %>
+    <div class='media-body'><p class='media-heading'><%=participant.name%></p></div>
+  </div>
+  <% end %>
+<% end %>

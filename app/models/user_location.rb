@@ -15,7 +15,7 @@ class UserLocation < ApplicationRecord
   end
 
   def display_title
-    return 'This user prefers to keep their location secret' if disabled
+    return "This user's location is secret" if disabled
 
     location.title
   end

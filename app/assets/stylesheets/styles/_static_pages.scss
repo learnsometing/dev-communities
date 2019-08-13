@@ -2,9 +2,11 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
 
-$red-base: #c52f24;
-
-.btn-sign-up {
+div.jumbotron{
+    border: 1px solid $borderColor;
+    background-color: $backgroundColor
+}
+a.btn-sign-up {
     background-color: $red-base;
     margin: 0.5rem;
 }

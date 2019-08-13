@@ -35,6 +35,7 @@
         <li>
             <%= link_to 'Home', user_root_path, class: 'btn btn-nav' %>
         </li>
+        <li><%= link_to 'Conversations', conversations_path, class: 'btn btn-nav' %></li>
         <li>
             <%= link_to pluralize(current_user.received_friend_requests.count, 'Friend Request'), friend_request_notifications_path, class: 'btn btn-nav' %>
         </li>

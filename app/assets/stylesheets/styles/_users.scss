@@ -1,6 +1,3 @@
-$backgroundColor: #f8f9fa;
-$borderColor: darken($backgroundColor, 50%);
-
 .settings {
     border: solid 1px $borderColor; 
     padding: 1.5rem;
@@ -19,13 +16,15 @@ $borderColor: darken($backgroundColor, 50%);
 
 // Friend list styles
 
-.friends {
+ul.friends {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     width: 60%;
+    height: 100%;
     list-style: none;
     padding: 0 1rem;
+    overflow: auto;
 }
 
 .friend {  

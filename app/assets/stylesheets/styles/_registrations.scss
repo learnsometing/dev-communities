@@ -1,0 +1,16 @@
+.register{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 40%;
+    background-color: $backgroundColor;
+    border: 1px solid $borderColor;
+    border-radius: 3px;
+    padding: 1rem;
+    .registration-form{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 80%;
+    }
+}

@@ -2,21 +2,15 @@
 *  This file contains all of the styles that effect the application navigation bar.
 */
 
-$red-base: #c52f24;
-$white: #ffffff;
 .navbar-dark {
     color: $white;
-}
-
-.btn {
-    font-size: calc(12px + 0.41885vh);
 }
 
 .bg-red {
     background-color: $red-base;
 }
 
-.btn-nav {
+a.btn-nav, button.btn-nav {
     background-color: $red-base;
     color: $white;
     margin-left: 0.25rem;
@@ -35,7 +29,7 @@ $white: #ffffff;
     }
 }
 
-.navbar-brand {
-    font-size: calc(12px + 2.51309vh);
+div.navbar-brand {
+    font-size: 24px;
     font-weight: bolder;
 }

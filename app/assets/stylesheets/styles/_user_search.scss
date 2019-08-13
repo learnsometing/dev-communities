@@ -24,18 +24,17 @@ ul.ui-autocomplete {
     width: 10.9375%;
 }
 
-.user-search-field .ui-widget-content .ui-state-active, .user-search-field .ui-widget-content .ui-state-focus {
+.user-search-field .ui-widget-content {
     height: fit-content;
     border: none;
     border-left: 1px solid $borderColor;
     background-color: #fff;
-    color: #c52f24;
-    cursor: pointer;
     font-weight: 400;
     padding: none;
     margin: none;
-}
-
-.user-search-field a.ui-menu-item-wrapper{
-    text-decoration: none;
+    .ui-state-active{
+        cursor: pointer;
+        color: #c52f24;
+        text-decoration: none;
+    }
 }

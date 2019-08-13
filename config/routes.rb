@@ -25,4 +25,16 @@ Rails.application.routes.draw do
   get 'users/:id/friends', to: 'users#friends', as: 'friend_list'
   resources :user_locations, only: %i[new create edit update]
   patch '/user_locations/:id/disable', to: 'user_locations#disable_location', as: 'disable_location'
+
+  resources :conversations, only: [:index, :show, :destroy] do
+    member do
+      post :reply
+      post :restore
+      post :mark_as_read
+    end
+    collection do
+      delete :empty_trash
+    end
+  end
+  resources :messages, only: [:new, :create]
 end

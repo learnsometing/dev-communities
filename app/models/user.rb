@@ -25,8 +25,8 @@ class User < ApplicationRecord
   has_one :location, through: :user_location
   acts_as_taggable
   acts_as_taggable_on :skills
+  acts_as_messageable
   mount_uploader :profile_picture, ProfilePictureUploader
-
   # Validations
 
   validates :name, presence: true, length: { maximum: 50 }

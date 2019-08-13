@@ -27,7 +27,7 @@
         width: fit-content;
         height: fit-content;
         padding: 1.45%;
-        background-color: darken($backgroundColor, 5%);
+        background-color: $backgroundColor;
         border: solid 1px $borderColor;
         border-radius: 3px;
     }
@@ -51,6 +51,7 @@
         font-size: 1em;
         padding: .5em 1.3em;
         background: transparent;
+        background-color: $backgroundColor;
         border: 1px solid darken($backgroundColor, 20%);
         border-radius: 3px;
         &:focus {
@@ -114,6 +115,7 @@
     #tags{
         display: flex;
         flex-wrap: wrap;
+        align-content: flex-start;
         height: 25%;
         width: 52%;
     }

@@ -1,8 +1,8 @@
 <%= provide(:title, 'Sign Up')%>
-<div class='container d-flex flex-column align-items-center mt-5' >
+<div class='register' >
   <h2>Create a New Account</h2>
 
-  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: 'd-flex flex-column align-items-center' }) do |f| %>
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: 'registration-form' }) do |f| %>
     <%= render "devise/shared/error_messages", resource: resource %>
       <%= f.text_field :name, placeholder: 'Full name', class: 'form-control mb-2'%>
 

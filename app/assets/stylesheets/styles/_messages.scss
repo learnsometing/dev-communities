@@ -1,0 +1,15 @@
+// New
+
+.msg-form{
+    background-color: $backgroundColor;
+    border: 1px solid $borderColor;
+    border-radius: 3px;
+    padding: 1rem;
+}
+
+div.form-button{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    width: 100%;
+}

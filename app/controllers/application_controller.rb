@@ -43,4 +43,9 @@ class ApplicationController < ActionController::Base
       end
     end
   end
+
+  rescue_from ActiveRecord::RecordNotFound do
+    flash[:warning] = 'Resource not found.'
+    stored_location_for(resource) || signed_in_root_path(resource)
+  end
 end
