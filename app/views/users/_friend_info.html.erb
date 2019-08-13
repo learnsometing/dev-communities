@@ -11,7 +11,7 @@
   <% if already_friends?(@user) %>
     <div class='friend-removal-btn'>
       <%= form_for(current_user.friendships.find_by(friend_id: @user.id), method: :delete) do |f| %>
-        <%= f.submit 'Remove friend', class: 'btn btn-nav' %>
+        <%= f.submit 'Remove', class: 'btn btn-nav' %>
       <% end %>
     </div>
   <% end %>

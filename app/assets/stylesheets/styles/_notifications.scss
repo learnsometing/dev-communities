@@ -1,12 +1,12 @@
-$backgroundColor: #f8f9fa;
 
 .friend-request {
     display: flex;
     flex-direction: row;
     align-items: center;
     padding: 1rem;
+    width: 100%;
     margin-bottom: 0.5rem;
-    border-bottom: solid 1px darken($backgroundColor, 50%);
+    border-bottom: 1px solid $borderColor;
 }
 
 .friend-request-buttons {
@@ -15,18 +15,20 @@ $backgroundColor: #f8f9fa;
     justify-content: space-around;
 }
 
-.friend-requests, .notifications {
+ul.friend-requests, .notifications {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     width: 60%;
     list-style: none;
+    background-color: $backgroundColor;
+    border: 1px solid $borderColor;
+    border-radius: 3px;
     overflow-y: auto;
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding: 0.5rem 1rem;
 }
 
 .notification {
     padding: 1rem;
-    border-bottom: solid 1px darken($backgroundColor, 50%);
+    border-bottom: 1px solid $borderColor;
 }

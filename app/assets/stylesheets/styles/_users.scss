@@ -52,7 +52,9 @@ ul.friends {
     width: 60%;
     height: 100%;
     list-style: none;
-    padding: 0 1rem;
+    padding: 0.5rem 1rem;
+    background-color: $backgroundColor;
+    border: 1px solid $borderColor;
     overflow: auto;
 }
 
@@ -123,12 +125,13 @@ ul.friends {
     padding: 0.5rem;
 }
 
-h2.name{
+h3.name{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100%;
+    width: 30%;
     margin: 0 2rem 0 1rem;
 }
 
@@ -139,8 +142,7 @@ h2.name{
     align-items: center;
     height: 100%;
     max-height: 100%;
-    width: fit-content;
-    max-width: fit-content;
+    width: 30%;
 }
 
 .user-location {
@@ -158,12 +160,10 @@ h2.name{
 .friend-info {
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: flex-end;
     align-items: center;
     height: 100%;
-    max-height: 100%;
-    width: fit-content;
-    // max-width: 68.1818%;
+    width: 40%;
     padding: 0.928%;
 }
 
