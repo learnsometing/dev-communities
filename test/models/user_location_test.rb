@@ -43,7 +43,7 @@ class UserLocationTest < ActiveSupport::TestCase
     assert_equal location.title, @user_location.display_title
     @user_location.disable
     @user_location.reload
-    assert_equal 'This user prefers to keep their location secret', @user_location.display_title
+    assert_equal "This user's location is secret", @user_location.display_title
   end
 
   test 'search_by_loc_title should return correct results' do

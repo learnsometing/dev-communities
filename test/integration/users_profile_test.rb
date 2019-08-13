@@ -19,7 +19,7 @@ class UsersProfileTest < ActionDispatch::IntegrationTest
     assert_select 'div.prof-pic'
     assert_select 'a[href=?]', edit_user_path(@user)
     assert_select 'img[src=?]', @user.profile_picture.profile.url
-    assert_select 'div.location'
+    assert_select 'div.location-info'
     assert_select 'a[href=?]', edit_user_location_path(@user.user_location)
     assert_select 'div.friend-request-btn', count: 0
     assert_select 'div.friend-removal-btn', count: 0
@@ -34,7 +34,7 @@ class UsersProfileTest < ActionDispatch::IntegrationTest
     get user_path(@other_user)
     assert_select 'a[href=?]', edit_user_path(@user), count: 0
     assert_select 'img[src=?]', @user.profile_picture.profile.url
-    assert_select 'div.location'
+    assert_select 'div.location-info'
     assert_select 'a[href=?]', edit_user_location_path(@user.user_location), count: 0
     assert_select 'div.friend-request-btn'
     assert_select 'div.friend-removal-btn', count: 0

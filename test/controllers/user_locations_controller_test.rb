@@ -119,7 +119,7 @@ class UserLocationsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to @user
     follow_redirect!
     @user.reload
-    assert_select 'div.user-location', text: 'This user prefers to keep their location secret'
+    assert_select 'div.user-location', text: "This user's location is secret"
     assert @user.user_location
     assert @user.user_location.disabled
     assert_nil @user.user_location.location
