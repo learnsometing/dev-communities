@@ -1,7 +1,7 @@
 <%= provide(:title, 'Edit User') %>
 <h2>Settings</h2>
-<div class='row mt-5 settings'>
-  <div class='col'>
+<div class='settings'>
+  <div class='update'>
     <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
       <%= render "devise/shared/error_messages", resource: resource %>
 
@@ -38,13 +38,16 @@
     <% end %>
   </div>
 
-  <div class='col d-flex flex-column justify-content-center align-items-center left-border'>
-    <h3>Cancel my account</h3>
+  <div class='cancel left-border'>
+    <div class='back'>
+      <h3>Go Back</h3>
+      <%= link_to "Back", :back, class: 'btn btn-dark' %>
+    </div>
+    <div class='cancel-acct'>
+      <h3>Cancel my account</h3>
 
-    <p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, class: 'btn btn-dark' %></p>
-  </div>
+      <p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, class: 'btn btn-dark' %></p>
+    </div>
+  </div>  
 </div>
 
-<div class='row mt-5'>
-    <%= link_to "Back", :back %>
-</div>

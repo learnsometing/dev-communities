@@ -1,10 +1,39 @@
+// registrations#edit
 .settings {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    background-color: $backgroundColor;
     border: solid 1px $borderColor; 
+    border-radius: 3px;
     padding: 1.5rem;
+
+    .update, .cancel{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 50%;
+    }
+    .update {
+        padding-right: 1.5rem;
+    }
+
+    .cancel{
+        .back, .cancel-acct{
+            height: 50%;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+    }
 }
 
 // Feed styles
 .feed {
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
