@@ -1,4 +1,13 @@
 <%= provide(:title, 'Notifications') %>
 <ul class='notifications'>
-  <%= render @notifications %>
+  <% if @notifications.any? %>
+    <div class='notification-header'>
+      <h2>Notifications</h2>
+    </div>
+    <%= render @notifications %>
+  <% else %>
+    <div class='notification-header'>
+      <h2>No new notifications</h2>
+    </div>
+  <% end %>
 </ul>

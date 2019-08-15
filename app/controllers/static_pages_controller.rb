@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Serves static pages to the user.
 class StaticPagesController < ApplicationController
   def home
     if user_signed_in?

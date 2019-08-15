@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
+# Allows the user to check their notifications and mark them as read by
+# destroying them.
 class NotificationsController < ApplicationController
-
   # Before filters
   before_action :logged_in_user
   before_action :require_user_location
@@ -10,34 +11,20 @@ class NotificationsController < ApplicationController
 
   def friend_request_notifications
     # Get the pending friend requests for the user to see
-    pending_f_r_ids = current_user.received_friend_requests.ids
-    request_objects = NotificationObject.friend_request_type.triggerable_id_in_set(pending_f_r_ids)
+    request_ids = current_user.received_friend_requests.ids
+    request_objects = NotificationObject.friend_request_type.triggerable_id_in_set(request_ids)
     @friend_request_notifications = Notification.with_objects(request_objects)
   end
 
   def index
-    # Get all of the current user's unread notifications. We want to select the
-    # NotificationChanges with actor_ids included in our friends, just in case
-    # Friendships are destroyed before a notification is read.
-
-    notification_changes = NotificationChange.where(actor: current_user.friend_ids)
-
-    notification_object_ids = []
-    notification_changes.each do |c|
-      unless NotificationObject.friend_request_type.ids.include?(c.notification_object_id)
-        notification_object_ids << c.notification_object_id
-      end
-    end
-
-    @notifications = current_user.notifications.with_objects(notification_object_ids)
+    # Get all of the current user's unread notifications.
+    notification_objects = current_user.notification_objects.except_friend_request_type
+    @notifications = current_user.notifications.with_objects(notification_objects.ids)
   end
 
   def destroy
-    if Notification.exists?(params[:id])
-      Notification.find(params[:id]).destroy
-    else
-      flash[:danger] = 'Notification could not be marked as read.'
-    end
+    Notification.find(params[:id]).destroy
+    flash[:success] = 'Marked as read.'
     redirect_to notifications_path
   end
 
@@ -45,8 +32,7 @@ class NotificationsController < ApplicationController
 
   def correct_notification
     # Checks that the notification belongs to the currently logged in user to
-    # prevent a malicious user from manipulating notifications that are not theirs.
-    @notification = current_user.notifications.find_by(id: params[:id])
-    redirect_to root_url if @notification.nil?
+    # prevent a malicious user from manipulating notifications that aren't theirs.
+    redirect_to root_url if current_user.notifications.find_by(id: params[:id]).nil?
   end
 end

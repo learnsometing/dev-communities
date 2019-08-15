@@ -20,12 +20,21 @@ ul.friend-requests, .notifications {
     flex-direction: column;
     justify-content: flex-start;
     width: 60%;
+    height: 100%;
     list-style: none;
     background-color: $backgroundColor;
     border: 1px solid $borderColor;
     border-radius: 3px;
     overflow-y: auto;
     padding: 0.5rem 1rem;
+}
+
+.notification-header {
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .notification {

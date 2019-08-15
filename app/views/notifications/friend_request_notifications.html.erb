@@ -1,4 +1,13 @@
 <%= provide(:title, 'Friend Requests') %>
 <ul class='container friend-requests'>
-  <%= render partial: 'friend_request_notification', collection: @friend_request_notifications %>
+  <% if @friend_request_notifications.any? %>
+    <div class='notification-header'>
+      <h2>Pending friend requests</h2>
+    </div>
+    <%= render partial: 'friend_request_notification', collection: @friend_request_notifications %>
+  <% else %>
+  <div class='notification-header'>
+    <h2>No pending friend requests</h2>
+  </div>
+  <% end %>
 </ul> 

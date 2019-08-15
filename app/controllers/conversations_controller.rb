@@ -1,24 +1,28 @@
+# frozen_string_literal: true
+
+# One of two controllers used to implement messaging. ConversationsController
+# manages mailboxer boxes and conversations between users.
 class ConversationsController < ApplicationController
+  # Before filters
   before_action :authenticate_user!
-  before_action :get_mailbox
-  before_action :get_conversation, except: [:index, :empty_trash]
-  before_action :get_box, only: [:index]
+  before_action :mailbox
+  before_action :conversation, except: %i[index empty_trash]
+  before_action :box, only: %i[index]
 
   def index
-    if @box.eql? "inbox"
-      @conversations = @mailbox.inbox
-    elsif @box.eql? "sent"
-      @conversations = @mailbox.sentbox
-    else
-      @conversations = @mailbox.trash
-    end
-  
+    # Get and paginate all conversations for the selected mailbox.
+    @conversations = if @box.eql? 'inbox'
+                       @mailbox.inbox
+                     elsif @box.eql? 'sent'
+                       @mailbox.sentbox
+                     else
+                       @mailbox.trash
+                     end
+
     @conversations = @conversations.paginate(page: params[:page], per_page: 10)
   end
 
-  def show
-
-  end
+  def show; end
 
   def reply
     current_user.reply_to_conversation(@conversation, params[:body])
@@ -31,7 +35,7 @@ class ConversationsController < ApplicationController
     flash[:success] = 'The conversation was moved to trash.'
     redirect_to conversations_path
   end
-  
+
   def restore
     @conversation.untrash(current_user)
     flash[:success] = 'The conversation was restored.'
@@ -54,16 +58,16 @@ class ConversationsController < ApplicationController
 
   private
 
-  def get_mailbox
+  def mailbox
     @mailbox ||= current_user.mailbox
   end
 
-  def get_conversation
+  def conversation
     @conversation ||= @mailbox.conversations.find(params[:id])
   end
 
-  def get_box
-    if params[:box].blank? or !["inbox","sent","trash"].include?(params[:box])
+  def box
+    if params[:box].blank? || !%w[inbox sent trash].include?(params[:box])
       params[:box] = 'inbox'
     end
     @box = params[:box]

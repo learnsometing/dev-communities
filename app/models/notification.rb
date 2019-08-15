@@ -1,3 +1,7 @@
+# frozen_string_literal: true
+
+# Is received by the user when the notifications system is triggered. References
+# the object that triggers the notifications system.
 class Notification < ApplicationRecord
   # Associations
   belongs_to :user

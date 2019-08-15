@@ -1,27 +1,21 @@
 # frozen_string_literal: true
 
+# Manages post resources for the user.
 class PostsController < ApplicationController
   # Before filters
-
   before_action :logged_in_user
   before_action :require_user_location
   before_action :require_skills
   before_action :correct_post, only: %i[edit update destroy]
 
   def create
-    @post = current_user.posts.build(post_params)
+    @post = current_user.posts.create(post_params)
     respond_to do |format|
       format.html do
-        if @post.save
-          flash[:success] = 'Post created.'
-        else
-          # Is this the conventional way to handle this with HTML only?
-          @post.errors.full_messages.each do |msg|
-            flash[:danger] = msg + '.'
-          end
-        end
         redirect_to current_user
       end
+
+      format.js
     end
   end
 

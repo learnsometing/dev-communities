@@ -40,7 +40,7 @@ class Friendship < ApplicationRecord
     # Called after create to create a reciprocal friendship on behalf of the
     # 'friend' that was sent the friend request.
     unless Friendship.exists?(friend_id: user_id, user_id: friend_id)
-      send_friendship_notification
+      send_notification(friend_id, user_id)
       Friendship.create(user_id: friend_id, friend_id: user_id)
     end
   end
@@ -65,12 +65,5 @@ class Friendship < ApplicationRecord
 
     notifications = Notification.where(user_id: user_id, notification_object: objs)
     notifications.destroy_all
-  end
-
-  def send_friendship_notification
-    notification_object = notification_objects.create
-    notification_change = notification_object.notification_changes.create(actor_id: friend_id)
-    notification_object.notifications.create(user_id: user_id,
-                                             description: notification_change.full_description)
   end
 end

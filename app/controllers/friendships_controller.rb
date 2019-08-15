@@ -1,26 +1,21 @@
 # frozen_string_literal: true
 
+# Used to create and destroy friendships between users. A friendship is created
+# on behalf of both users when a friend request is accepted.
 class FriendshipsController < ApplicationController
-
   # Before filters
   before_action :logged_in_user
   before_action :require_user_location
   before_action :require_skills
-  before_action :correct_friendship, only: %i[destroy
-  ]
+  before_action :correct_friendship, only: %i[destroy]
   def create
     friend_request = FriendRequest.find(params[:friend_request][:id])
-    requestor = User.find(friend_request.requestor_id)
-    friend = User.find(friend_request.friend_id)
-
-    friendship = requestor.friendships.build(friend: friend)
-    if friendship.save
+    requestor = friend_request.requestor
+    if requestor.friendships.create(friend_id: friend_request.friend_id)
       friend_request.destroy
       flash[:success] = "You are now friends with #{requestor.name}."
     else
-      friendship.errors.full_messages.each do |msg|
-        flash[:danger] = msg
-      end
+      flash[:danger] = 'Unable to create friendship.'
     end
     redirect_to friend_request_notifications_path
   end

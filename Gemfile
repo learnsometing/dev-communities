@@ -34,6 +34,7 @@ gem 'figaro'
 gem 'mailboxer', '~> 0.15.1'
 gem 'mini_magick', '~> 4.9', '>= 4.9.4'
 gem 'omniauth-github'
+gem "omniauth-rails_csrf_protection"
 gem 'rails-jquery-autocomplete', '~> 1.0', '>= 1.0.5'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

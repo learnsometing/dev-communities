@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Controls all user resources unrelated to devise.
 class UsersController < ApplicationController
   # Helpers
   helper UsersHelper
@@ -15,14 +16,12 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @skills = @user.tag_counts_on(:skills)
     @posts = @user.authored_posts
-    @new_post = @user.posts.build if current_user?(@user)
     @friend_request = @user.sent_friend_requests.build
   end
 
   def feed
     @feed_items = current_user.feed
   end
-
 
   def friends
     @user = User.find(params[:id])

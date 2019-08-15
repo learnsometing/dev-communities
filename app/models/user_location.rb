@@ -17,7 +17,7 @@ class UserLocation < ApplicationRecord
   def display_title
     return "This user's location is secret" if disabled
 
-    location.title
+    location&.title
   end
 
   def self.search_by_loc_title(term)

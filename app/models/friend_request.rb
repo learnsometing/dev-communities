@@ -21,7 +21,7 @@ class FriendRequest < ApplicationRecord
   validate :unique_friend_request?, on: :create
 
   # After filters
-  after_create :send_request_notification
+  after_create { |controller| controller.send_notification(requestor_id, friend_id) }
 
   # Scopes
   default_scope -> { where(accepted: false) }
@@ -37,15 +37,5 @@ class FriendRequest < ApplicationRecord
 
   def accept
     update(accepted: true)
-  end
-
-  private
-
-  def send_request_notification
-    # Trigger the notification system after the creation of a friend request.
-    notification_object = notification_objects.create
-    notification_change = notification_object.notification_changes.create(actor_id: requestor_id)
-    notification_object.notifications.create(user_id: friend_id,
-                                             description: notification_change.full_description)
   end
 end

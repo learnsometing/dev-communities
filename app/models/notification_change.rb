@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Represents an action by a user (a post creation, friendship creation, etc.)
+# that triggered the notifications system.
 class NotificationChange < ApplicationRecord
   # Associations
   belongs_to :notification_object
