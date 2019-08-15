@@ -21,12 +21,14 @@ $backgroundColor: #f8f9fa;
 
 .posts-list {
     list-style: none;
+    width: 100%;
     padding: inherit;    
 }
 
 .post {
     background-color: $backgroundColor;
     border: solid 1px darken($backgroundColor, 50%);
+    width: 100%;
     padding: 2rem;
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
