@@ -18,10 +18,8 @@ class PostsInterfaceTest < ActionDispatch::IntegrationTest
     assert_no_difference 'Post.count' do
       post posts_path, params: { post: { content: '' } }
     end
-    assert_not flash.empty?
     assert_redirected_to @user
     follow_redirect!
-    assert_select 'div.alert-danger'
   end
 
   test 'valid post submission' do
@@ -31,7 +29,6 @@ class PostsInterfaceTest < ActionDispatch::IntegrationTest
     end
     assert_redirected_to user_path(@user)
     follow_redirect!
-    assert_select 'div.alert-success'
     assert_match content, response.body
   end
 

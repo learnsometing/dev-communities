@@ -8,8 +8,7 @@ class UsersProfileTest < ActionDispatch::IntegrationTest
     users = create_list(:confirmed_user_with_location_and_skills, 2, location: location)
     @user = users[0]
     @other_user = users[1]
-    posts = create_list(:post, 5)
-    @user.posts = posts
+    create_list(:post, 5, author_id: @user.id)
   end
 
   test 'current user profile layout' do
@@ -25,6 +24,8 @@ class UsersProfileTest < ActionDispatch::IntegrationTest
     assert_select 'div.friend-removal-btn', count: 0
     assert_select 'div.friend-count'
     @user.posts.each do |post|
+      next if post.content.nil?  # new post is blank
+
       assert_match post.content, response.body
     end
   end

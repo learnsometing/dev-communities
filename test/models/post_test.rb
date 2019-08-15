@@ -54,7 +54,7 @@ class PostTest < ActiveSupport::TestCase
       assert_equal 1, friend.notifications.count
     end
 
-    post_objects = NotificationObject.post_type
+    post_objects = NotificationObject.where(notification_triggerable_type: 'Post')
     post_notifications = Notification.where(notification_object_id: post_objects)
     post_notification_changes = NotificationChange.where(notification_object_id: post_objects)
     assert_equal 3, post_notifications.count

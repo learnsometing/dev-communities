@@ -15,7 +15,7 @@ class FriendRequestsController < ApplicationController
     if friend_request.save
       flash[:success] = 'Friend request sent successfully.'
     else
-      flash[:danger] = "Couldn't send friend request."
+      flash[:danger] = "Unable to send friend request."
     end
 
     redirect_to user_path(friend.id)
