@@ -1,2 +1,2 @@
 $('#post_content').val('');
-$('.posts-list').html("<%= escape_javascript(render partial: 'post', collection: current_user.posts) %>");
+$('.posts').html("<%= escape_javascript(render partial: 'post', collection: current_user.posts) %>");
