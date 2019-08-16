@@ -1,11 +1,14 @@
 # Dev-Communities
 
-[Dev-Communities](https://dev-communities.herokuapp.com/) is my [final project](https://www.theodinproject.com/courses/ruby-on-rails/lessons/final-project) in [The Odin Project rails curriculum](https://www.theodinproject.com/courses/ruby-on-rails). 
+[final project](https://www.theodinproject.com/courses/ruby-on-rails/lessons/final-project) in [The Odin Project rails curriculum](https://www.theodinproject.com/courses/ruby-on-rails). 
 
 Dev-Communities was created as a platform to connect developers with one another, with multiple purposes in mind:
   - Enable intuitive networking and collaboration between developers
   - Increase direct communication between developers
   - Encourage developers to keep up with each other online and in person
+  
+## Demo
+Visit [Dev-Communities](https://dev-communities.herokuapp.com/) and login with brianmonaccio@dev-communities.com to tour the site with demo functionality. Otherwise, sign up for a new account or log in with github. Then set your location and pick some skills to get going on the site.
   
 ## Features
   - [Devise](https://github.com/plataformatec/devise) account registration, recovery, authentication, confirmation, and omniauth
