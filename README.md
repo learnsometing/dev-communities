@@ -16,6 +16,8 @@ Dev-Communities was created as a platform to connect developers with one another
   - [Acts as taggable on gem](https://github.com/mbleigh/acts-as-taggable-on) used for tagging accounts with preferred programming languages. This is combined with [rails-jquery-autocomplete gem](https://github.com/risuiowa/rails-jquery-autocomplete) in searching for skills to tag.
   - User's can discover one another by name, location, or programming skill tags. Simply type your search in the search bar on the top left side of any page.
     - Jquery used to auto-complete search results
+  - Profile picture upload
+    - [CarrierWave Uploader](https://github.com/carrierwaveuploader/carrierwave) was used in combination with S3 in production to allow users to upload their profile picture.
   - Posts/feed
     - Users can post to their network on their profile page. This form is submitted via AJAX so the page does not require refresh.
       - posts can be edited and deleted by their author
