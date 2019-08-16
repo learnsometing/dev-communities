@@ -9,13 +9,21 @@ class PostsController < ApplicationController
   before_action :correct_post, only: %i[edit update destroy]
 
   def create
-    @post = current_user.posts.create(post_params)
+    @post = current_user.posts.build(post_params)
     respond_to do |format|
-      format.html do
-        redirect_to current_user
+      if @post.save
+        format.html do
+          flash[:success] = 'Post successfully created.'
+          redirect_to current_user
+        end
+        format.js
+      else
+        format.html do
+          flash[:danger] = 'Unable to create post.'
+          redirect_to current_user
+        end
+        format.js
       end
-
-      format.js
     end
   end
 

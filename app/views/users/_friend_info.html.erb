@@ -1,7 +1,7 @@
 <div class='friend-info'>
   <% unless current_user?(@user) %>
     <%= link_to 'Message', new_message_path(to: @user.id), class: 'btn btn-nav' %>
-    <% end %>
+  <% end %>
   <% if current_user?(@user) || already_friends?(@user) %>
     <div class='friend-count'>
         <%= link_to pluralize(@user.friends.count, 'Friend'), friend_list_path(@user.id), class: 'btn btn-nav' %>
@@ -18,7 +18,7 @@
   
   <% unless current_user?(@user) or already_requested?(@user) or already_friends?(@user) %>
     <div class='friend-request-btn'>
-      <%= form_for @friend_request, method: :post, url: friend_requests_url do |f| %>
+      <%= form_for @user.sent_friend_requests.build, method: :post, url: friend_requests_url do |f| %>
         <%= f.hidden_field :friend_id, value: @user.id %>
         <%= f.submit 'Send Friend Request', class: 'btn btn-nav' %>
       <% end %>

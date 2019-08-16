@@ -14,9 +14,6 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @skills = @user.tag_counts_on(:skills)
-    @posts = @user.authored_posts
-    @friend_request = @user.sent_friend_requests.build
   end
 
   def feed

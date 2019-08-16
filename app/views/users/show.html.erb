@@ -28,10 +28,6 @@
     <%= render 'posts/new' %>
   <% end %>
 </div>
-<div class='container posts-container'>
-  <% if @user.posts.any? %>
-    <ol class='row d-flex flex-column align-items-center posts-list'>
-      <%= render @posts %>
-    </ol>
-  <% end %>
-</div>
+<ol class='posts'>
+  <%= render @user.posts %>
+</ol>

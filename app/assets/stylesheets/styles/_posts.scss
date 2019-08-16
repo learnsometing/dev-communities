@@ -11,18 +11,14 @@ $backgroundColor: #f8f9fa;
     padding-top : 1rem;
 }
 
-.posts-container{
+ol.posts{
     box-sizing: border-box;
     position: relative;
-    height: 55%;
-    overflow-y: auto;
-    
-}
-
-.posts-list {
     list-style: none;
     width: 100%;
-    padding: inherit;    
+    height: 55%;
+    overflow-y: auto;
+    padding: inherit;
 }
 
 .post {

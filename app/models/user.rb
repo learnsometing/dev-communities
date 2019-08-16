@@ -66,14 +66,6 @@ class User < ApplicationRecord
     Post.where(author_id: id).or(Post.where(author_id: friend_ids))
   end
 
-  def authored_posts
-    # Return the posts that belong to this user. Used in the users#show action
-    # to avoid a template error pertaining to the new post that is built and sent
-    # to the view. Since a newly built post does not have a created_at timestamp
-    # stftime will be undefined since created_at is nil.
-    Post.where(author_id: id)
-  end
-
   private
 
   def picture_size
