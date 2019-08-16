@@ -8,7 +8,7 @@ Dev-Communities was created as a platform to connect developers with one another
   - Encourage developers to keep up with each other online and in person
   
 ## Demo
-Visit [Dev-Communities](https://dev-communities.herokuapp.com/) and login with brianmonaccio@dev-communities.com to tour the site with demo functionality. Otherwise, sign up for a new account or log in with github. Then set your location and pick some skills to get going on the site.
+Visit [Dev-Communities](https://dev-communities.herokuapp.com/) and login (email: brianmonaccio@dev-communities.com , password: foobar) to tour the site with demo functionality. Otherwise, sign up for a new account or log in with github. Then set your location and pick some skills to get going on the site.
   
 ## Features
   - [Devise](https://github.com/plataformatec/devise) account registration, recovery, authentication, confirmation, and omniauth
