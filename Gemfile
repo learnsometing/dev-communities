@@ -27,7 +27,7 @@ gem 'bootsnap', '>= 1.1.0', require: false
 gem 'bootstrap', '~> 4.3', '>= 4.3.1'
 gem 'bootstrap-will_paginate'
 gem 'chosen-rails', '~> 1.8', '>= 1.8.7'
-gem 'carrierwave', '~> 1.3', '>= 1.3.1'
+gem 'carrierwave', '~> 1.3'
 gem 'database_cleaner', '~> 1.7'
 gem 'devise', '~> 4.6', '>= 4.6.2'
 gem 'faker', '~> 1.9', '>= 1.9.6'
